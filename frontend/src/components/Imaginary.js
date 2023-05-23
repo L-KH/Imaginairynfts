@@ -53,7 +53,7 @@ function App() {
     }
     
   }
-
+  // add more function here
 
   const apiUrlMap = {
     'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
