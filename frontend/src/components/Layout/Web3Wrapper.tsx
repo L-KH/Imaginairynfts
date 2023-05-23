@@ -6,6 +6,25 @@ import { publicProvider } from 'wagmi/providers/public'
 import { daisyTheme } from '@/utils/rainbowUtils'
 
 const { chains, provider } = configureChains(
+  // add any chain you want if its a new chain add chain info 
+  // const { chains, provider } = configureChains(
+  //   [{
+  //     id: 57000,
+  //     name: 'Syscoin Rollux Testnet',
+  //     network: 'Syscoin Rollux Testnet',
+  //     nativeCurrency: {
+  //       decimals: 18,
+  //       name: 'Syscoin Rollux Testnet',
+  //       symbol: 'tSYS',
+  //     },
+  //     rpcUrls: {
+  //       default: 'https://rpc-tanenbaum.rollux.com',
+  //     },
+      
+  //   }],
+  //   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
+    
+  // )
   [chain.mainnet, chain.polygon],
   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
 )
