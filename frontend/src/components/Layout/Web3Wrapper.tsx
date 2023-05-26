@@ -35,6 +35,34 @@ const { chains, provider } = configureChains(
         default: 'https://eth-goerli.g.alchemy.com/v2/9rRR7mdpHignniSvCq9lz1LmJirbXUNo',
       },
       
+    },
+    {
+      id: 11155111,
+      name: 'Sepolia Testnet',
+      network: 'Sepolia Testnet',
+      nativeCurrency: {
+        decimals: 18,
+        name: 'Sepolia Testnet',
+        symbol: 'ETH',
+      },
+      rpcUrls: {
+        default: 'https://eth-sepolia.g.alchemy.com/v2/fd37CbLre3a2OFWXQpDxeRB-FUlI3s3y',
+      },
+      
+    },
+    {
+      id: 59140,
+      name: 'Linea Testnet',
+      network: 'Linea Testnet',
+      nativeCurrency: {
+        decimals: 18,
+        name: 'Linea Testnet',
+        symbol: 'ETH',
+      },
+      rpcUrls: {
+        default: 'https://linea-goerli.infura.io/v3/785f7bb2ad57482d9e033f63e08d24a3',
+      },
+      
     }],
     
   //   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]

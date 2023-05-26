@@ -22,9 +22,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex-grow items-center justify-center py-10 px-20 text-center">
-        <h1 className="my-12 text-6xl font-bold">
-          <span className="text-secondary">Web3</span> starter template
-        </h1>
+        
 
         <Imaginary/>
       </main>

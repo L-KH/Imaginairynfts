@@ -55,47 +55,47 @@ export function routeIsActive(pathname: String, route: INavigation): boolean {
 const navigation: INavigation[] = [
   { name: 'Dashboard', href: '/', icon: HomeIcon, current: true, exact: true },
   {
-    name: 'Theme Preview',
+    name: 'My NFTs',
     href: '/themePreview',
     icon: UsersIcon,
     current: false,
   },
-  { name: '404', href: '/404', icon: FolderIcon, current: false },
-  { name: '500', href: '/500', icon: CalendarIcon, current: false },
+  // { name: '404', href: '/404', icon: FolderIcon, current: false },
+  // { name: '500', href: '/500', icon: CalendarIcon, current: false },
 ]
 
 const bottomNavigation: IBottomNavigation[] = [
-  { name: 'Docs', href: '#', icon: BookOpenIcon },
-  { name: 'Settings', href: '#', icon: CogIcon },
+  // { name: 'Docs', href: '#', icon: BookOpenIcon },
+  // { name: 'Settings', href: '#', icon: CogIcon },
 ]
 
 const bottomIcons: IBottomIcons[] = [
-  {
-    name: 'GitHub',
-    href: 'https://github.com/JonnysCode/hardhat-nextjs-starter-dashboard',
-    icon: TbBrandGithub,
-  },
+  // {
+  //   name: 'GitHub',
+  //   href: 'https://github.com/JonnysCode/hardhat-nextjs-starter-dashboard',
+  //   icon: TbBrandGithub,
+  // },
   {
     name: 'Twitter',
-    href: 'https://github.com/JonnysCode/hardhat-nextjs-starter-dashboard',
+    href: 'https://twitter.com/ImaginAIryNFTs',
     icon: TbBrandTwitter,
   },
   {
     name: 'Discord',
-    href: 'https://github.com/JonnysCode/hardhat-nextjs-starter-dashboard',
+    href: 'https://discord.gg/yRN5fNqFKM',
     icon: TbBrandDiscord,
   },
   {
     name: 'Medium',
-    href: 'https://github.com/JonnysCode/hardhat-nextjs-starter-dashboard',
+    href: 'https://medium.com/@imaginairynfts',
     icon: TbBrandMedium,
   },
 ]
 
 const bottomDisclaimer: IBottomDisclaimer[] = [
-  { name: 'About', href: '#' },
-  { name: 'Privacy', href: '#' },
-  { name: 'Terms', href: '#' },
+  { name: 'About', href: '/About' },
+  { name: 'Privacy', href: '/Privacy' },
+  { name: 'Terms', href: '/Terms' },
 ]
 
 export function updateCurrentItem(route: INavigation) {

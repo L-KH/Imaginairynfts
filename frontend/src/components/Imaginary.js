@@ -131,10 +131,10 @@ function App() {
       window.alert("No image to mint");
       return;
     }
-    if (!account) {
-      setShowInstallMetamaskPopup(true);
-      return;
-    }
+    // if (!account) {
+    //   setShowInstallMetamaskPopup(true);
+    //   return;
+    // }
     setMessage("Uploading Image...");
     const url = await uploadImage(imageData);
     setMessage("Waiting for Mint...");
@@ -171,7 +171,7 @@ function App() {
   const uploadImage = async (imageData) => {
     setMessage("Uploading Image...")
     // Create instance to NFT.Storage
-    const nftstorage = new NFTStorage({ token: process.env.REACT_APP_NFT_STORAGE_API_KEY })
+    const nftstorage = new NFTStorage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGFjYTU2MTcxQUI5MkRmOGMzNjM0MzRlODcyOUJkZWNDNzhGOEMwRTIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY4MjExNjY5NTg5NSwibmFtZSI6Im5mdCJ9.roO9LrntQk8MkfN0CVZE1lw99t4mjb6MCGPkAw7TCt0" })
     // Send request to store image
     const { ipnft } = await nftstorage.store({
       image: new File([imageData], "image.jpeg", { type: "image/jpeg" }),
@@ -223,13 +223,19 @@ function App() {
         <form onSubmit={(e) => submitHandler(e, apiUrl)}>
           <input type="text" placeholder="Create a name..." onChange={(e) => { setName(e.target.value) }} />
           <textarea type="text" placeholder="Create a description..." onChange={(e) => setDescription(e.target.value)} />
-          <input type="submit" value="Create" className="button-style"/>
+          <div className="card flex-1 items-center justify-center bg-primary-focus">
+            <input className="text-center text-primary-content" type="submit" value="Create"/>
+            </div>
+          
           {showMintButton && (
             <button type="button" onClick={mintHandler} className="button-style">
               Mint [0.001ETH]
             </button>
           )}
         </form>
+      
+
+
         <div className="image">
           {image ? (
             <div className="image__container">
