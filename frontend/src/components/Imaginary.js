@@ -3,6 +3,7 @@ import { NFTStorage, File } from 'nft.storage'
 import { Buffer } from 'buffer';
 import { ethers } from 'ethers';
 import axios from 'axios';
+import { watchAccount, watchNetwork  } from '@wagmi/core'
 // Components
 // import Spinner from 'react-bootstrap/Spinner';
 // import Navigation from './components/Navigation';
@@ -32,26 +33,17 @@ function App() {
   const [imageData, setImageData] = useState(null);
   const [showInstallMetamaskPopup, setShowInstallMetamaskPopup] = useState(false);
 
+  useEffect(() => {
+    watchNetwork(handleAccountChange);
+    console.log('chain')
+  }, []);
 
-  async function readAcount() {
-    const account = await wagmiClient.connector?.getAccount()
-    setAccount(account)
+  const handleAccountChange = (newChain)=> {
+    // Perform actions when the account changes
+    console.log('chain changed:', newChain);
+    loadBlockchainData()
   }
-  async function fetchData() {
-    if(account){
-      try {
-      const signer = wagmiClient.provider;
-      const account = await wagmiClient.connector?.getAccount()
-      const contract = new ethers.Contract(contractAddress, contractABI.abi, signer);
-        // call contract function
-    } catch (error) {
-      console.log(error)
-    }
-    }else {
-      console.log('not conected')
-    }
-    
-  }
+ 
   // add more function here
 
   const apiUrlMap = {
@@ -64,18 +56,6 @@ function App() {
     'pastel-mix':'https://api-inference.huggingface.co/models/andite/pastel-mix',
 
     };
-    // useEffect(() => {
-    //   if (window.ethereum) {
-    //     const handleNetworkChanged = () => {
-    //       window.location.reload();
-    //     };
-    
-    //     window.ethereum.on('networkChanged', handleNetworkChanged);
-    //     return () => {
-    //       window.ethereum.removeListener('networkChanged', handleNetworkChanged);
-    //     };
-    //   }
-    // }, []);
   const generateRandomSeed = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
@@ -180,14 +160,20 @@ function App() {
     })
     const url = `https://ipfs.io/ipfs/${ipnft}/metadata.json`
     setURL(url)
-
+    setMessage("Mint your NFT...")
     return url
+    
   }
   const mintImage = async (tokenURI) => {
-    setMessage("Waiting for Mint...")
-    const signer = await provider.getSigner()
-    const transaction = await nft.connect(signer).mint(tokenURI, { value: ethers.utils.parseUnits("0.001", "ether") })
-    await transaction.wait()
+    try {
+      setMessage("Waiting for Mint...")
+      const signer = await provider.getSigner()
+      const transaction = await nft.connect(signer).mint(tokenURI, { value: ethers.utils.parseUnits("0.001", "ether") })
+      await transaction.wait()
+    } catch (error) {
+      console.log(error)
+    }
+    setMessage("Generating Image...");
   }
   useEffect(() => {
     loadBlockchainData()
