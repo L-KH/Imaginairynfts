@@ -7,7 +7,9 @@ import axios from 'axios';
 // import Spinner from 'react-bootstrap/Spinner';
 // import Navigation from './components/Navigation';
 // ABIs
-import NFT from '../abis/NFT.json'
+//import NFT from '../abis/NFT.json'
+import NFT from '../abis/NFT2.json'
+
 // Config
 import config from './config.json';
 // FAQ page
@@ -103,7 +105,7 @@ function App() {
         window.alert('Please connect to Linea network manually until we fix the issue');
       }
     } else {
-      const nft = new ethers.Contract(config[network.chainId].nft.address, NFT, provider);
+      const nft = new ethers.Contract(config[network.chainId].nft.address, NFT.abi, provider);
       setNFT(nft);
     }
   };
@@ -222,13 +224,13 @@ function App() {
       <div className='form'>
         <form onSubmit={(e) => submitHandler(e, apiUrl)}>
           <input type="text" placeholder="Create a name..." onChange={(e) => { setName(e.target.value) }} />
-          <textarea type="text" placeholder="Create a description..." onChange={(e) => setDescription(e.target.value)} />
+          <textarea type="text" placeholder="Create a prompt..." onChange={(e) => setDescription(e.target.value)} />
           <div className="card flex-1 items-center justify-center bg-primary-focus">
             <input className="text-center text-primary-content" type="submit" value="Create"/>
-            </div>
+          </div>
           
           {showMintButton && (
-            <button type="button" onClick={mintHandler} className="button-style">
+            <button  className="card flex-1 items-center justify-center bg-primary-focus text-center text-primary-content button-style" onClick={mintHandler} >
               Mint [0.001ETH]
             </button>
           )}

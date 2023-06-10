@@ -14,6 +14,7 @@
     "@tailwindcss/typography": "^0.5.2",
     "daisyui": "^2.20.0",
     "ethers": "^5.6.9",
+    "eventemitter3": "^5.0.1",
     "lodash.merge": "^4.6.2",
     "next": "latest",
     "next-themes": "^0.2.0",

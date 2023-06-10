@@ -10,8 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@web3-react/core": "^8.2.0",
     "axios": "^1.4.0",
     "buffer": "^6.0.3",
-    "nft.storage": "^7.1.0"
+    "eventemitter3": "^5.0.1",
+    "nft.storage": "^7.1.0",
+    "web3modal": "^1.9.12",
+    "zustand": "^4.3.8"
   }
 }
