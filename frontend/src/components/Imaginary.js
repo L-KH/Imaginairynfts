@@ -4,17 +4,8 @@ import { Buffer } from 'buffer';
 import { ethers } from 'ethers';
 import axios from 'axios';
 import { watchAccount, watchNetwork  } from '@wagmi/core'
-// Components
-// import Spinner from 'react-bootstrap/Spinner';
-// import Navigation from './components/Navigation';
-// ABIs
-import NFT from '../abis/NFT.json'
-// Config
+import NFT from '../abis/NFT2.json'
 import config from './config.json';
-// FAQ page
-// import FAQ from "./FAQ";
-// import Countdown from './Countdown';
-// import Footer from './components/Footer';
 //--------------
 import { wagmiClient } from './Layout/Web3Wrapper';
 
@@ -24,6 +15,7 @@ function App() {
   const [nft, setNFT] = useState(null)
   const [seed, setSeed] = useState(0);
   const [name, setName] = useState("")
+  const [prompt, setPrompt] = useState("");
   const [description, setDescription] = useState("")
   const [image, setImage] = useState(null)
   const [url, setURL] = useState(null)
@@ -51,6 +43,7 @@ function App() {
     'stable-diffusion-v1-5': 'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
     'stable-diffusion-v1-4': 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4',
     'openjourney':'https://api-inference.huggingface.co/models/prompthero/openjourney',
+    'Realistic Vision':'https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4',
     'anything-v4.0':'https://api-inference.huggingface.co/models/andite/anything-v4.0',
     'Dungeons-and-Diffusion':'https://api-inference.huggingface.co/models/0xJustin/Dungeons-and-Diffusion',
     'pastel-mix':'https://api-inference.huggingface.co/models/andite/pastel-mix',
@@ -65,31 +58,42 @@ function App() {
    setSelectedModel(modelName);
    setApiUrl(apiUrlMap[modelName]);
   };
+  const allowedChains = [534353, 57000, 5, 11155111, 59140]; // Add more chain IDs as needed
+
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
     const network = await provider.getNetwork();
-    // Check if the user is connected to the Goerli or Sepolia network
-    if (![0x5, 0xaa36a7, 0xe704, 0x82751, 0xdea8].includes(network.chainId)) {
+  
+    if (!allowedChains.includes(network.chainId)) {
+      const goerliChainId = '0x5';
       try {
-        // Request the user to switch to the Goerli network
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0xe704' }],
+          params: [{ chainId: goerliChainId }],
         });
-      } catch (error) {
-        // Handle the error if the user rejects the request or the operation fails
-        console.error(error);
-        window.alert('Please connect to Linea network manually until we fix the issue');
+      } catch (switchError) {
+        console.error(switchError);
+        window.alert('Please connect to the Goerli network manually until we fix the issue');
+        return; // If the switch to Goerli failed, don't try to load the NFT contract
       }
-    } else {
-      const nft = new ethers.Contract(config[network.chainId].nft.address, NFT, provider);
-      setNFT(nft);
     }
+    // Check the network again after attempting to switch
+    const switchedNetwork = await provider.getNetwork();
+    const nft = new ethers.Contract(config[switchedNetwork.chainId].nft.address, NFT, provider);
+    setNFT(nft);
   };
+  
+  
+
+
+
+
+
+
   const submitHandler = async (e, apiUrl) => {
     e.preventDefault();
-    if (name === "" || description === "") {
+    if (name === "" || prompt === "") {
       window.alert("Please provide a name and description");
       return;
     }
@@ -135,7 +139,7 @@ function App() {
       method: "POST",
       headers: { Authorization: `Bearer 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` },
       data: JSON.stringify({
-        inputs: `${description} [seed:${seed}]`,
+        inputs: `${prompt} [seed:${seed}]`,
         options: { wait_for_model: true },
       }),
       responseType: "arraybuffer",
@@ -156,7 +160,7 @@ function App() {
     const { ipnft } = await nftstorage.store({
       image: new File([imageData], "image.jpeg", { type: "image/jpeg" }),
       name: name,
-      description: description,
+      description: prompt,
     })
     const url = `https://ipfs.io/ipfs/${ipnft}/metadata.json`
     setURL(url)
@@ -199,6 +203,7 @@ function App() {
       <option value="stable-diffusion-v1-5">stable-diffusion-v1-5</option>
       <option value="stable-diffusion-v1-4">stable-diffusion-v1-4</option>
       <option value="openjourney">openjourney</option>
+      <option value="Realistic Vision">Realistic Vision</option>
       <option value="anything-v4.0">anything-v4.0</option>
       <option value="Dungeons-and-Diffusion">Dungeons-and-Diffusion</option>
       <option value="pastel-mix">pastel-mix</option>
@@ -207,16 +212,20 @@ function App() {
 </div>
       <div className='form'>
         <form onSubmit={(e) => submitHandler(e, apiUrl)}>
-          <input type="text" placeholder="Create a name..." onChange={(e) => { setName(e.target.value) }} />
-          <textarea type="text" placeholder="Create a description..." onChange={(e) => setDescription(e.target.value)} />
-          <div className="card flex-1 items-center justify-center bg-primary-focus">
+          <input type="text" placeholder="Create a name(title)..." onChange={(e) => { setName(e.target.value) }} />
+          <textarea type="text" placeholder="Create a description(public)..." onChange={(e) => setPrompt(e.target.value)} />
+          <textarea type="text" placeholder="Create a prompt(private)..." onChange={(e) => setDescription(e.target.value)} />
+          <div className="mb-4 card flex-1 items-center justify-center bg-primary-focus">
             <input className="text-center text-primary-content" type="submit" value="Create"/>
-            </div>
+          </div>
           
           {showMintButton && (
-            <button type="button" onClick={mintHandler} className="button-style">
-              Mint [0.001ETH]
-            </button>
+            // <button type="button" onClick={mintHandler} className="button-style">
+            //   Mint [0.001ETH]
+            // </button>
+            <div className="card flex-1 items-center justify-center bg-primary-focus">
+                <input className="text-center text-primary-content" type="submit" onClick={(e) => { e.preventDefault(); mintHandler(); }} value="Mint [0.001ETH]"/>
+            </div>
           )}
         </form>
       

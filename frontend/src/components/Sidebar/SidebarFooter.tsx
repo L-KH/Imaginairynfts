@@ -25,14 +25,12 @@ const SidebarFooter = () => {
 
       <div className="mt-4 flex justify-center">
         {bottomIcons.map((item) => (
-          <Link href={item.href} key={item.name}>
-            <a className="space-x-4">
-              <item.icon
-                className="mx-2 h-4 w-4 flex-shrink-0 opacity-50 hover:opacity-90"
-                aria-hidden="true"
-              />
-            </a>
-          </Link>
+          <a href={item.href} target="_blank" rel="noopener noreferrer" key={item.name}>
+            <item.icon
+              className="mx-2 h-4 w-4 flex-shrink-0 opacity-50 hover:opacity-90"
+              aria-hidden="true"
+            />
+          </a>
         ))}
       </div>
     </div>

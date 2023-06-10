@@ -218,6 +218,10 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
   background-color: rgba(0, 0, 0, 0.2);;
 }
+.nftlist {
+  cursor: pointer;
+  transition: all 250ms ease;
+}
 
 /* ------------------------------------------------------ */
 /* -- IMAGE -- */
@@ -286,9 +290,6 @@ p {
 }
 
 .button-style {
-  background-color: var(--clr-blue);
-  color: var(--clr-white);
-
   width: 250px;
   height: 50px;
   margin: 10px 0;

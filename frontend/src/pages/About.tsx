@@ -10,8 +10,6 @@ const About: NextPage = () => {
         <p className="mb-12 text-lg">
         ImaginAIry NFTs (Revolutionizing Digital Art through AI) is a groundbreaking platform that leverages the power of artificial intelligence to help users create personalized, unique digital art pieces and mint them as non-fungible tokens (NFTs). By combining advanced AI technology with user-driven creativity, we strive to offer an unparalleled experience for art enthusiasts, collectors, and digital creators alike.
           </p>
-        
-        
         <div className="  mx-auto ">
         <h2 className="text-2xl font-bold text-primary mb-2">Our Vision: "Your Prompt, Your Art, Your NFT"</h2>
               <p className="mb-12 text-lg">

@@ -1,11 +1,12 @@
 import {
   BookOpenIcon,
-  CalendarIcon,
+  PhotographIcon ,
   CogIcon,
   FolderIcon,
   HomeIcon,
   InboxIcon,
   UsersIcon,
+  VolumeUpIcon,
 } from '@heroicons/react/outline'
 import {
   TbBrandGithub,
@@ -53,17 +54,29 @@ export function routeIsActive(pathname: String, route: INavigation): boolean {
 }
 
 const navigation: INavigation[] = [
-  { name: 'Dashboard', href: '/', icon: HomeIcon, current: true, exact: true },
-  {
-    name: 'My NFTs',
-    href: '/themePreview',
-    icon: UsersIcon,
-    current: false,
-  },
+  { name: 'Text to Image', href: '/', icon: HomeIcon, current: true, exact: true  },
+  // {
+  //   name: 'My NFTs',
+  //   href: '/themePreview',
+  //   icon: UsersIcon,
+  //   current: false,
+  // },
   {
     name: 'Minted NFTs',
     href: '/MintedNFT',
-    icon: BookOpenIcon,
+    icon: PhotographIcon,
+    current: false,
+  },
+  {
+    name: 'Text to Music',
+    href: '/MusicNFT',
+    icon: VolumeUpIcon,
+    current: false,
+  },
+  {
+    name: 'Gallery & Prompts',
+    href: '/Gallery',
+    icon: UsersIcon,
     current: false,
   },
   // { name: '404', href: '/404', icon: FolderIcon, current: false },
@@ -71,7 +84,7 @@ const navigation: INavigation[] = [
 ]
 
 const bottomNavigation: IBottomNavigation[] = [
-  // { name: 'Docs', href: '#', icon: BookOpenIcon },
+   { name: 'Documentation', href: 'https://l-kh.gitbook.io/imaginairy-nfts/', icon: BookOpenIcon },
   // { name: 'Settings', href: '#', icon: CogIcon },
 ]
 
@@ -97,7 +110,11 @@ const bottomIcons: IBottomIcons[] = [
     icon: TbBrandMedium,
   },
 ]
-
+{bottomIcons.map((icon, i) => (
+  <a key={i} href={icon.href} target="_blank" rel="noopener noreferrer">
+    {icon.icon} {icon.name}
+  </a>
+))}
 const bottomDisclaimer: IBottomDisclaimer[] = [
   { name: 'About', href: '/About' },
   { name: 'Privacy', href: '/Privacy' },

@@ -1,162 +1,168 @@
 import { useState, useEffect } from 'react';
-import { Buffer } from 'buffer';
 import { ethers } from 'ethers';
 import axios from 'axios';
-import { watchAccount, watchNetwork  } from '@wagmi/core'
-// Components
-// import Spinner from 'react-bootstrap/Spinner';
-// import Navigation from './components/Navigation';
-// ABIs
-import NFT from '../abis/NFT.json'
-// Config
+import NFT from '../abis/NFT2.json'
 import config from './config.json';
-// FAQ page
-// import FAQ from "./FAQ";
-// import Countdown from './Countdown';
-// import Footer from './components/Footer';
-//--------------
+import { ClipLoader } from 'react-spinners';
 
 function NFTlist() {
   const [provider, setProvider] = useState(null)
-  const [account, setAccount] = useState(null)
   const [nft, setNFT] = useState(null)
-  const [seed, setSeed] = useState(0);
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [image, setImage] = useState(null)
-  const [url, setURL] = useState(null)
-  const [showMintButton, setShowMintButton] = useState(false);
-  const [message, setMessage] = useState("")
-  const [isWaiting, setIsWaiting] = useState(false)
-  const [dataArray, setDataArray] = useState(null);
-  const [TokenUri, setTokenUri] = useState('');
-
+  const [dataArray, setDataArray] = useState([]);
+  const [selectedNFT, setSelectedNFT] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [allNFTsFetched, setAllNFTsFetched] = useState(false);
   useEffect(() => {
-    watchNetwork(handleAccountChange);
-    console.log('chain')
+    loadBlockchainData();
   }, []);
-
-  const handleAccountChange = (newChain)=> {
-    // Perform actions when the account changes
-    console.log('chain changed:', newChain);
-    loadBlockchainData()
-  }
- 
-  // add more function here
 
   const getImageSrc = (ipfsLink) => {
     const cid = ipfsLink?.replace('ipfs://', '');
     return `https://ipfs.io/ipfs/${cid}`;
   };
-  
+  const allowedChains = [534353, 57000, 5, 11155111, 59140]; 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
     const network = await provider.getNetwork();
-    // Check if the user is connected to the Goerli or Sepolia network
-    if (![0x5, 0xaa36a7, 0xe704, 0x82751, 0xdea8].includes(network.chainId)) {
+  
+    if (!allowedChains.includes(network.chainId)) {
+      const goerliChainId = '0x5';
       try {
-        // Request the user to switch to the Goerli network
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0xe704' }],
+          params: [{ chainId: goerliChainId }],
         });
-      } catch (error) {
-        // Handle the error if the user rejects the request or the operation fails
-        console.error(error);
-        window.alert('Please connect to Linea network manually until we fix the issue');
+      } catch (switchError) {
+        console.error(switchError);
+        window.alert('Please connect to the Goerli network manually until we fix the issue');
+        return; // If the switch to Goerli failed, don't try to load the NFT contract
       }
-    } else {
-      const nft = new ethers.Contract(config[network.chainId].nft.address, NFT, provider);
-      setNFT(nft);
     }
+    // Check the network again after attempting to switch
+    const switchedNetwork = await provider.getNetwork();
+    const nft = new ethers.Contract(config[switchedNetwork.chainId].nft.address, NFT, provider);
+    setNFT(nft);
   };
-  async function fetchNFTlist(){
-    const signer = await provider.getSigner()
-    console.log(signer) 
-    const totalNFT = await nft.connect(signer).totalSupply.call()
-    const tokenUri = []
-    for (let index = 1; index < totalNFT; index++) {
-        const element = await nft.connect(signer).tokenURI(index);
-        tokenUri.push(element)
-        
+
+
+  useEffect(() => {
+    if(nft && provider) {
+      setLoading(true);
+      fetchNFTlist();
     }
-    console.log(tokenUri, totalNFT.toString())
-    setTokenUri(tokenUri)
-    readNFTData()
-  }
-    async function readNFTData(){
-        try {
-            const response = await axios.get(TokenUri);
-            const data = response.data;
-        
-            const dataArray = [
-            { name: data.name },
-            { description: data.description },
-            { image: data.image }
-            ];
-            console.log(dataArray)
-            setDataArray(dataArray)
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            }
-        
-    }
+  }, [nft, provider]);
+
+  const fetchNFTlist = async () => {
+    const signer = await provider.getSigner();
+    const account = await signer.getAddress();
+    const tokenIds = await nft.connect(signer).tokensOfOwner(account);
   
-  const createImage = async (apiUrl, seed) => {
+    const tempDataArray = []; // Create a temporary array to store the NFTs
+  
+    for (let i = 0; i < tokenIds.length; i++) {
+      const uri = await nft.connect(signer).tokenURI(tokenIds[i]);
+      const data = await readNFTData(uri);
+      tempDataArray.push(data); // Add the fetched NFT to the temporary array
+    }
+    
+    setDataArray(tempDataArray); // Set the dataArray state once with all the fetched NFTs
+  };
+  
+  
+  
+  
+  
+  
+  
+
+  const readNFTData = async (tokenUri) => {
     try {
-    setMessage("Generating Image...");
-    // Send the request
-    const response = await axios({
-      url: apiUrl,
-      method: "POST",
-      headers: { Authorization: `Bearer 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` },
-      data: JSON.stringify({
-        inputs: `${description} [seed:${seed}]`,
-        options: { wait_for_model: true },
-      }),
-      responseType: "arraybuffer",
-    });
-    const type = response.headers["content-type"];
-    const data = response.data;
-    const base64data = Buffer.from(data).toString("base64");
-    const img = `data:${type};base64,` + base64data; // <-- This is so we can render it on the page
-    setImage(img);
-    return data;
-  } catch (er) {  console.log(er)}
-  };
-  
-  useEffect(() => {
-    watchNetwork(handleAccountChange);
-    console.log('chain')
-  }, []);
+      const response = await axios.get(tokenUri);
+      const data = response.data;
+      return { name: data.name, description: data.description, image: data.image };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+  const openModal = (nft) => {
+    setSelectedNFT(nft);
+  }
 
-  useEffect(() => {
-    loadBlockchainData()
-    fetchNFTlist()
-  
-  }, [])
-  useEffect(() => {
-    fetchNFTlist()
-  }, [])
- 
-
+  const closeModal = () => {
+    setSelectedNFT(null);
+  }
   return (
     <div>
-      <h1>Data Array:</h1>
-      {dataArray?.map((item, index) => (
-        <div key={index}>
-            <p>Name: {item.name}</p>
-            <p>Description: {item.description}</p>
+      <h1 className="text-4xl font-extrabold text-secondary">My minted NFTs:</h1>
+      {loading && dataArray.length === 0 ? (
+        <div className="flex justify-center items-center">
+          <ClipLoader color="#4A90E2" loading={loading} size={150} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 font-semibold sm:grid-cols-2 md:grid-cols-4">
+        {dataArray?.map((item, index) => (
+          <div key={index} className="card flex-1 items-center justify-center border border-base-300 bg-base-100 p-4 m-2">
+            <h3 className="text-2xl font-bold text-primary mb-2">{item.name}</h3>
+            <div className="mt-4 mb-4">
               <img
+                className="mx-auto"
                 src={getImageSrc(item.image)}
                 alt="Image"
-                width={300}
+                width={200}
                 height={200}
               />
+            </div>
+            <div className="nftlist card flex-1 items-center justify-center bg-primary-focus mb-4">
+              <input onClick={() => openModal(item)} className="hover:bg-sky-500 nftlist text-center justify-center text-primary-content px-14 py-2 sm:w-auto sm:text-sm" type="button" value="Show Details"/>
+            </div>
+            </div>
+        ))}
+        
+      </div>
+      )}
+      {selectedNFT && (
+  <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="fixed inset-0 bg-base-100 bg-opacity-75 transition-opacity" aria-hidden="true" onClick={closeModal}></div>
+      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div className="inline-block align-bottom bg-base-100 rounded-lg text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="card flex-1 items-center justify-center bg-base-100">
+          <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="sm:flex sm:items-start">
+              <div className="mt-3 text-center ">
+                <h3 className="text-2xl font-bold text-primary mb-2 content-center " id="modal-title">
+                  {selectedNFT.name}
+                </h3>
+                <div className="mt-2">
+                  <img src={getImageSrc(selectedNFT.image)} alt="NFT" className="mx-auto mb-5 "/>
+                  <h3 className="text-lg" ><b>Description:</b></h3>
+                  <p className="mb-5 text-lg text-left">
+                     {selectedNFT.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='nftlist'>
+            {/* <div className="card flex-1 items-center justify-center border border-base-300 bg-primary-focus">
+                <a href="https://opensea.io" target="_blank" rel="noreferrer" className="nftlist hover:bg-sky-500 text-center justify-center text-base-100 px-5 py-2 sm:w-auto sm:text-sm">
+                  View on OpenSea
+                </a>
+            </div> */}
+            <div className="card flex-1 items-center justify-center bg-base-content mb-4">
+              <input className="nftlist hover:bg-sky-500 text-center justify-center text-base-100 px-14 py-2" type="button" onClick={closeModal} value="Close"/>
+            </div>
+            
+          </div>
         </div>
-      ))}
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
+
 export default NFTlist;

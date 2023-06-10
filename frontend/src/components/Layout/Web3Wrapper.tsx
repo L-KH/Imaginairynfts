@@ -8,7 +8,22 @@ import { daisyTheme } from '@/utils/rainbowUtils'
 const { chains, provider } = configureChains(
   // add any chain you want if its a new chain add chain info 
   // const { chains, provider } = configureChains(
-    [{
+    [
+      {
+        id: 534353,
+        name: 'Scroll',
+        network: 'Scroll Testnet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Scroll Testnet',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://alpha-rpc.scroll.io/l2',
+        },
+        
+      },
+      {
       id: 57000,
       name: 'Syscoin Rollux Testnet',
       network: 'Syscoin Rollux Testnet',
@@ -63,7 +78,8 @@ const { chains, provider } = configureChains(
         default: 'https://linea-goerli.infura.io/v3/785f7bb2ad57482d9e033f63e08d24a3',
       },
       
-    }],
+    }
+    ],
     
   //   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
     

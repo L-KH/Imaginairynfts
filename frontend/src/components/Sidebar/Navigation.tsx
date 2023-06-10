@@ -16,7 +16,7 @@ export function Navigation({ isMobile, linkClicked }: any) {
       <nav className={clsx(isMobile ? '' : 'flex-1 pb-4', 'space-y-1')}>
         {navigation.map((item) => (
           <Link href={item.href} key={item.name}>
-            <a
+            <a 
               className={clsx(
                 routeIsActive(pathname, item)
                   ? 'border-primary  text-primary dark:text-primary'
