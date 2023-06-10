@@ -60,6 +60,12 @@ const navigation: INavigation[] = [
     icon: UsersIcon,
     current: false,
   },
+  {
+    name: 'Minted NFTs',
+    href: '/MintedNFT',
+    icon: BookOpenIcon,
+    current: false,
+  },
   // { name: '404', href: '/404', icon: FolderIcon, current: false },
   // { name: '500', href: '/500', icon: CalendarIcon, current: false },
 ]
