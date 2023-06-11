@@ -8,11 +8,11 @@ import styles from '@/styles/Gallery.module.css';
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null)
 
-  const handleImageClick = (e) => {
+  const handleImageClick = (e: any) => {
     setSelectedImage(e.target.src)
   }
 
-  const handleCloseImage = (e) => {
+  const handleCloseImage = (e: any) => {
     if (e.target === e.currentTarget) {
       setSelectedImage(null);
     }
