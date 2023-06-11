@@ -11,13 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "@gradio/client": "^0.1.2",
+    "abcjs": "^6.2.2",
     "axios": "^1.4.0",
     "buffer": "^6.0.3",
     "esm": "^3.2.25",
+    "html-to-image": "^1.11.11",
+    "js-beautify": "^1.14.8",
     "net": "^1.0.2",
     "next": "^13.4.4",
     "nft.storage": "^7.1.0",
     "node-fetch": "^2.6.1",
+    "react-player": "^2.12.0",
     "react-spinners": "^0.13.8",
     "react-transition-group": "^4.4.5",
     "tls": "^0.0.1"

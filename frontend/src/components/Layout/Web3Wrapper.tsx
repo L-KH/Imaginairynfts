@@ -11,7 +11,7 @@ const { chains, provider } = configureChains(
     [
       {
         id: 534353,
-        name: 'Scroll',
+        name: 'Scroll Testnet',
         network: 'Scroll Testnet',
         nativeCurrency: {
           decimals: 18,
@@ -20,6 +20,20 @@ const { chains, provider } = configureChains(
         },
         rpcUrls: {
           default: 'https://alpha-rpc.scroll.io/l2',
+        },
+        
+      },
+      {
+        id: 167005,
+        name: 'Taiko Testnet Alpha 3',
+        network: 'Taiko Testnet Alpha 3',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Taiko Testnet',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://rpc.test.taiko.xyz/',
         },
         
       },

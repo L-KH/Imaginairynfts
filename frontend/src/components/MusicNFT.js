@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { NFTStorage, File } from 'nft.storage';
-import { Buffer } from 'buffer';
 import { ethers } from 'ethers';
-import axios from 'axios';
 import NFT from '../abis/NFT2.json';
-import { wagmiClient } from './Layout/Web3Wrapper';
 import config from './config.json';
+import { html as beautify } from 'js-beautify';
+import abcjs from "abcjs";
+import { renderAbc, CreateSynth, startAnimation } from "abcjs";
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -16,11 +16,11 @@ function App() {
   const [message, setMessage] = useState("");
   const [isWaiting, setIsWaiting] = useState(false);
   const [musicData, setMusicData] = useState(null);
-  const [url, setURL] = useState(null);
-  const API_URL = "https://api-inference.huggingface.co/models/sander-wood/text-to-music";
-  const headers = {"Authorization": "Bearer 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"};
-
-  const allowedChains = [534353, 57000, 5, 11155111, 59140]; 
+  const musicDiv = useRef(null);
+  const [synth, setSynth] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  const allowedChains = [534353, 57000, 5, 11155111, 59140, 167005]; 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
@@ -59,7 +59,7 @@ const createMusic = async () => {
     }
     
     // const response = await fetch('http://18.206.89.84:5000/generate_music', {
-    const response = await fetch('http://localhost:5000/generate_music', {
+    const response = await fetch('http://18.206.89.84:5000/generate_music', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -70,21 +70,49 @@ const createMusic = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
-      const musicData = await response.text();  // Change here
-      console.log(musicData);
-      setMusicData(musicData);
+      let musicData = await response.text();
+  musicData = beautify(musicData, { indent_size: 2, space_in_empty_paren: true });
+  setMusicData(musicData);
+  
+  if (musicData) {
+    var visualObj = abcjs.renderAbc(musicDiv.current, musicData, {add_classes: true, responsive: "resize"})[0];
+    
+    var synth = new abcjs.synth.CreateSynth();
+    await synth.init({ visualObj: visualObj });
+    await synth.prime();
 
-      return musicData;
-    }
+    // To start the playback
+    synth.start();
+    abcjs.startAnimation(musicDiv.current, visualObj, { showCursor: true });
+  }
+
+  return musicData;
+}
   } catch (error) {
     console.error(`Fetch failed: ${error}`);
   }
 };
-
   
 
+useEffect(() => {
+  if (musicData) {
+    abcjs.renderAbc(musicDiv.current, musicData, {responsive: 'resize'});
+  }
+}, [musicData]);
+ 
+// useEffect(() => {
+//   const music = `X:1
+// L:1/4
+// M:4/4
+// K:Eb
+// C z F z | C D E2 | E F G A | G2 A2 | F2 D2 | F2 C2 | C4 | E2 D2 | G2 A2 | C2 G2 | F2 E2 | B2 A2 |
+// c2 A2 | F4 | B2 c2 | F2 D2 | E2 F2 | F4 | F/A/F/A/ D/B/G/B/ | G/F/D/B/ F/G/E/C/ |
+// B,/A/B,/C/ F/C/D/E/ | F2 G2 | E2 D2 | D4 | C4 | F2 D2 | E2 G2 | C4 | z4 | z4 | z4 | z4 | z4 |
+// z4 | z4 | z4 | z4 | z4 | z4 | z4 | z4 |]`;
 
-
+//   // Generate sheet music SVG
+//   abcjs.renderAbc(musicDiv.current, music, {responsive: 'resize'});
+// }, []);
   
 
   
@@ -143,7 +171,16 @@ const submitHandler = async (e) => {
       useEffect(() => {
         loadBlockchainData();
       }, []);
-      return (
+
+      const cardStyle = {
+        maxWidth: '800px',
+        margin: 'auto',
+        border: '1px solid #ddd',
+        borderRadius: '5px',
+        padding: '20px',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.15)',
+      };
+return (
         <div>
          
           
@@ -153,7 +190,11 @@ const submitHandler = async (e) => {
             </div>
             <div className='mx-auto'>
               <h3 className='text-center text-2xl font-bold text-primary mb-7'>ABC Notation:</h3>
-              <div className='text-center mb-12 text-lg '>{isWaiting ? "Generating..." : musicData}</div>
+              <pre className='text-center mb-12 text-lg '>{isWaiting ? "Generating..." : ""}</pre>
+              <div style={cardStyle}>
+                <div ref={musicDiv}></div>
+              </div>
+
 
             </div>
             <div className='form'>

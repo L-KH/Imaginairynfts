@@ -5,7 +5,6 @@ import type { AppProps } from 'next/app'
 import '@rainbow-me/rainbowkit/styles.css'
 import { ThemeProvider } from 'next-themes'
 import '@/styles/index.css';
-
 import Web3Wrapper from '@/components/Layout/Web3Wrapper'
 
 function MyApp({ Component, pageProps }: AppProps) {

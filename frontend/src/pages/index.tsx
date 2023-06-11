@@ -24,8 +24,6 @@ const Home: NextPage = () => {
 
       <main className="flex-grow items-center justify-center py-10 px-20 text-center">
         <Imaginary/>
-        {/* <MyNFTs /> */}
-        <Mynft />
       </main>
     </Layout>
   )

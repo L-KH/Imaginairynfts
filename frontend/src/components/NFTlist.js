@@ -20,7 +20,7 @@ function NFTlist() {
     const cid = ipfsLink?.replace('ipfs://', '');
     return `https://ipfs.io/ipfs/${cid}`;
   };
-  const allowedChains = [534353, 57000, 5, 11155111, 59140]; 
+  const allowedChains = [534353, 57000, 5, 11155111, 59140, 167005]; 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
