@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useSendTransaction } from 'wagmi'
 import Imaginary from '../components/Imaginary'
 // import MyNFTs from '../components/MyNFTs'
-import Mynft from '../components/Mynft'
+
 const Home: NextPage = () => {
   // const { data, isIdle, isError, isLoading, isSuccess, sendTransaction } =
   //   useSendTransaction({
