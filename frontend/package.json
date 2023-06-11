@@ -12,9 +12,11 @@
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/typography": "^0.5.2",
+    "abcjs": "^6.2.2",
     "daisyui": "^2.20.0",
     "ethers": "^5.6.9",
     "eventemitter3": "^5.0.1",
+    "js-beautify": "^1.14.8",
     "lodash.merge": "^4.6.2",
     "next": "latest",
     "next-themes": "^0.2.0",
@@ -22,6 +24,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-icons": "^4.4.0",
+    "react-spinners": "^0.13.8",
     "wagmi": "^0.5.11"
   },
   "devDependencies": {
