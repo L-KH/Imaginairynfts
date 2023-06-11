@@ -21,6 +21,8 @@
     "next": "^13.4.4",
     "nft.storage": "^7.1.0",
     "node-fetch": "^2.6.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-player": "^2.12.0",
     "react-spinners": "^0.13.8",
     "react-transition-group": "^4.4.5",

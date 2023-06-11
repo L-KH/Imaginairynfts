@@ -71,8 +71,8 @@ const createMusic = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
       let musicData = await response.text();
-  musicData = beautify(musicData, { indent_size: 2, space_in_empty_paren: true });
-  setMusicData(musicData);
+      musicData = beautify(musicData, { indent_size: 2, space_in_empty_paren: true });
+      setMusicData(musicData);
   
   if (musicData) {
     var visualObj = abcjs.renderAbc(musicDiv.current, musicData, {add_classes: true, responsive: "resize"})[0];
