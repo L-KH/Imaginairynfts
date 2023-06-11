@@ -59,7 +59,7 @@ const createMusic = async () => {
     }
     
     // const response = await fetch('http://18.206.89.84:5000/generate_music', {
-    const response = await fetch('http://18.206.89.84:5000/generate_music', {
+    const response = await fetch('https://18.206.89.84.com/generate_music', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
