@@ -10,6 +10,19 @@ const { chains, provider } = configureChains(
   // const { chains, provider } = configureChains(
     [
       {
+        id: 10,
+        name: 'Optimism',
+        network: 'Optimism Collective',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Optimism Collective',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://optimism.meowrpc.com/',
+        },
+      },
+      {
         id: 534353,
         name: 'Scroll Testnet',
         network: 'Scroll Testnet',
@@ -21,7 +34,6 @@ const { chains, provider } = configureChains(
         rpcUrls: {
           default: 'https://alpha-rpc.scroll.io/l2',
         },
-        
       },
       {
         id: 167005,
@@ -35,7 +47,6 @@ const { chains, provider } = configureChains(
         rpcUrls: {
           default: 'https://rpc.test.taiko.xyz/',
         },
-        
       },
       {
       id: 57000,
@@ -65,20 +76,7 @@ const { chains, provider } = configureChains(
       },
       
     },
-    {
-      id: 11155111,
-      name: 'Sepolia Testnet',
-      network: 'Sepolia Testnet',
-      nativeCurrency: {
-        decimals: 18,
-        name: 'Sepolia Testnet',
-        symbol: 'ETH',
-      },
-      rpcUrls: {
-        default: 'https://eth-sepolia.g.alchemy.com/v2/fd37CbLre3a2OFWXQpDxeRB-FUlI3s3y',
-      },
-      
-    },
+    
     {
       id: 59140,
       name: 'Linea Testnet',

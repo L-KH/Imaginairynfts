@@ -27,12 +27,10 @@ function App() {
 
   useEffect(() => {
     watchNetwork(handleAccountChange);
-    console.log('chain')
   }, []);
 
   const handleAccountChange = (newChain)=> {
     // Perform actions when the account changes
-    console.log('chain changed:', newChain);
     loadBlockchainData()
   }
  
@@ -58,7 +56,7 @@ function App() {
    setSelectedModel(modelName);
    setApiUrl(apiUrlMap[modelName]);
   };
-  const allowedChains = [534353, 57000, 5, 11155111, 59140, 167005]; // Add more chain IDs as needed
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005]; // Add more chain IDs as needed
 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -66,7 +64,7 @@ function App() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const goerliChainId = '0x5';
+      const goerliChainId = '0xa';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -74,7 +72,7 @@ function App() {
         });
       } catch (switchError) {
         console.error(switchError);
-        window.alert('Please connect to the Goerli network manually until we fix the issue');
+        window.alert('Please connect to the network manually');
         return; // If the switch to Goerli failed, don't try to load the NFT contract
       }
     }

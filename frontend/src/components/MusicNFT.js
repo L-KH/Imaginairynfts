@@ -20,7 +20,7 @@ function App() {
   const [synth, setSynth] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   
-  const allowedChains = [534353, 57000, 5, 11155111, 59140, 167005]; 
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005]; 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
@@ -59,7 +59,7 @@ const createMusic = async () => {
     }
     
     // const response = await fetch('http://18.206.89.84:5000/generate_music', {
-    const response = await fetch('https://18.206.89.84.com/generate_music', {
+    const response = await fetch('http://18.206.89.84:5000/generate_music', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
