@@ -158,7 +158,7 @@ function App() {
     const { ipnft } = await nftstorage.store({
       image: new File([imageData], "image.jpeg", { type: "image/jpeg" }),
       name: name,
-      description: prompt,
+      description: description,
     })
     const url = `https://ipfs.io/ipfs/${ipnft}/metadata.json`
     setURL(url)
@@ -208,11 +208,11 @@ function App() {
     </select>
   </div>
 </div>
-      <div className='form'>
+      <div className='form '>
         <form onSubmit={(e) => submitHandler(e, apiUrl)}>
-          <input type="text" placeholder="Create a name(title)..." onChange={(e) => { setName(e.target.value) }} />
-          <textarea type="text" placeholder="Create a description(public)..." onChange={(e) => setPrompt(e.target.value)} />
-          <textarea type="text" placeholder="Create a prompt(private)..." onChange={(e) => setDescription(e.target.value)} />
+          <input className='text-primary'type="text" placeholder="Create a name(title)..." onChange={(e) => { setName(e.target.value) }} />
+          <textarea className='text-primary' type="text" placeholder="Create a description(public)..." onChange={(e) => setDescription(e.target.value)} />
+          <textarea className='text-primary' type="text" placeholder="Create a prompt(private)..." onChange={(e) => setPrompt(e.target.value)} />
           <div className="mb-4 card flex-1 items-center justify-center bg-primary-focus">
             <input className="text-center text-primary-content" type="submit" value="Create"/>
           </div>

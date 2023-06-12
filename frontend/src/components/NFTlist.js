@@ -92,6 +92,12 @@ function NFTlist() {
   const closeModal = () => {
     setSelectedNFT(null);
   }
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  };
   return (
     <div>
       <h1 className="text-4xl font-extrabold text-secondary">My minted NFTs:</h1>
@@ -103,7 +109,7 @@ function NFTlist() {
         <div className="grid grid-cols-1 gap-5 font-semibold sm:grid-cols-2 md:grid-cols-4">
         {dataArray?.map((item, index) => (
           <div key={index} className="card flex-1 items-center justify-center border border-base-300 bg-base-100 p-4 m-2">
-            <h3 className="text-2xl font-bold text-primary mb-2">{item.name}</h3>
+            <h3 className="text-2xl font-bold text-primary mb-2">{truncateText(item.name, 20)}</h3>
             <div className="mt-4 mb-4">
               <img
                 className="mx-auto"
