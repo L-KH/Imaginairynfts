@@ -41,17 +41,19 @@ function App() {
     'stable-diffusion-v1-5': 'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
     'stable-diffusion-v1-4': 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4',
     'openjourney':'https://api-inference.huggingface.co/models/prompthero/openjourney',
+    'openjourney V4':'https://api-inference.huggingface.co/models/prompthero/openjourney-v4',
     'Realistic Vision':'https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4',
     'anything-v4.0':'https://api-inference.huggingface.co/models/andite/anything-v4.0',
     'Dungeons-and-Diffusion':'https://api-inference.huggingface.co/models/0xJustin/Dungeons-and-Diffusion',
     'pastel-mix':'https://api-inference.huggingface.co/models/andite/pastel-mix',
+    'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
 
     };
   const generateRandomSeed = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
-  const [apiUrl, setApiUrl] = useState(apiUrlMap['openjourney']);
-  const [selectedModel, setSelectedModel] = useState('openjourney');
+  const [apiUrl, setApiUrl] = useState(apiUrlMap['openjourney V4']);
+  const [selectedModel, setSelectedModel] = useState('openjourney V4');
   const changeModel = (modelName) => {
    setSelectedModel(modelName);
    setApiUrl(apiUrlMap[modelName]);
@@ -201,8 +203,10 @@ function App() {
       <option value="stable-diffusion-v1-5">stable-diffusion-v1-5</option>
       <option value="stable-diffusion-v1-4">stable-diffusion-v1-4</option>
       <option value="openjourney">openjourney</option>
+      <option value="openjourney V4">openjourney V4</option>
       <option value="Realistic Vision">Realistic Vision</option>
       <option value="anything-v4.0">anything-v4.0</option>
+      <option value="Pokemon Diffusers">Pokemon Diffusers</option>
       <option value="Dungeons-and-Diffusion">Dungeons-and-Diffusion</option>
       <option value="pastel-mix">pastel-mix</option>
     </select>
