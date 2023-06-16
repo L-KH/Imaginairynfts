@@ -194,6 +194,7 @@ function App() {
   if (!name) {
     return "No title was provided";
   }
+  setIsWaiting(true);
   const response = await fetch(
     "https://api-inference.huggingface.co/models/Gustavosta/MagicPrompt-Stable-Diffusion",
     {
@@ -219,6 +220,10 @@ function App() {
 // Removed getMagicPrompt call from this function
 async function generatePrompt(e) {
   e.preventDefault();
+  if (name === "") {
+    window.alert("Please provide a name(title)");
+    return;
+  }
   setShouldGenerate(true);
 }
 
