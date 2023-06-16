@@ -300,7 +300,19 @@ p {
   cursor: pointer;
   transition: all 250ms ease;
 }
+.magicbutton {
+  width: 250px;
+  height: 30px;
+  font-family: "Roboto";
+  font-size: 1.10em;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 250ms ease;
+}
+.magicbutton:hover {
+  background-color: rgba(0, 0, 0, 0.238);
 
+}
 .button-style:hover {
   background-color: rgba(0, 0, 0, 0.238);
   

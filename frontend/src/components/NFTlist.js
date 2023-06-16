@@ -27,11 +27,11 @@ function NFTlist() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const goerliChainId = '0xa';
+      const optimismChainId = '0xa';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: goerliChainId }],
+          params: [{ chainId: optimismChainId }],
         });
       } catch (switchError) {
         console.error(switchError);

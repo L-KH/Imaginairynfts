@@ -24,6 +24,7 @@ function App() {
   const [isWaiting, setIsWaiting] = useState(false)
   const [imageData, setImageData] = useState(null);
   const [showInstallMetamaskPopup, setShowInstallMetamaskPopup] = useState(false);
+  const [shouldGenerate, setShouldGenerate] = useState(false);
 
   useEffect(() => {
     watchNetwork(handleAccountChange);
@@ -66,11 +67,11 @@ function App() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const goerliChainId = '0xa';
+      const optimismChainId = '0xa';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: goerliChainId }],
+          params: [{ chainId: optimismChainId }],
         });
       } catch (switchError) {
         console.error(switchError);
@@ -184,6 +185,55 @@ function App() {
   }, [])
   
   
+  
+  
+  async function getMagicPrompt(name) {
+  // Generate a new random seed each time the function is called
+  const newSeed = generateRandomSeed(0, 1000);
+  setSeed(newSeed);
+  if (!name) {
+    return "No title was provided";
+  }
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/Gustavosta/MagicPrompt-Stable-Diffusion",
+    {
+      headers: { Authorization: "Bearer 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" },
+      method: "POST",
+      body: JSON.stringify({ inputs: name }),
+    }
+  );
+  const result = await response.json();
+  
+  // Check if the result is an array
+  if(Array.isArray(result)) {
+    return result[0]?.generated_text || "";
+  } else {
+    // If not an array, directly return the generated_text
+    return result?.generated_text || "";
+  }
+}
+
+  
+  
+  
+// Removed getMagicPrompt call from this function
+async function generatePrompt(e) {
+  e.preventDefault();
+  setShouldGenerate(true);
+}
+
+useEffect(() => {
+  if (shouldGenerate) {
+    getMagicPrompt(name).then(prompt => {
+      document.getElementById('setprompt').value = prompt;
+      setPrompt(prompt);
+      setShouldGenerate(false);  // Reset shouldGenerate to false after generating the prompt
+    });
+  }
+}, [name, shouldGenerate]);
+
+  
+
 
   return (
     <div>
@@ -216,7 +266,24 @@ function App() {
         <form onSubmit={(e) => submitHandler(e, apiUrl)}>
           <input className='text-primary'type="text" placeholder="Create a name(title)..." onChange={(e) => { setName(e.target.value) }} />
           <textarea className='text-primary' type="text" placeholder="Create a description(public)..." onChange={(e) => setDescription(e.target.value)} />
-          <textarea className='text-primary' type="text" placeholder="Create a prompt(private)..." onChange={(e) => setPrompt(e.target.value)} />
+          
+          <div className="card flex-1 items-center justify-center bg-neutral-focus">
+          <input
+            className="text-center text-neutral-content magicbutton"
+            type="button" // Change this from "" to "button"
+            onClick={generatePrompt}
+            value="🌟Magic Prompt🌟 [Beta]"
+          /></div>
+        
+
+        <textarea
+          id="setprompt"
+          className="text-primary"
+          type="text"
+          placeholder="Create a prompt(private)..."
+          onChange={(e) => setPrompt(e.target.value)}
+          value={prompt} // Make sure the textarea shows the current value of the prompt state
+        />
           <div className="mb-4 card flex-1 items-center justify-center bg-primary-focus">
             <input className="text-center text-primary-content" type="submit" value="Create"/>
           </div>
