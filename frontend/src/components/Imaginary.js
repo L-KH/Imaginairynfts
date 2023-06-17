@@ -353,8 +353,8 @@ function App() {
   </div>
 )}
 
-<footer style={{ position: 'fixed' ,left: 0,bottom: 0, width: '100%', backgroundColor: '#f8f9fa', textAlign: 'center', padding: '10px'}}>
-      <p>
+<footer className="card flex-1 items-center justify-center border border-base-300 bg-base-100">
+      <p className="text-center text-base-content">
       💖 Enjoying our work? Show some love and support our future projects by contributing to :
         <br/>
         <a href="https://etherscan.io/address/0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19" target="_blank" rel="noopener noreferrer">
