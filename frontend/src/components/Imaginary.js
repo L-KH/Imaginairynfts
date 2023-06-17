@@ -352,8 +352,8 @@ function App() {
     </div>
   </div>
 )}
-<br/>
-<footer style={{ bottom: 0, width: '100%', backgroundColor: '#f8f9fa', textAlign: 'center', padding: '10px'}}>
+
+<footer style={{ position: 'fixed' ,left: 0,bottom: 0, width: '100%', backgroundColor: '#f8f9fa', textAlign: 'center', padding: '10px'}}>
       <p>
       💖 Enjoying our work? Show some love and support our future projects by contributing to :
         <br/>
