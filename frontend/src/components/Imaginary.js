@@ -191,10 +191,7 @@ function App() {
   // Generate a new random seed each time the function is called
   const newSeed = generateRandomSeed(0, 1000);
   setSeed(newSeed);
-  if (!name) {
-    return "No title was provided";
-  }
-  setIsWaiting(true);
+
   const response = await fetch(
     "https://api-inference.huggingface.co/models/Gustavosta/MagicPrompt-Stable-Diffusion",
     {
@@ -217,26 +214,21 @@ function App() {
   
   
   
-// Removed getMagicPrompt call from this function
-async function generatePrompt(e) {
-  e.preventDefault();
-  if (name === "") {
-    window.alert("Please provide a name(title)");
-    return;
+  async function generatePrompt(e) {
+    e.preventDefault();
+    const generatedPrompt = await getMagicPrompt(name);
+    setPrompt(generatedPrompt);
+    setShouldGenerate(true);
   }
-  setShouldGenerate(true);
-}
-
-useEffect(() => {
-  if (shouldGenerate) {
-    getMagicPrompt(name).then(prompt => {
-      document.getElementById('setprompt').value = prompt;
-      setPrompt(prompt);
-      setShouldGenerate(false);  // Reset shouldGenerate to false after generating the prompt
-    });
-  }
-}, [name, shouldGenerate]);
-
+  
+  useEffect(() => {
+    if (shouldGenerate) {
+      getMagicPrompt(name).then(prompt => {
+        document.getElementById('setprompt').value = prompt;
+      });
+      setShouldGenerate(false);  // Reset shouldGenerate to false after generating the prompt descr
+    }
+  }, [name, shouldGenerate]);
   
 
 
@@ -360,7 +352,16 @@ useEffect(() => {
     </div>
   </div>
 )}
-
+<br/>
+<footer style={{ bottom: 0, width: '100%', backgroundColor: '#f8f9fa', textAlign: 'center', padding: '10px'}}>
+      <p>
+      💖 Enjoying our work? Show some love and support our future projects by contributing to :
+        <br/>
+        <a href="https://etherscan.io/address/0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19" target="_blank" rel="noopener noreferrer">
+          <b>0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19</b>
+        </a>
+      </p>
+    </footer>
     </div>
   );
 }
