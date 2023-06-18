@@ -44,7 +44,7 @@ function App() {
     'openjourney':'https://api-inference.huggingface.co/models/prompthero/openjourney',
     'openjourney V4':'https://api-inference.huggingface.co/models/prompthero/openjourney-v4',
     'Realistic Vision':'https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4',
-    'anything-v4.0':'https://api-inference.huggingface.co/models/andite/anything-v4.0',
+    'anything-v5.0':'https://api-inference.huggingface.co/models/stablediffusionapi/anything-v5',
     'Dungeons-and-Diffusion':'https://api-inference.huggingface.co/models/0xJustin/Dungeons-and-Diffusion',
     'pastel-mix':'https://api-inference.huggingface.co/models/andite/pastel-mix',
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
@@ -95,7 +95,7 @@ function App() {
   const submitHandler = async (e, apiUrl) => {
     e.preventDefault();
     if (name === "" || prompt === "") {
-      window.alert("Please provide a name and description");
+      window.alert("Please provide a name and prompt");
       return;
     }
     setIsWaiting(true);
@@ -252,7 +252,7 @@ function App() {
       <option value="openjourney">openjourney</option>
       <option value="openjourney V4">openjourney V4</option>
       <option value="Realistic Vision">Realistic Vision</option>
-      <option value="anything-v4.0">anything-v4.0</option>
+      <option value="anything-v5.0">anything V5.0</option>
       <option value="Pokemon Diffusers">Pokemon Diffusers</option>
       <option value="Dungeons-and-Diffusion">Dungeons-and-Diffusion</option>
       <option value="pastel-mix">pastel-mix</option>
@@ -353,7 +353,7 @@ function App() {
   </div>
 )}
 
-<footer className="card flex-1 items-center justify-center border border-base-300 bg-base-100">
+<footer className="card flex-1 items-center justify-center border border-base-300 bg-base-100" >
       <p className="text-center text-base-content">
       💖 Enjoying our work? Show some love and support our future projects by contributing to :
         <br/>
