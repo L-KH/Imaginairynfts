@@ -67,12 +67,12 @@ const navigation: INavigation[] = [
     icon: PhotographIcon,
     current: false,
   },
-  {
-    name: 'Text to Music',
-    href: '/MusicNFT',
-    icon: VolumeUpIcon,
-    current: false,
-  },
+  // {
+  //   name: 'Text to Music',
+  //   href: '/MusicNFT',
+  //   icon: VolumeUpIcon,
+  //   current: false,
+  // },
   {
     name: 'Gallery & Prompts',
     href: '/Gallery',

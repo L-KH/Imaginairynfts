@@ -22,7 +22,6 @@
 }
 
 .image {
-    
     width: 100%;
     break-inside: avoid; 
     page-break-inside: avoid; 
@@ -34,25 +33,20 @@
     transform: scale(1.05);
     cursor: pointer;
 }
-
-
-  
   
 .popup {
-    
-    position: absolute; 
+    position: fixed; 
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 100px;
+    width: 80%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
   
-  .popupContent {
-    
+.popupContent {
     padding: 50px;
     display: flex;
     flex-direction: column;
@@ -60,20 +54,25 @@
     max-width: 85%;
     max-height: 85%;
     overflow: auto;
-
-  }
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
   
-  .selectedImage {
-    max-width: 100%;
+.selectedImage {
+    max-width: 80%;
     max-height: 60vh; 
-    
-  }
+
+}
   
-  .descriptionTitle {
+.descriptionTitle {
     margin-top: 20px;
-  }
-  
-  .descriptionText {
     text-align: center;
-  }
+}
   
+.descriptionText {
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}

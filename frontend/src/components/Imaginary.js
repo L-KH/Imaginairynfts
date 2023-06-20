@@ -357,7 +357,7 @@ function App() {
       <p className="text-center text-base-content">
       💖 Enjoying our work? Show some love and support our future projects by contributing to :
         <br/>
-        <a href="https://etherscan.io/address/0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19" target="_blank" rel="noopener noreferrer">
+        <a href="https://optimistic.etherscan.io/address/0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19" target="_blank" rel="noopener noreferrer">
           <b>0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19</b>
         </a>
       </p>
