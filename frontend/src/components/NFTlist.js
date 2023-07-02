@@ -12,6 +12,7 @@ function NFTlist() {
   const [selectedNFT, setSelectedNFT] = useState(null);
   const [loading, setLoading] = useState(false);
   const [allNFTsFetched, setAllNFTsFetched] = useState(false);
+  const [account, setAccount] = useState();
   useEffect(() => {
     loadBlockchainData();
   }, []);
@@ -20,7 +21,7 @@ function NFTlist() {
     const cid = ipfsLink?.replace('ipfs://', '');
     return `https://ipfs.io/ipfs/${cid}`;
   };
-  const allowedChains = [534353, 57000, 5, 10, 59140, 167005]; 
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570]; 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
@@ -46,6 +47,7 @@ function NFTlist() {
   };
 
 
+
   useEffect(() => {
     if(nft && provider) {
       setLoading(true);
@@ -54,19 +56,23 @@ function NFTlist() {
   }, [nft, provider]);
 
   const fetchNFTlist = async () => {
-    const signer = await provider.getSigner();
-    const account = await signer.getAddress();
-    const tokenIds = await nft.connect(signer).tokensOfOwner(account);
-  
-    const tempDataArray = []; // Create a temporary array to store the NFTs
-  
-    for (let i = 0; i < tokenIds.length; i++) {
-      const uri = await nft.connect(signer).tokenURI(tokenIds[i]);
-      const data = await readNFTData(uri);
-      tempDataArray.push(data); // Add the fetched NFT to the temporary array
-    }
+    try {
+      const signer = await provider.getSigner();
+      const account = await signer.getAddress();
+      const tokenIds = await nft.connect(signer).tokensOfOwner(account);
+      setAccount(account)
+      const tempDataArray = []; // Create a temporary array to store the NFTs
     
-    setDataArray(tempDataArray); // Set the dataArray state once with all the fetched NFTs
+      for (let i = 0; i < tokenIds.length; i++) {
+        const uri = await nft.connect(signer).tokenURI(tokenIds[i]);
+        const data = await readNFTData(uri);
+        tempDataArray.push(data); // Add the fetched NFT to the temporary array
+      }
+      
+      setDataArray(tempDataArray); // Set the dataArray state once with all the fetched NFTs
+    } catch (error) {
+      console.log(error)
+    }
   };
   
   
@@ -101,7 +107,8 @@ function NFTlist() {
   return (
     <div>
       <h1 className="text-4xl font-extrabold text-secondary">My minted NFTs:</h1>
-      {loading && dataArray.length === 0 ? (
+      {account ? (<>
+        {loading && dataArray.length === 0 ? (
         <div className="flex justify-center items-center">
           <ClipLoader color="#4A90E2" loading={loading} size={150} />
         </div>
@@ -127,6 +134,17 @@ function NFTlist() {
         
       </div>
       )}
+      </>
+
+      ):(
+        <>
+        <div className="card flex-1 items-center justify-center bg-error">
+                      <span className="text-center text-error-content" type="submit" >Please connect your Wallet</span>
+                      
+                    </div>
+        </>
+      )
+      }
       {selectedNFT && (
   <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">

@@ -9,6 +9,20 @@ const { chains, provider } = configureChains(
   // add any chain you want if its a new chain add chain info 
   // const { chains, provider } = configureChains(
     [
+      
+      {
+        id: 570,
+        name: 'Rollux Mainnet',
+        network: 'Rollux Mainnet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Rollux Mainnet',
+          symbol: 'SYS',
+        },
+        rpcUrls: {
+          default: 'https://rpc.rollux.com',
+        },
+      },
       {
         id: 10,
         name: 'Optimism',

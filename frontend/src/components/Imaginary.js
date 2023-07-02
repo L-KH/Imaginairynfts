@@ -25,6 +25,7 @@ function App() {
   const [imageData, setImageData] = useState(null);
   const [showInstallMetamaskPopup, setShowInstallMetamaskPopup] = useState(false);
   const [shouldGenerate, setShouldGenerate] = useState(false);
+  const [currentChainId, setCurrentChainId] = useState(null);
 
   useEffect(() => {
     watchNetwork(handleAccountChange);
@@ -59,7 +60,7 @@ function App() {
    setSelectedModel(modelName);
    setApiUrl(apiUrlMap[modelName]);
   };
-  const allowedChains = [534353, 57000, 5, 10, 59140, 167005]; // Add more chain IDs as needed
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570]; // Add more chain IDs as needed
 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -67,7 +68,7 @@ function App() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const optimismChainId = '0xa';
+      const optimismChainId = '0x23a';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -83,6 +84,8 @@ function App() {
     const switchedNetwork = await provider.getNetwork();
     const nft = new ethers.Contract(config[switchedNetwork.chainId].nft.address, NFT, provider);
     setNFT(nft);
+    setCurrentChainId(switchedNetwork.chainId);
+
   };
   
   
@@ -169,17 +172,20 @@ function App() {
     return url
     
   }
+  // SEED as address of ethereum
   const mintImage = async (tokenURI) => {
     try {
       setMessage("Waiting for Mint...")
       const signer = await provider.getSigner()
-      const transaction = await nft.connect(signer).mint(tokenURI, { value: ethers.utils.parseUnits("0.001", "ether") })
+      const mintValue = currentChainId === 570 ? ethers.utils.parseUnits("10", "ether") : ethers.utils.parseUnits("0.001", "ether"); // Replace "sys" with the correct unit for SYS currency
+      const transaction = await nft.connect(signer).mint(tokenURI, { value: mintValue })
       await transaction.wait()
     } catch (error) {
       console.log(error)
     }
     setMessage("Generating Image...");
   }
+  
   useEffect(() => {
     loadBlockchainData()
   }, [])
@@ -262,7 +268,7 @@ function App() {
       <div className='form '>
         <form onSubmit={(e) => submitHandler(e, apiUrl)}>
           <input className='text-primary'type="text" placeholder="Create a name(title)..." onChange={(e) => { setName(e.target.value) }} />
-          <textarea className='text-primary' type="text" placeholder="Create a description(public)..." onChange={(e) => setDescription(e.target.value)} />
+          <input className='text-primary' type="text" placeholder="Create a description(public)..." onChange={(e) => setDescription(e.target.value)} />
           
           <div className="card flex-1 items-center justify-center bg-neutral-focus">
           <input
@@ -286,13 +292,11 @@ function App() {
           </div>
           
           {showMintButton && (
-            // <button type="button" onClick={mintHandler} className="button-style">
-            //   Mint [0.001ETH]
-            // </button>
             <div className="card flex-1 items-center justify-center bg-primary-focus">
-                <input className="text-center text-primary-content" type="submit" onClick={(e) => { e.preventDefault(); mintHandler(); }} value="Mint [0.001ETH]"/>
+                <input className="text-center text-primary-content" type="submit" onClick={(e) => { e.preventDefault(); mintHandler(); }} value={currentChainId === 570 ? "Mint [10 SYS]" : "Mint [0.001ETH]"}/>
             </div>
           )}
+
         </form>
       
 
