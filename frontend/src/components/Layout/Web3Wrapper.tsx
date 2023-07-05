@@ -10,32 +10,32 @@ const { chains, provider } = configureChains(
   // const { chains, provider } = configureChains(
     [
       
-      {
-        id: 570,
-        name: 'Rollux Mainnet',
-        network: 'Rollux Mainnet',
-        nativeCurrency: {
-          decimals: 18,
-          name: 'Rollux Mainnet',
-          symbol: 'SYS',
-        },
-        rpcUrls: {
-          default: 'https://rpc.rollux.com',
-        },
-      },
-      {
-        id: 10,
-        name: 'Optimism',
-        network: 'Optimism Collective',
-        nativeCurrency: {
-          decimals: 18,
-          name: 'Optimism Collective',
-          symbol: 'ETH',
-        },
-        rpcUrls: {
-          default: 'https://optimism.meowrpc.com/',
-        },
-      },
+      // {
+      //   id: 570,
+      //   name: 'Rollux Mainnet',
+      //   network: 'Rollux Mainnet',
+      //   nativeCurrency: {
+      //     decimals: 18,
+      //     name: 'Rollux Mainnet',
+      //     symbol: 'SYS',
+      //   },
+      //   rpcUrls: {
+      //     default: 'https://rpc.rollux.com',
+      //   },
+      // },
+      // {
+      //   id: 10,
+      //   name: 'Optimism',
+      //   network: 'Optimism Collective',
+      //   nativeCurrency: {
+      //     decimals: 18,
+      //     name: 'Optimism Collective',
+      //     symbol: 'ETH',
+      //   },
+      //   rpcUrls: {
+      //     default: 'https://optimism.meowrpc.com/',
+      //   },
+      // },
     //   {
     //     id: 534353,
     //     name: 'Scroll Testnet',

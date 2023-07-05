@@ -79,7 +79,7 @@ const navigation: INavigation[] = [
     icon: UsersIcon,
     current: false,
   },
-  // { name: '404', href: '/404', icon: FolderIcon, current: false },
+  { name: 'Old Version', href: 'https://testnet.imaginairynfts.com/', icon: FolderIcon, current: false },
   // { name: '500', href: '/500', icon: CalendarIcon, current: false },
 ]
 
