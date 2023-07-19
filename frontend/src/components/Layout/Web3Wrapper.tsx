@@ -9,33 +9,45 @@ const { chains, provider } = configureChains(
   // add any chain you want if its a new chain add chain info 
   // const { chains, provider } = configureChains(
     [
-      
-      // {
-      //   id: 570,
-      //   name: 'Rollux Mainnet',
-      //   network: 'Rollux Mainnet',
-      //   nativeCurrency: {
-      //     decimals: 18,
-      //     name: 'Rollux Mainnet',
-      //     symbol: 'SYS',
-      //   },
-      //   rpcUrls: {
-      //     default: 'https://rpc.rollux.com',
-      //   },
-      // },
-      // {
-      //   id: 10,
-      //   name: 'Optimism',
-      //   network: 'Optimism Collective',
-      //   nativeCurrency: {
-      //     decimals: 18,
-      //     name: 'Optimism Collective',
-      //     symbol: 'ETH',
-      //   },
-      //   rpcUrls: {
-      //     default: 'https://optimism.meowrpc.com/',
-      //   },
-      // },
+      {
+        id: 59144,
+        name: 'Linea Mainnet',
+        network: 'Linea Mainnet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Linea Mainnet',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: '	https://linea-mainnet.infura.io/v3',
+        },
+      },
+      {
+        id: 570,
+        name: 'Rollux Mainnet',
+        network: 'Rollux Mainnet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Rollux Mainnet',
+          symbol: 'SYS',
+        },
+        rpcUrls: {
+          default: 'https://rpc.rollux.com',
+        },
+      },
+      {
+        id: 10,
+        name: 'Optimism',
+        network: 'Optimism Collective',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Optimism Collective',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://optimism.meowrpc.com/',
+        },
+      },
     //   {
     //     id: 534353,
     //     name: 'Scroll Testnet',
@@ -90,21 +102,6 @@ const { chains, provider } = configureChains(
     //   },
       
     // },
-    
-    {
-      id: 59140,
-      name: 'Linea Testnet',
-      network: 'Linea Testnet',
-      nativeCurrency: {
-        decimals: 18,
-        name: 'Linea Testnet',
-        symbol: 'ETH',
-      },
-      rpcUrls: {
-        default: 'https://linea-goerli.infura.io/v3/785f7bb2ad57482d9e033f63e08d24a3',
-      },
-      
-    }
     ],
     
   //   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
@@ -129,7 +126,7 @@ const theme = daisyTheme()
 
 const Web3Wrapper = ({ children }: any) => {
   return (
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig client={wagmiClient} >
       <RainbowKitProvider coolMode chains={chains} theme={theme}>
         <div>{children}</div>
       </RainbowKitProvider>

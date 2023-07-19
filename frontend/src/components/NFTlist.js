@@ -21,14 +21,14 @@ function NFTlist() {
     const cid = ipfsLink?.replace('ipfs://', '');
     return `https://ipfs.io/ipfs/${cid}`;
   };
-  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570]; 
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570, 59144]; 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const optimismChainId = '0xa';
+      const optimismChainId = '0xe790';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',

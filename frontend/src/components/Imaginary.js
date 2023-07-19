@@ -60,7 +60,7 @@ function App() {
    setSelectedModel(modelName);
    setApiUrl(apiUrlMap[modelName]);
   };
-  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570]; // Add more chain IDs as needed
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570, 59144]; // Add more chain IDs as needed
 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -68,7 +68,7 @@ function App() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const optimismChainId = '0x23a';
+      const optimismChainId = '0xe790';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
