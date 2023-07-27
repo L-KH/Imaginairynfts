@@ -1,13 +1,2 @@
-# Sample Hardhat Project
-
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+Linea Testnet : https://goerli.lineascan.build/address/0x67b9d421a2F130E93c8a996A534Fe5aC55d3De70#code
+Linea Mainnet : https://lineascan.build/address/0xb99E5534d42500eB1d5820fBA3Bb8416cCB76396#code

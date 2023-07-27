@@ -1,9 +1,4 @@
-# Web3 starter template
+# Linea depoyment address
 
-- Only OpenSource libraries used
-- NextJS for fast server-rendered websites
-- Hardhat for Ethereum based smart contract development
-- Tailwind CSS for simple styling
-- DaisyUI component library and themeing system
-- Wallet connection with RainbowKit with full DaisyUI themeing
-- Wagmi React hooks for Ethereum
+-Linea Testnet Network : 0x67b9d421a2F130E93c8a996A534Fe5aC55d3De70
+-Linea Mainnet Network : 0xb99E5534d42500eB1d5820fBA3Bb8416cCB76396
