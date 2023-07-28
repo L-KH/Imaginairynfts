@@ -38,6 +38,11 @@
         "nft": {
             "address": "0xb99E5534d42500eB1d5820fBA3Bb8416cCB76396"
         }
+    },
+    "8453": {
+        "nft": {
+            "address": "0x19A4f00039Cde3ffbe29b23417FcfB9101Ae174b"
+        }
     }
     
 }

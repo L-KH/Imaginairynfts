@@ -48,6 +48,19 @@ const { chains, provider } = configureChains(
           default: 'https://optimism.meowrpc.com/',
         },
       },
+      {
+        id: 8453,
+        name: 'Base Mainnet',
+        network: 'Base Mainnet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Base Mainnet',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://developer-access-mainnet.base.org/',
+        },
+      },
     //   {
     //     id: 534353,
     //     name: 'Scroll Testnet',
