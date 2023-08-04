@@ -7,7 +7,8 @@ import { watchAccount, watchNetwork  } from '@wagmi/core'
 import NFT from '../abis/NFT2.json'
 import config from './config.json';
 //--------------
-import { wagmiClient } from './Layout/Web3Wrapper';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [provider, setProvider] = useState(null)
@@ -32,11 +33,9 @@ function App() {
   }, []);
 
   const handleAccountChange = (newChain)=> {
-    // Perform actions when the account changes
     loadBlockchainData()
   }
  
-  // add more function here
 
   const apiUrlMap = {
     'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
@@ -68,7 +67,7 @@ function App() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const optimismChainId = '0xe790';
+      const optimismChainId = '0xe708';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -76,29 +75,20 @@ function App() {
         });
       } catch (switchError) {
         console.error(switchError);
-        window.alert('Please connect to the network manually');
-        return; // If the switch to Goerli failed, don't try to load the NFT contract
+        toast.error('Please connect to the network manually');
+        return; 
       }
     }
-    // Check the network again after attempting to switch
     const switchedNetwork = await provider.getNetwork();
     const nft = new ethers.Contract(config[switchedNetwork.chainId].nft.address, NFT, provider);
     setNFT(nft);
     setCurrentChainId(switchedNetwork.chainId);
 
   };
-  
-  
-
-
-
-
-
-
   const submitHandler = async (e, apiUrl) => {
     e.preventDefault();
     if (name === "" || prompt === "") {
-      window.alert("Please provide a name and prompt");
+      toast.error('Please provide a name and prompt');
       return;
     }
     setIsWaiting(true);
@@ -116,13 +106,9 @@ function App() {
   
   const mintHandler = async () => {
     if (!imageData) {
-      window.alert("No image to mint");
+      toast.error('No image to mint');
       return;
     }
-    // if (!account) {
-    //   setShowInstallMetamaskPopup(true);
-    //   return;
-    // }
     setMessage("Uploading Image...");
     const url = await uploadImage(imageData);
     setMessage("Waiting for Mint...");
@@ -366,7 +352,10 @@ function App() {
         </a>
       </p>
     </footer>
+    <ToastContainer />
+
     </div>
+    
   );
 }
 export default App;

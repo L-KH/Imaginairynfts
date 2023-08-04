@@ -22,32 +22,32 @@ const { chains, provider } = configureChains(
           default: '	https://linea-mainnet.infura.io/v3',
         },
       },
-      {
-        id: 570,
-        name: 'Rollux Mainnet',
-        network: 'Rollux Mainnet',
-        nativeCurrency: {
-          decimals: 18,
-          name: 'Rollux Mainnet',
-          symbol: 'SYS',
-        },
-        rpcUrls: {
-          default: 'https://rpc.rollux.com',
-        },
-      },
-      {
-        id: 10,
-        name: 'Optimism',
-        network: 'Optimism Collective',
-        nativeCurrency: {
-          decimals: 18,
-          name: 'Optimism Collective',
-          symbol: 'ETH',
-        },
-        rpcUrls: {
-          default: 'https://optimism.meowrpc.com/',
-        },
-      },
+      // {
+      //   id: 570,
+      //   name: 'Rollux Mainnet',
+      //   network: 'Rollux Mainnet',
+      //   nativeCurrency: {
+      //     decimals: 18,
+      //     name: 'Rollux Mainnet',
+      //     symbol: 'SYS',
+      //   },
+      //   rpcUrls: {
+      //     default: 'https://rpc.rollux.com',
+      //   },
+      // },
+      // {
+      //   id: 10,
+      //   name: 'Optimism',
+      //   network: 'Optimism Collective',
+      //   nativeCurrency: {
+      //     decimals: 18,
+      //     name: 'Optimism Collective',
+      //     symbol: 'ETH',
+      //   },
+      //   rpcUrls: {
+      //     default: 'https://optimism.meowrpc.com/',
+      //   },
+      // },
       {
         id: 8453,
         name: 'Base Mainnet',

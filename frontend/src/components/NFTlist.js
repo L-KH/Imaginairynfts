@@ -4,6 +4,8 @@ import axios from 'axios';
 import NFT from '../abis/NFT2.json'
 import config from './config.json';
 import { ClipLoader } from 'react-spinners';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function NFTlist() {
   const [provider, setProvider] = useState(null)
@@ -11,7 +13,6 @@ function NFTlist() {
   const [dataArray, setDataArray] = useState([]);
   const [selectedNFT, setSelectedNFT] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [allNFTsFetched, setAllNFTsFetched] = useState(false);
   const [account, setAccount] = useState();
   useEffect(() => {
     loadBlockchainData();
@@ -28,7 +29,7 @@ function NFTlist() {
     const network = await provider.getNetwork();
   
     if (!allowedChains.includes(network.chainId)) {
-      const optimismChainId = '0xe790';
+      const optimismChainId = '0xe708';
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -36,7 +37,7 @@ function NFTlist() {
         });
       } catch (switchError) {
         console.error(switchError);
-        window.alert('Please connect to the network manually');
+        toast.error('Please connect to the network manually');
         return; // If the switch to Goerli failed, don't try to load the NFT contract
       }
     }
@@ -75,13 +76,6 @@ function NFTlist() {
     }
   };
   
-  
-  
-  
-  
-  
-  
-
   const readNFTData = async (tokenUri) => {
     try {
       const response = await axios.get(tokenUri);
@@ -140,7 +134,6 @@ function NFTlist() {
         <>
         <div className="card flex-1 items-center justify-center bg-error">
                       <span className="text-center text-error-content" type="submit" >Please connect your Wallet</span>
-                      
                     </div>
         </>
       )
@@ -169,21 +162,16 @@ function NFTlist() {
             </div>
           </div>
           <div className='nftlist'>
-            {/* <div className="card flex-1 items-center justify-center border border-base-300 bg-primary-focus">
-                <a href="https://opensea.io" target="_blank" rel="noreferrer" className="nftlist hover:bg-sky-500 text-center justify-center text-base-100 px-5 py-2 sm:w-auto sm:text-sm">
-                  View on OpenSea
-                </a>
-            </div> */}
             <div className="card flex-1 items-center justify-center bg-base-content mb-4">
               <input className="nftlist hover:bg-sky-500 text-center justify-center text-base-100 px-14 py-2" type="button" onClick={closeModal} value="Close"/>
             </div>
-            
           </div>
         </div>
       </div>
     </div>
   </div>
 )}
+      <ToastContainer />
 
     </div>
   );
