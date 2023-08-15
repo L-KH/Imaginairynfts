@@ -80,7 +80,7 @@ const navigation: INavigation[] = [
     icon: UsersIcon,
     current: false,
   },
-  { name: 'Old Version', href: 'https://testnet.imaginairynfts.com/', icon: FolderIcon, current: false },
+  // { name: 'Testnet', href: 'https://testnet.imaginairynfts.com/', icon: FolderIcon, current: false },
   // { name: '500', href: '/500', icon: CalendarIcon, current: false },
 ]
 
@@ -101,11 +101,11 @@ const bottomIcons: IBottomIcons[] = [
     href: 'https://twitter.com/ImaginAIryNFTs',
     icon: TbBrandTwitter,
   },
-  {
-    name: 'Discord',
-    href: 'https://discord.gg/yRN5fNqFKM',
-    icon: TbBrandDiscord,
-  },
+  // {
+  //   name: 'Discord',
+  //   href: 'https://discord.gg/yRN5fNqFKM',
+  //   icon: TbBrandDiscord,
+  // },
   {
     name: 'Medium',
     href: 'https://medium.com/@imaginairynfts',

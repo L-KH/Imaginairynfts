@@ -46,7 +46,6 @@ function App() {
     'Realistic Vision':'https://api-inference.huggingface.co/models/SG161222/Realistic_Vision_V1.4',
     'anything-v5.0':'https://api-inference.huggingface.co/models/stablediffusionapi/anything-v5',
     'Dungeons-and-Diffusion':'https://api-inference.huggingface.co/models/0xJustin/Dungeons-and-Diffusion',
-    'pastel-mix':'https://api-inference.huggingface.co/models/andite/pastel-mix',
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
 
     };
@@ -238,16 +237,15 @@ function App() {
       className="model-select"
     >
       
-      <option value="stable-diffusion-2-1">stable-diffusion-2-1</option>
-      <option value="stable-diffusion-v1-5">stable-diffusion-v1-5</option>
-      <option value="stable-diffusion-v1-4">stable-diffusion-v1-4</option>
+      <option value="stable-diffusion-2-1">Stable Diffusion 2.1</option>
+      <option value="stable-diffusion-v1-5">Stable Diffusion v1.5</option>
+      <option value="stable-diffusion-v1-4">Stable Diffusion v1.4</option>
       <option value="openjourney">openjourney</option>
       <option value="openjourney V4">openjourney V4</option>
       <option value="Realistic Vision">Realistic Vision</option>
       <option value="anything-v5.0">anything V5.0</option>
       <option value="Pokemon Diffusers">Pokemon Diffusers</option>
-      <option value="Dungeons-and-Diffusion">Dungeons-and-Diffusion</option>
-      <option value="pastel-mix">pastel-mix</option>
+      <option value="Dungeons-and-Diffusion">Dungeons and Diffusion</option>
     </select>
   </div>
 </div>
