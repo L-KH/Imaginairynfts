@@ -58,7 +58,7 @@ function App() {
    setSelectedModel(modelName);
    setApiUrl(apiUrlMap[modelName]);
   };
-  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570, 59144, 8453]; // Add more chain IDs as needed
+  const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570, 59144, 8453, 534352]; // Add more chain IDs as needed
 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);

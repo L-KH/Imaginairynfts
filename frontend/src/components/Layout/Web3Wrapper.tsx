@@ -49,6 +49,19 @@ const { chains, provider } = configureChains(
       //   },
       // },
       {
+        id: 534352,
+        name: 'Scroll Mainnet',
+        network: 'Scroll Mainnet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Scroll Mainnet',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://mainnet-rpc.scroll.io',
+        },
+      },
+      {
         id: 8453,
         name: 'Base Mainnet',
         network: 'Base Mainnet',

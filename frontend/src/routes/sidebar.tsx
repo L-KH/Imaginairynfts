@@ -85,7 +85,7 @@ const navigation: INavigation[] = [
 ]
 
 const bottomNavigation: IBottomNavigation[] = [
-  { name: 'Android App', href: 'https://play.google.com/store/apps/details?id=com.lowjourney', icon: DeviceMobileIcon  },
+  // { name: 'Android App', href: 'https://play.google.com/store/apps/details?id=com.lowjourney', icon: DeviceMobileIcon  },
   { name: 'Documentation', href: 'https://l-kh.gitbook.io/imaginairy-nfts/', icon: BookOpenIcon },
   // { name: 'Settings', href: '#', icon: CogIcon },
 ]
