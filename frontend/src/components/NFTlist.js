@@ -62,15 +62,23 @@ function NFTlist() {
       const account = await signer.getAddress();
       const tokenIds = await nft.connect(signer).tokensOfOwner(account);
       setAccount(account)
-      const tempDataArray = []; // Create a temporary array to store the NFTs
-    
-      for (let i = 0; i < tokenIds.length; i++) {
-        const uri = await nft.connect(signer).tokenURI(tokenIds[i]);
-        const data = await readNFTData(uri);
-        tempDataArray.push(data); // Add the fetched NFT to the temporary array
-      }
-      
-      setDataArray(tempDataArray); // Set the dataArray state once with all the fetched NFTs
+
+      // Fetch metadata concurrently
+    const promises = tokenIds.map(tokenId =>
+      nft.connect(signer).tokenURI(tokenId)
+        .then(uri => readNFTData(uri))
+        .catch(error => {
+          console.error(`Failed to fetch metadata for tokenId ${tokenId}:`, error);
+          return { name: 'NFT Name Unavailable', description: 'Description Unavailable', image: 'default_image_url' }; // Provide fallback values
+        })
+    );
+    const nfts = await Promise.all(promises);
+
+    // Filter out any undefined or null NFTs that might have resulted from failed metadata fetches
+    const validNfts = nfts.filter(nft => nft !== undefined && nft !== null);
+
+    setDataArray(validNfts);
+    setLoading(false);
     } catch (error) {
       console.log(error)
     }
@@ -78,13 +86,18 @@ function NFTlist() {
   
   const readNFTData = async (tokenUri) => {
     try {
-      const response = await axios.get(tokenUri);
+      // Convert IPFS URL to a web gateway URL
+      const ipfsGatewayUrl = tokenUri.replace('ipfs://', 'https://ipfs.io/ipfs/');
+      // Use CORS proxy
+      const proxiedUrl = 'https://corsproxy.io/?' + encodeURIComponent(ipfsGatewayUrl);
+  
+      const response = await axios.get(proxiedUrl);
       const data = response.data;
       return { name: data.name, description: data.description, image: data.image };
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }
+  };
   const openModal = (nft) => {
     setSelectedNFT(nft);
   }
@@ -110,7 +123,7 @@ function NFTlist() {
         <div className="grid grid-cols-1 gap-5 font-semibold sm:grid-cols-2 md:grid-cols-4">
         {dataArray?.map((item, index) => (
           <div key={index} className="card flex-1 items-center justify-center border border-base-300 bg-base-100 p-4 m-2">
-            <h3 className="text-2xl font-bold text-primary mb-2">{truncateText(item.name, 20)}</h3>
+          <h3 className="text-2xl font-bold text-primary mb-2">{item?.name ? truncateText(item.name, 20) : 'NFT Name Unavailable'}</h3>
             <div className="mt-4 mb-4">
               <img
                 className="mx-auto"

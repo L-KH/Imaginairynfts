@@ -19,7 +19,7 @@ const { chains, provider } = configureChains(
           symbol: 'ETH',
         },
         rpcUrls: {
-          default: '	https://linea-mainnet.infura.io/v3',
+          default: 'https://linea-mainnet.infura.io/v3/9044f0f3b33d456a8b77274a98cb524d',
         },
       },
       // {
