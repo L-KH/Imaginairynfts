@@ -58,10 +58,11 @@ module.exports = {
           'base-200': '#141a1f',
           'base-300': '#28343e',
         },
-      },
-      'cupcake',
-      'lofi',
-      'cyberpunk',
+      }
+      // ,
+      // 'cupcake',
+      // 'lofi',
+      // 'cyberpunk',
     ],
   },
 

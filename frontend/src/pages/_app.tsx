@@ -9,11 +9,11 @@ import Web3Wrapper from '@/components/Layout/Web3Wrapper'
 import { Analytics } from '@vercel/analytics/react';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // suppress useLayoutEffect warnings when running outside a browser
+  // suppress useLayoutEffect warnings when running outside a browser , 'cupcake', 'lofi', 'cyberpunk'
   if (!typeof window) React.useLayoutEffect = useEffect
 
   return (
-    <ThemeProvider themes={['light', 'dark', 'cupcake', 'lofi', 'cyberpunk']}>
+    <ThemeProvider themes={['light', 'dark']}>
       <Web3Wrapper>
         <Component {...pageProps} />
         <Analytics />

@@ -19,10 +19,10 @@ interface ThemeOption {
 const themes: ThemeOption[] = [
   { name: 'Light', value: 'light', icon: SunIcon },
   { name: 'Dark', value: 'dark', icon: TbMoonStars },
-  { name: 'Cupcake', value: 'cupcake', icon: TbCandy },
-  { name: 'Lofi', value: 'lofi', icon: TbBuildingSkyscraper },
-  { name: 'Cyberpunk', value: 'cyberpunk', icon: TbPacman },
-  { name: 'System', value: 'system', icon: DesktopComputerIcon },
+  // { name: 'Cupcake', value: 'cupcake', icon: TbCandy },
+  // { name: 'Lofi', value: 'lofi', icon: TbBuildingSkyscraper },
+  // { name: 'Cyberpunk', value: 'cyberpunk', icon: TbPacman },
+  // { name: 'System', value: 'system', icon: DesktopComputerIcon },
 ]
 
 const defaultTheme: ThemeOption = themes[0]

@@ -5,6 +5,7 @@ import SidebarContext from '@/context/SidebarContext'
 import { Logo } from '@/components/Sidebar/Logo'
 import SidebarFooter from './SidebarFooter'
 import SidebarNavigation from './SidebarNavigation'
+import SvgBackgroundContainer from '@/components/SvgBackgroundContainer';
 
 export function Sidebar({ children }: any) {
   const sidebarRef = useRef(null)
@@ -15,6 +16,7 @@ export function Sidebar({ children }: any) {
   }
 
   return (
+    <SvgBackgroundContainer>
     <div className="drawer-mobile drawer">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col justify-center">
@@ -43,5 +45,6 @@ export function Sidebar({ children }: any) {
         </div>
       </div>
     </div>
+    </SvgBackgroundContainer>
   )
 }

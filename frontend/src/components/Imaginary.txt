@@ -27,13 +27,13 @@ function App() {
   const [shouldGenerate, setShouldGenerate] = useState(false);
   const [currentChainId, setCurrentChainId] = useState(null);
 
-  useEffect(() => {
-    watchNetwork(handleAccountChange);
-  }, []);
+  // useEffect(() => {
+  //   watchNetwork(handleAccountChange);
+  // }, []);
 
-  const handleAccountChange = (newChain)=> {
-    loadBlockchainData()
-  }
+  // const handleAccountChange = (newChain)=> {
+  //   loadBlockchainData()
+  // }
  
 
   const apiUrlMap = {
