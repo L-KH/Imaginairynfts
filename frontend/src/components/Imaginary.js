@@ -73,7 +73,6 @@ function App() {
         });
       } catch (switchError) {
         console.error(switchError);
-        toast.error('Please connect to the network manually');
         return; 
       }
     }
