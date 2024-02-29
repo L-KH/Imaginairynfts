@@ -18,9 +18,13 @@ function NFTlist() {
     loadBlockchainData();
   }, []);
 
+  const ipfsGateways = ['https://ipfs.io/ipfs/', 'https://cloudflare-ipfs.com/ipfs/', 'https://infura-ipfs.io/ipfs/'];
+
+
   const getImageSrc = (ipfsLink) => {
     const cid = ipfsLink?.replace('ipfs://', '');
-    return `https://ipfs.io/ipfs/${cid}`;
+    const gateway = ipfsGateways[Math.floor(Math.random() * ipfsGateways.length)];
+    return `${gateway}${cid}`;
   };
   const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570, 59144, 8453, 534352]; 
   const loadBlockchainData = async () => {
@@ -83,7 +87,14 @@ function NFTlist() {
       console.log(error)
     }
   };
-  
+  const preloadImage = (src) => {
+    const img = new Image();
+    img.src = src;
+  };
+
+
+
+
   const readNFTData = async (tokenUri) => {
     try {
       // Convert IPFS URL to a web gateway URL
@@ -93,6 +104,7 @@ function NFTlist() {
   
       const response = await axios.get(proxiedUrl);
       const data = response.data;
+      preloadImage(getImageSrc(data.image));
       return { name: data.name, description: data.description, image: data.image };
     } catch (error) {
       console.error('Error fetching data:', error);
