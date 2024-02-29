@@ -32,11 +32,11 @@ function App() {
 
   const openai = new OpenAI({ apiKey: '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', dangerouslyAllowBrowser: true });
 
-  // useEffect(() => {
-  //   watchNetwork((newChain) => loadBlockchainData());
-  // }, []);
+  useEffect(() => {
+    watchNetwork((newChain) => loadBlockchainData());
+  }, []);
  
-  const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/ImaginAIry_NFTs-min.png'; // TODO: Replace with actual logo URL
+  const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'; // TODO: Replace with actual logo URL
   let userFriendlyError = "We encountered an issue generating your image. Would you like to mint a special 'Proof of Mint' logo instead?";
 
   const apiUrlMap = {
@@ -51,7 +51,6 @@ function App() {
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
     'DALLE': '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',
     'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
-    'StarryAI': 'https://starryai.com/api/v1/generate',
 
     };
   const generateRandomSeed = (min, max) => {
@@ -65,29 +64,29 @@ function App() {
   };
   const allowedChains = [534353, 57000, 5, 10, 59140, 167005, 570, 59144, 8453, 534352]; // Add more chain IDs as needed
 
-  // const loadBlockchainData = async () => {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   setProvider(provider);
-  //   const network = await provider.getNetwork();
+  const loadBlockchainData = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    setProvider(provider);
+    const network = await provider.getNetwork();
   
-  //   if (!allowedChains.includes(network.chainId)) {
-  //     const optimismChainId = '0xe708';
-  //     try {
-  //       await window.ethereum.request({
-  //         method: 'wallet_switchEthereumChain',
-  //         params: [{ chainId: optimismChainId }],
-  //       });
-  //     } catch (switchError) {
-  //       console.error(switchError);
-  //       return; 
-  //     }
-  //   }
-  //   const switchedNetwork = await provider.getNetwork();
-  //   const nft = new ethers.Contract(config[switchedNetwork.chainId].nft.address, NFT, provider);
-  //   setNFT(nft);
-  //   setCurrentChainId(switchedNetwork.chainId);
+    if (!allowedChains.includes(network.chainId)) {
+      const optimismChainId = '0xe708';
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: optimismChainId }],
+        });
+      } catch (switchError) {
+        console.error(switchError);
+        return; 
+      }
+    }
+    const switchedNetwork = await provider.getNetwork();
+    const nft = new ethers.Contract(config[switchedNetwork.chainId].nft.address, NFT, provider);
+    setNFT(nft);
+    setCurrentChainId(switchedNetwork.chainId);
 
-  // };
+  };
 
 
 // newwwwwwwwwwwwwwwwwwwwwwwwww
@@ -120,41 +119,7 @@ const createImageWithDALLE = async (prompt) => {
   }
 };
 // ------------------------------ neew diff -----------------------------
-const createImageWithStarryAI = async (prompt) => {
-  try {
-    setMessage("Generating Image...");
 
-    const STARAI_API_ENDPOINT = "https://starryai.com/api/v1/generate"; // Placeholder, replace with actual endpoint
-    const API_KEY = "lRmRsMmuPAKvmy-71RWRF4PCOPuhGw"; // Replace with your actual StarryAI API key
-
-    const response = await axios.post(STARAI_API_ENDPOINT, {
-      // Adjust these parameters based on the StarryAI API documentation
-      prompt: prompt,
-      // Include any other required parameters
-    }, {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    // Assuming the API returns a URL to the generated image in a property named 'output_url'
-    if (response.data && response.data.output_url) {
-      setImage(response.data.output_url); // Display the image
-      setMessage(""); // Clear the message once the image is set
-    } else {
-      throw new Error('Image URL not found in response');
-    }
-  } catch (error) {
-    console.error("Error generating image with StarryAI:", error);
-    setImage(logoUrl); // Use a fallback image in case of error
-    toast.error("Failed to generate image with StarryAI. Please try again.", {
-      closeButton: true,
-    });
-  } finally {
-    setIsWaiting(false); // Ensure this is set to false to stop showing "Generating Image..."
-  }
-};
 
 // ----------------------------- neew diff ----------------------------
 const createImageWithStableDiffusion = async (prompt) => {
@@ -198,10 +163,6 @@ const createImageWithStableDiffusion = async (prompt) => {
     setIsWaiting(true);
     // Update the seed value
     setSeed(generateRandomSeed(1, 1000000));
-    if (selectedModel === 'StarryAI') { // Replace with the actual model name you're using
-      const image_url = await createImageWithStarryAI(prompt);
-      setImageData(image_url);
-    } else {
         if (selectedModel === 'STABLE_DIFFUSION_MODEL_NAME') { // Replace with the actual model name you're using
           const image_url = await createImageWithStableDiffusion(prompt);
           setImageData(image_url);
@@ -217,7 +178,7 @@ const createImageWithStableDiffusion = async (prompt) => {
             }}
     setIsWaiting(false);
     setShowMintButton(true);
-    }
+    
   };
 
 
@@ -439,16 +400,14 @@ const mintFallbackLogo = async () => {
       <option value="stable-diffusion-2-1">Stable Diffusion 2.1</option>
       <option value="stable-diffusion-v1-5">Stable Diffusion v1.5</option>
       <option value="stable-diffusion-v1-4">Stable Diffusion v1.4</option>
-      <option value="openjourney">openjourney</option>
+      {/* <option value="openjourney">openjourney</option> */}
       <option value="openjourney V4">openjourney V4</option>
       <option value="Realistic Vision">Realistic Vision</option>
       <option value="anything-v5.0">anything V5.0</option>
-      <option value="Pokemon Diffusers">Pokemon Diffusers</option>
-      <option value="Dungeons-and-Diffusion">Dungeons and Diffusion</option>
+      {/* <option value="Pokemon Diffusers">Pokemon Diffusers</option>
+      <option value="Dungeons-and-Diffusion">Dungeons and Diffusion</option> */}
       <option value="DALLE">DALLE</option>
-      <option value="STABLE_DIFFUSION_MODEL_NAME">STABLE_DIFFUSION</option>
-      StarryAI
-      <option value="StarryAI">StarryAI</option>
+      <option value="STABLE_DIFFUSION_MODEL_NAME">StabilityAI</option>
 
     </select>
   </div>
