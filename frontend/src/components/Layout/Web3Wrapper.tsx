@@ -22,6 +22,19 @@ const { chains, provider } = configureChains(
           default: 'https://linea-mainnet.infura.io/v3/9044f0f3b33d456a8b77274a98cb524d',
         },
       },
+      {
+        id: 59140,
+        name: 'Linea TestNet',
+        network: 'Linea TestNet',
+        nativeCurrency: {
+          decimals: 18,
+          name: 'Linea TestNet',
+          symbol: 'ETH',
+        },
+        rpcUrls: {
+          default: 'https://rpc.goerli.linea.build',
+        },
+      },
       // {
       //   id: 570,
       //   name: 'Rollux Mainnet',
