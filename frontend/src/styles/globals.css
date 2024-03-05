@@ -1,8 +1,7 @@
-@import './fonts.css';
-
 @tailwind base;
-
 @tailwind components;
+@tailwind utilities;
+@import './fonts.css';
 
 .menu[class*=' p-'] li > *,
 .menu[class^='p-'] li > * {
@@ -26,5 +25,3 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--p));
 }
-
-@tailwind utilities;
