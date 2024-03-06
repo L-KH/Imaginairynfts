@@ -23,7 +23,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex-grow items-center justify-center py-10 px-20 text-center">
-        <Imaginary/>
+        <Imaginary />
       </main>
     </Layout>
   )
