@@ -9,7 +9,7 @@ export function Logo(props: any) {
         {/* <div className="flex">
           <TbPacman className="h-14 w-14 text-secondary"></TbPacman>
         </div> */}
-          <Image src={logo} className='h-10 w-10 text-secondary' />
+          <Image src={logo} alt="ImaginAIryNFTs Logo" />
         
         <div className="flex nav__brand">
           <h1>ImaginAIryNFTs</h1>

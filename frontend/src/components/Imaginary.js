@@ -32,9 +32,9 @@ function App() {
 
   const openai = new OpenAI({ apiKey: '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', dangerouslyAllowBrowser: true });
 
-  useEffect(() => {
-    watchNetwork((newChain) => loadBlockchainData());
-  }, []);
+  // useEffect(() => {
+  //   watchNetwork((newChain) => loadBlockchainData());
+  // }, []);
  
   const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'; // TODO: Replace with actual logo URL
   let userFriendlyError = "We encountered an issue generating your image. Would you like to mint a special 'Proof of Mint' logo instead?";
