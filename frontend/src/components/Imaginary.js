@@ -32,9 +32,9 @@ function App() {
 
   const openai = new OpenAI({ apiKey: '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', dangerouslyAllowBrowser: true });
 
-  useEffect(() => {
-    watchNetwork((newChain) => loadBlockchainData());
-  }, []);
+  // useEffect(() => {
+  //   watchNetwork((newChain) => loadBlockchainData());
+  // }, []);
  
   const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'; // TODO: Replace with actual logo URL
   let userFriendlyError = "We encountered an issue generating your image. Would you like to mint a special 'Proof of Mint' logo instead?";
@@ -406,8 +406,8 @@ const mintFallbackLogo = async () => {
       <option value="anything-v5.0">anything V5.0</option>
       {/* <option value="Pokemon Diffusers">Pokemon Diffusers</option>
       <option value="Dungeons-and-Diffusion">Dungeons and Diffusion</option> */}
-      {/* <option value="DALLE">DALLE</option>
-      <option value="STABLE_DIFFUSION_MODEL_NAME">StabilityAI</option> */}
+      <option value="DALLE">DALLE</option>
+      <option value="STABLE_DIFFUSION_MODEL_NAME">StabilityAI</option>
 
     </select>
   </div>
