@@ -406,8 +406,8 @@ const mintFallbackLogo = async () => {
       <option value="anything-v5.0">anything V5.0</option>
       {/* <option value="Pokemon Diffusers">Pokemon Diffusers</option>
       <option value="Dungeons-and-Diffusion">Dungeons and Diffusion</option> */}
-      {/* <option value="DALLE">DALLE</option>
-      <option value="STABLE_DIFFUSION_MODEL_NAME">StabilityAI</option> */}
+      <option value="DALLE">DALLE</option>
+      <option value="STABLE_DIFFUSION_MODEL_NAME">StabilityAI</option>
 
     </select>
   </div>
