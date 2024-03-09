@@ -51,7 +51,7 @@ function App() {
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
     'DALLE': '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',
     'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
-
+ 
     };
   const generateRandomSeed = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -206,7 +206,7 @@ const createImageWithStableDiffusion = async (prompt) => {
   };
   
 
-  const uploadFallbackImage = async (imageUrl) => {
+const uploadFallbackImage = async (imageUrl) => {
     setMessage("Uploading Fallback Image...");
     
     try {
@@ -243,7 +243,7 @@ const createImageWithStableDiffusion = async (prompt) => {
 
 
 
-  const createImage = async (apiUrl, seed) => {
+const createImage = async (apiUrl, seed) => {
     try {
       setMessage("Generating Image...");
       const response = await axios({
