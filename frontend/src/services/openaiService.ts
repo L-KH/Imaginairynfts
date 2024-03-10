@@ -88,7 +88,8 @@ export const createImageWithDALLE = async (prompt: string) => {
     } 
   };
 
-export const createImage = async (apiUrl: string, seed: string) => {
+export const createImage = async (apiUrl: string, prompt: string) => {
+  const seed = generateRandomSeed(0, 1000)
     try {
       const response = await axios({
         url: apiUrl,
