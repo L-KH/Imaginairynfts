@@ -26,6 +26,7 @@ import {
 
 
 
+
 const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
   const { handleMint} = useMint();
@@ -54,7 +55,7 @@ const MintPage = () => {
 
   const handleGenerateImage = async () => {
     const data = await createImage(apiUrl, prompt)
-    if(data){
+    if(data !== null && data !== undefined){
       setImage(data?.image)
     } else{
       setIsFaild(true)
@@ -99,48 +100,48 @@ const MintPage = () => {
    };
 
   return (
-    <div className={"pt-20 md:px-20 px-8"}>
+    <div className={"pt-10 md:px-10 px-2"}>
 
 
       <div className="flex flex-col gap-16 pt-10 pb-10">
-        {address ?
+
           <div>
             <div className="flex flex-col md:flex-row items-center justify-center  p-4">
               {true && (
-                <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-400 shadow-lg rounded-lg overflow-hidden" style={{ width: '256px', height: '256px' }}>
-                  <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="object-cover rounded-lg" />
-                </div>
+                <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-300 shadow-lg rounded-lg overflow-hidden w-full max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl">
+                <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg" />
+              </div>
               )}
 
-              <div className="flex flex-col items-center w-full max-w-md">
-                <div className="p-6 bg-white shadow-md rounded-lg">
+              <div className="flex flex-col items-center w-full max-w-md ">
+                <div className="p-6 bg-white/50 backdrop-blur-sm rounded-lg md:backdrop-blur-md lg:backdrop-blur-lg">
                 <div className="mb-4">
                   <label htmlFor="model-select" className="block text-sm font-medium text-gray-700">Choose AI Model</label>
-                  <select
+                  <select 
                     id="model-select"
                     value={selectedModel}
                     onChange={(e) => changeModel(e.target.value)}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm"
+                    className="mt-1 block w-full pl-3 cursor-pointer focus:outline-none  pr-10 py-2 text-base select select-bordered sm:text-sm rounded-md shadow-sm"
                   >
                     {Object.entries(apiUrlMap).map(([modelKey, modelUrl]) => (
                       // Excluding options based on condition if needed, otherwise just render the option
-                      <option key={modelKey} value={modelKey}>{modelKey.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase())}</option>
+                        <option key={modelKey} value={modelKey}>{modelKey.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase())}</option>
                     ))}
                   </select>
                 </div>
 
                   <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter image name" />
+                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 block w-full rounded-md input input-bordered max-w-xs" placeholder="Enter image name" />
                   </div>
                   <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">NFT description</label>
-                    <input type="text" id="name" value={description} onChange={(e) => setDescription(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="NFT description" />
+                    <input type="text" id="name" value={description} onChange={(e) => setDescription(e.target.value)} className="mt-1 block w-full rounded-md input input-bordered max-w-xs" placeholder="NFT description" />
                   </div>
 
                   <div className="mb-4">
                     <label htmlFor="prompt" className="block text-sm font-medium text-gray-700">Prompt</label>
-                    <textarea id="prompt" value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={4} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter prompt or generate using AI"></textarea>
+                    <textarea id="prompt" value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={4} className="mt-1 textarea textarea-bordered w-full rounded-md sm:text-sm" placeholder="Enter prompt or generate using AI"></textarea>
                   </div>
 
                   <div className="flex space-x-4 mb-4">
@@ -207,7 +208,7 @@ const MintPage = () => {
 
 
 
-          : <div><WalletConnecting className="flex content-center gap-4" BtnClassName="" /></div>}
+
       </div>
     </div>
   );

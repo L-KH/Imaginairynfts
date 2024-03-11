@@ -460,7 +460,6 @@ const mintFallbackLogo = async () => {
             </div>
           ) : isWaiting ? (
             <div className="image__placeholder">
-              {/* <Spinner animation="border" /> */}
               <p>{message}</p>
             </div>
           ) : (
@@ -503,16 +502,6 @@ const mintFallbackLogo = async () => {
     </div>
   </div>
 )}
-
-{/* <footer className="card flex-1 items-center justify-center border border-base-300 bg-base-100" >
-      <p className="text-center text-base-content">
-      💖 Enjoying our work? Show some love and support our future projects by contributing to :
-        <br/>
-        <a href="https://optimistic.etherscan.io/address/0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19" target="_blank" rel="noopener noreferrer">
-          <b>0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19</b>
-        </a>
-      </p>
-    </footer> */}
     <ToastContainer />
 
     </div>
