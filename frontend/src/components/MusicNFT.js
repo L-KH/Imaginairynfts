@@ -49,17 +49,17 @@ const createMusic = async () => {
   try {
     setMessage("Generating Music...");
 
+    // Correct the data structure to match server expectations
     const data = {
-      description: {input: description},
-      numberOfTunes: 1,
-      maxLength: 500,
-      topP: 0.9,
+      text_description: description, // Assuming 'description' holds the music description text
+      max_length: 500,
+      top_p: 0.9,
       temperature: 1.0,
-      seed: "1234"
-    }
+      // Assuming the server expects a numeric seed, if it's utilized
+      seed: 1234 // Removed quotes to make it a number, adjust based on server expectations
+    };
     
-    const response = await fetch('https://18.206.89.84:5000/generate_music', {
-    //const response = await fetch('https://api.imaginairynfts.com/generate_music', {
+    const response = await fetch('http://144.91.123.87:5000/generate_music', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -70,24 +70,28 @@ const createMusic = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
-      let musicData = await response.text();
+      // Assuming the server returns an object with a 'generated_music' property
+      const jsonResponse = await response.json(); // Corrected to parse JSON from response
+      let musicData = jsonResponse.generated_music; // Access the music data from the JSON response
+      // Assuming 'beautify' and 'setMusicData' are defined elsewhere correctly
       musicData = beautify(musicData, { indent_size: 2, space_in_empty_paren: true });
       setMusicData(musicData);
   
-  if (musicData) {
-    var visualObj = abcjs.renderAbc(musicDiv.current, musicData, {add_classes: true, responsive: "resize"})[0];
-    
-    var synth = new abcjs.synth.CreateSynth();
-    await synth.init({ visualObj: visualObj });
-    await synth.prime();
+      if (musicData) {
+        // Assuming 'musicDiv', 'abcjs', and related variables are correctly defined elsewhere
+        var visualObj = abcjs.renderAbc(musicDiv.current, musicData, {add_classes: true, responsive: "resize"})[0];
+        
+        var synth = new abcjs.synth.CreateSynth();
+        await synth.init({ visualObj: visualObj });
+        await synth.prime();
 
-    // To start the playback
-    synth.start();
-    abcjs.startAnimation(musicDiv.current, visualObj, { showCursor: true });
-  }
+        // To start the playback
+        synth.start();
+        abcjs.startAnimation(musicDiv.current, visualObj, { showCursor: true });
+      }
 
-  return musicData;
-}
+      return musicData;
+    }
   } catch (error) {
     console.error(`Fetch failed: ${error}`);
   }
