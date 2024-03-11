@@ -59,7 +59,7 @@ const createMusic = async () => {
       seed: 1234 // Removed quotes to make it a number, adjust based on server expectations
     };
     
-    const response = await fetch('http://144.91.123.87:5000/generate_music', {
+    const response = await fetch('https://f7e3-144-91-123-87.ngrok-free.app/generate_music', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
