@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Spinner } from "@material-tailwind/react";
+import { Spinner, useTabs } from "@material-tailwind/react";
 import Image from "next/image";
 import Modal from "@/components/extras/Modal";
 import { useAccount, useBalance, useBlockNumber} from "wagmi";
@@ -8,7 +8,7 @@ import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
 import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage } from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
-import { queryClient } from '@/components/Layout/Web3Wrapper'
+import { useQueryClient } from '@tanstack/react-query' 
 import {
   IconLoading,
   IconCheck,
@@ -22,15 +22,14 @@ import {
   TransactionSuccess,
 } from "@/components/extras/TransactionStatus";
 import { formatEther } from "viem";
+import { config } from '@/components/Layout/Web3Wrapper'
 
 
 
 
 const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
-  const { data: balance, queryKey } = useBalance()
-  const { data: blockNumber } = useBlockNumber({ watch: true }) 
-console.log(address, isConnecting, isDisconnected, "address")
+ 
   const { handleMint} = useMint();
   const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'
   const [open, setOpen] = useState<boolean>(false);
@@ -50,11 +49,21 @@ console.log(address, isConnecting, isDisconnected, "address")
   const [apiUrl, setApiUrl] = useState(apiUrlMap['openjourney V4']);
   const [image, setImage] = useState(logoUrl)
   const [description, setDescription] = useState("")
+  const [account, setAcount] = useState<`0x${string}`>('0x')
+  const { data: balance, queryKey } = useBalance({address: account})
+  const queryClient = useQueryClient()
+  const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
-
+  
   useEffect(() => { 
     queryClient.invalidateQueries({ queryKey }) 
   }, [blockNumber])
+  useEffect(() => { 
+    if(address){
+      setAcount(address)
+    }
+    
+  }, [address])
 
 
   const handleGeneratePrompt = async () => {
