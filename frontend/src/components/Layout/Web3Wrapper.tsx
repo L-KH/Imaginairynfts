@@ -40,7 +40,7 @@ const Web3Wrapper = ({ children }: any) => {
     <WagmiProvider config={config}> 
     
     <QueryClientProvider client={queryClient}>
-    <RainbowKitProvider chains={[mainnet, linea, lineaTestnet]}>
+    <RainbowKitProvider>
       <div>{children}</div>
       </RainbowKitProvider>
     </QueryClientProvider>
