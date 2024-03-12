@@ -25,7 +25,7 @@ const Modal = ({id, children, className, open, setOpen}: IModal) => {
                 <div className="modal-box rounded-none max-h-none bg-gray-800">
                     {children}
                 </div>
-                <label className="modal-backdrop" htmlFor={id} onClick={() => setOpen(false)}>Close</label>
+                <label className="modal-backdrop" htmlFor={id} onClick={() => setOpen(false)}></label>
             </div>
         </>
     );

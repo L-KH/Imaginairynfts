@@ -12,8 +12,6 @@ const openai = new OpenAI({ apiKey: OPENAI_API_KEY, dangerouslyAllowBrowser: tru
 
 
 export const getMagicPrompt = async (name: string) => {
-
-  
     try {
       const response = await fetch(
         "https://api-inference.huggingface.co/models/Gustavosta/MagicPrompt-Stable-Diffusion",
@@ -25,11 +23,11 @@ export const getMagicPrompt = async (name: string) => {
       );
   
       if (!response.ok) {
-        throw new Error(`API call failed with status code ${response.status}`);
+        return "Failed to generate prompt: Unexpected response format.";
       }
   
       const result = await response.json();
-  
+      console.log(result)
       if (Array.isArray(result) && result[0]?.generated_text) {
         return result[0].generated_text;
       } else if (result?.generated_text) {

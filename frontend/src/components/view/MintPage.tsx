@@ -1,16 +1,14 @@
 "use client";
-import React, { memo, useState } from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "@material-tailwind/react";
 import Image from "next/image";
 import Modal from "@/components/extras/Modal";
-import styles from "@/components/assets/styles/css/mintPage.module.css";
-import { useAccount,  } from "wagmi";
+import { useAccount, useBalance, useBlockNumber} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
-import { WalletConnecting } from "@/components/extras/WalletConnecting";
-import logo from '@/components/assets/logo-bg.png'
 import { apiUrlMap, addresses } from '@/constants/config';
 import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage } from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
+import { queryClient } from '@/components/Layout/Web3Wrapper'
 import {
   IconLoading,
   IconCheck,
@@ -23,21 +21,25 @@ import {
   TransactionFail,
   TransactionSuccess,
 } from "@/components/extras/TransactionStatus";
+import { formatEther } from "viem";
 
 
 
 
 const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
-
+  const { data: balance, queryKey } = useBalance()
+  const { data: blockNumber } = useBlockNumber({ watch: true }) 
+console.log(address, isConnecting, isDisconnected, "address")
   const { handleMint} = useMint();
   const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'
   const [open, setOpen] = useState<boolean>(false);
   const [txError, setTxError] = useState<boolean>(false)
   const [IsLoading, setIsLoading] = useState<boolean>(false)
   const [IsLoadingMint, setIsLoadingMint] = useState<boolean>(false)
+  const [IsLoadingPrompt, setIsLoadingPrompt] = useState<boolean>(false)
   const [IsLoadingUpload, setIsLoadingUpload] = useState<boolean>(false)
-  const [IsConfirmedTx, setIsConfirmedTx] = useState<string>('success')
+  const [IsConfirmedTx, setIsConfirmedTx] = useState<string>('loading')
   const [errorMsg, setErrorMsg] = useState('');
   const [isFaild, setIsFaild] = useState(false);
   const [txHash, setTxHash] = useState('');
@@ -49,9 +51,17 @@ const MintPage = () => {
   const [image, setImage] = useState(logoUrl)
   const [description, setDescription] = useState("")
 
+
+  useEffect(() => { 
+    queryClient.invalidateQueries({ queryKey }) 
+  }, [blockNumber])
+
+
   const handleGeneratePrompt = async () => {
+    setIsLoadingPrompt(true)
     const generate = await getMagicPrompt(prompt)
     setPrompt(generate);
+    setIsLoadingPrompt(false)
   };
 
   const handleGenerateImage = async () => {
@@ -78,8 +88,14 @@ const MintPage = () => {
       setIsConfirmedTx('loading')
       const url = image === logoUrl ? await uploadFallbackImage(logoUrl) : await uploadImage(image, name, description);
       setIsLoadingUpload(false)
-      const hash =  handleMint(url)
+      const hash = await handleMint(url)
+      if (!hash) throw new Error("Failed to approve token A");
+      setTxHash(hash)
+      setIsLoadingMint(true)
       console.log(hash,url,  'tx hash & uri');
+      setTimeout(() => {
+        setOpen(false);
+      }, 5000);
     } catch (error) {
       console.log('error stake NFT ', error);
       if (error instanceof Error) {
@@ -113,7 +129,17 @@ const MintPage = () => {
             <div className="flex flex-col md:flex-row items-center justify-center  p-4">
               {true && (
                 <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-300 shadow-lg rounded-lg overflow-hidden w-full max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl">
+                {IsLoading ? 
+                <div className="relative  items-center block "> 
+                  <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg opacity-40" />
+                  <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                  <Spinner className="h-10 w-10 text-sky-900/50 animate-spin " />
+                  </div>
+                </div>
+               
+                : 
                 <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg" />
+                }
               </div>
               )}
 
@@ -148,12 +174,30 @@ const MintPage = () => {
                     <textarea id="prompt" value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={4} className="mt-1 textarea textarea-bordered w-full rounded-md sm:text-sm" placeholder="Enter prompt or generate using AI"></textarea>
                   </div>
 
-                  <div className="flex space-x-4 mb-4">
+                  <div className="mb-4 grid grid-cols-2 gap-2 ">
+                    {IsLoadingPrompt ? 
+                    <button disabled={true} className="px-4 py-2 w-full flex items-center justify-center text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                      <Spinner className="h-4 w-4 text-gray-400/50 animate-spin " />
+                      </button>
+                    :
                     <button onClick={handleGeneratePrompt} className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Generate Prompt</button>
+                    }
+                    {IsLoading ? 
+                    <button disabled={true} className="px-4 py-2 w-full flex items-center justify-center text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                      <Spinner className="h-4 w-4 text-gray-400/50 animate-spin " />
+                      </button>
+                    :
                     <button onClick={handleGenerateImage} className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Generate Image</button>
+                    }
                   </div>
 
-                  <button onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Mint Image</button>
+                  <button disabled={isDisconnected && formatEther(balance?.value || BigInt(0))> '0.001'} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    {isDisconnected? <span>Connect Your Wallet</span>:
+                    (formatEther(balance?.value || BigInt(0))< '0.001' ? 
+                    <span>insufficient balnce </span>: <span>Mint NFT</span>
+                    )
+                    
+                    }</button>
                   
                 </div>
               </div>
@@ -186,16 +230,34 @@ const MintPage = () => {
           <>
             <div className="w-full flex border flex-wrap  ">
               <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                <span>Upload Image to IPFS </span>
-                {IsLoadingUpload ? <IconLoading /> : !txError ? (
+                <div className="text-center inline-flex items-center">
+                
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-4 h-4 me-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+                    />
+                  </svg>
+                  <span className="font-medium text-sm">Upload Image to IPFS </span>
+                </div>
+                
+                {IsLoadingUpload ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
                   <IconCheck />
                 ) : (
                   <IconError />
                 )}
               </div>
               <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                <span>Mint NFT </span>
-                {IsLoadingMint ? <IconLoading /> : !txError ? (
+              <span className="font-medium text-sm"> Mint NFT </span>
+                {IsLoadingMint ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
                   <IconCheck />
                 ) : (
                   <IconError />

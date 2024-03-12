@@ -1,18 +1,39 @@
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createConfig ,cookieStorage, WagmiProvider, createStorage  } from 'wagmi'
 import { createClient, http } from 'viem' 
 import { mainnet, linea, lineaTestnet } from 'wagmi/chains'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
-import { injected } from 'wagmi/connectors';
+import { injected, walletConnect, coinbaseWallet  } from 'wagmi/connectors';
 import { daisyTheme } from '@/utils/rainbowUtils'
+import {
+  injectedWallet,
+  rabbyWallet,
+  rainbowWallet,
+  metaMaskWallet,
+  walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+
+
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: 'Recommended',
+      wallets: [metaMaskWallet, rainbowWallet, walletConnectWallet, rabbyWallet, injectedWallet],
+    },
+  ],
+  {
+    appName: 'Imaginairy NFTs',
+    projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
+  }
+)
+
 
 export const config = createConfig({
   // appName: 'RainbowKit demo',
   // projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
-  chains: [mainnet, linea, lineaTestnet],
+  chains: [linea, lineaTestnet],
   transports: {
-    [mainnet.id]: http(),
     [linea.id]: http(),
     [lineaTestnet.id]: http(),
   },
@@ -21,17 +42,10 @@ export const config = createConfig({
     storage: cookieStorage,
   }),
 
-  connectors: [injected()],
+  connectors: connectors,
 })
-const rainbowConfig = getDefaultConfig({
-  appName: 'RainbowKit demo',
-  projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
-  chains: [mainnet, linea, lineaTestnet],
-  transports: {
-    [mainnet.id]: http(),
-  },
-})
-const queryClient = new QueryClient()
+
+export const queryClient = new QueryClient()
 
 const theme = daisyTheme()
 

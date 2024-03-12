@@ -10,7 +10,6 @@ import { config } from '@/components/Layout/Web3Wrapper'
 export const useMint = () => {
   const account = useAccount();
   
-  console.log(account, useAccount().isConnected , 'is contracted account')
   const handleMint = async (tokenURI: string) => {
     const chainId = account.chain?.id;
     if (!chainId || !addresses[chainId]?.nft?.address) {
@@ -30,7 +29,7 @@ export const useMint = () => {
   
       return result;
     } catch (error) {
-      return error
+      console.log(error)
     }
     
   };
