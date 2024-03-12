@@ -1,5 +1,4 @@
 import { IconFair, IconSuccess } from "@/components/icons"
-import styles from "@/components/assets/styles/css/mintPage.module.css";
 import { useAccount } from "wagmi";
 
 
@@ -30,7 +29,7 @@ export const TransactionSuccess = ({
         </div>
         {txid && <div className="my-5 w-full flex flex-wrap justify-center">
           <button
-            className={`mt-14 md:mt-0 bg-transparent    text-blue-600 rounded-none min-h-0 h-10 px-5 pt-3.5 pb-3.5 w-full ${styles.add_remove_liquidity_btn}`}
+            className={`mt-14 md:mt-0 bg-transparent    text-blue-600 rounded-none min-h-0 h-10 px-5 pt-3.5 pb-3.5 w-full `}
             onClick={() => jumpToExplorer((txid + '?format=0x') || "")}
           >
             View on Block Explorer

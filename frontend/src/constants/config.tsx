@@ -6,7 +6,7 @@ type Config = {
     };
 };
 
-export const config: Config ={
+export const addresses: Config ={
     "5": {
         "nft": {
             "address": "0x428898967a7fC5CD9B362236c0849DBf51add007"

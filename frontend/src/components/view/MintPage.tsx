@@ -4,11 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import Modal from "@/components/extras/Modal";
 import styles from "@/components/assets/styles/css/mintPage.module.css";
-import { useAccount } from "wagmi";
+import { useAccount,  } from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { WalletConnecting } from "@/components/extras/WalletConnecting";
 import logo from '@/components/assets/logo-bg.png'
-import { apiUrlMap } from '@/constants/config';
+import { apiUrlMap, addresses } from '@/constants/config';
 import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage } from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import {
@@ -29,6 +29,7 @@ import {
 
 const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
+
   const { handleMint} = useMint();
   const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'
   const [open, setOpen] = useState<boolean>(false);
@@ -36,7 +37,7 @@ const MintPage = () => {
   const [IsLoading, setIsLoading] = useState<boolean>(false)
   const [IsLoadingMint, setIsLoadingMint] = useState<boolean>(false)
   const [IsLoadingUpload, setIsLoadingUpload] = useState<boolean>(false)
-  const [IsConfirmedTx, setIsConfirmedTx] = useState<string>('')
+  const [IsConfirmedTx, setIsConfirmedTx] = useState<string>('success')
   const [errorMsg, setErrorMsg] = useState('');
   const [isFaild, setIsFaild] = useState(false);
   const [txHash, setTxHash] = useState('');
@@ -54,17 +55,20 @@ const MintPage = () => {
   };
 
   const handleGenerateImage = async () => {
-    const data = await createImage(apiUrl, prompt)
+    try {
+      setIsLoading(true)
+      const data = await createImage(apiUrl, prompt)
     if(data !== null && data !== undefined){
       setImage(data?.image)
     } else{
       setIsFaild(true)
       setImage(logoUrl)
     }
-    
-    console.log(data, 'Generating image...');
-    // Set the generatedImage state to a URL of the generated image (replace with your actual image generation logic)
-    setGeneratedImage('https://via.placeholder.com/150');
+    setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
   };
 
   const handleMintImage = async () => {
@@ -150,51 +154,7 @@ const MintPage = () => {
                   </div>
 
                   <button onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Mint Image</button>
-                  <Modal
-                          id={"StakeNFT"}
-                          className={"w-full"}
-                          open={open}
-                          setOpen={() => setOpen(false)}
-                        >
-
-                         
-                          <div
-                            className="mt-5 flex p-3 flex-wrap w-full"
-                            onClick={() => setOpen(false)}
-                          >
-                            {IsConfirmedTx === "loading" ? (
-                              <>
-                                <div className="w-full flex border flex-wrap  ">
-                                  <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                                    <span>Upload Image to IPFS </span>
-                                    {IsLoadingUpload ? <IconLoading /> : !txError ? (
-                                      <IconCheck />
-                                    ) : (
-                                      <IconError />
-                                    )}
-                                  </div>
-                                  <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                                    <span>Mint NFT </span>
-                                    {IsLoadingMint ? <IconLoading /> : !txError ? (
-                                      <IconCheck />
-                                    ) : (
-                                      <IconError />
-                                    )}
-                                  </div>
-
-                                </div>
-                              </>
-                            ) : IsConfirmedTx === "success" ? (
-                              <TransactionSuccess
-                                title={"Mint successful"}
-                                describe={`Your unique AI-generated image is now successful minted`}
-                                txid={txHash}
-                              />
-                            ) : (
-                              <TransactionFail msg={errorMsg} />
-                            )}
-                          </div>
-                        </Modal>
+                  
                 </div>
               </div>
             </div>
@@ -210,6 +170,51 @@ const MintPage = () => {
 
 
       </div>
+    <Modal
+      id={"mint"}
+      className={"w-full"}
+      open={open}
+      setOpen={() => setOpen(false)}
+      >
+
+
+      <div
+        className="mt-5 flex p-3 flex-wrap w-full"
+        onClick={() => setOpen(false)}
+      >
+        {IsConfirmedTx === "loading" ? (
+          <>
+            <div className="w-full flex border flex-wrap  ">
+              <div className="w-full  border-b flex items-center py-4 justify-between px-3">
+                <span>Upload Image to IPFS </span>
+                {IsLoadingUpload ? <IconLoading /> : !txError ? (
+                  <IconCheck />
+                ) : (
+                  <IconError />
+                )}
+              </div>
+              <div className="w-full  border-b flex items-center py-4 justify-between px-3">
+                <span>Mint NFT </span>
+                {IsLoadingMint ? <IconLoading /> : !txError ? (
+                  <IconCheck />
+                ) : (
+                  <IconError />
+                )}
+              </div>
+
+            </div>
+          </>
+        ) : IsConfirmedTx === "success" ? (
+          <TransactionSuccess
+            title={"Mint successful"}
+            describe={`Your unique AI-generated image is now successful minted`}
+            txid={txHash}
+          />
+        ) : (
+          <TransactionFail msg={errorMsg} />
+        )}
+      </div>
+      </Modal>
     </div>
   );
 

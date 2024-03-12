@@ -1,4 +1,3 @@
-import styles from "@/components/assets/styles/css/mintPage.module.css";
 import Image from "next/image";
 import { useAccount } from 'wagmi'
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -21,7 +20,7 @@ export const WalletConnecting = ({className,BtnClassName}:{className?:string, Bt
             width={25}
             height={25}
           />
-          <div className={styles.content} style={{ color: "#FF9D00" }}>
+          <div className={'text-ellipsis font-serif '} style={{ color: "#FF9D00" }}>
             Please connect your wallet first
           </div>
         </div>
