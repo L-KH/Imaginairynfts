@@ -54,7 +54,7 @@ const MintPage = () => {
   const queryClient = useQueryClient()
   const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
-  
+
   useEffect(() => { 
     queryClient.invalidateQueries({ queryKey }) 
   }, [blockNumber])
@@ -102,6 +102,7 @@ const MintPage = () => {
       setTxHash(hash)
       setIsLoadingMint(true)
       console.log(hash,url,  'tx hash & uri');
+      setIsConfirmedTx('success')
       setTimeout(() => {
         setOpen(false);
       }, 5000);
@@ -202,7 +203,7 @@ const MintPage = () => {
 
                   <button disabled={isDisconnected && formatEther(balance?.value || BigInt(0))> '0.001'} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
                     {isDisconnected? <span>Connect Your Wallet</span>:
-                    (formatEther(balance?.value || BigInt(0))< '0.001' ? 
+                    (parseFloat(formatEther(balance?.value || BigInt(0))) < 0.001 ? 
                     <span>insufficient balnce </span>: <span>Mint NFT</span>
                     )
                     
