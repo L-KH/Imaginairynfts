@@ -32,7 +32,7 @@ export const uploadFallbackImage = async (imageUrl: string) => {
   const pinataApiKey = '1360d97c1d3ff7d0bc15';
   const pinataSecretApiKey = 'aacd9933fff760aecc9d5bcd58345962baf43c1889b42b80ba9dde4e5f7e90d8';
 
-function base64ToBlob(base64, contentType) {
+  function base64ToBlob(base64: string, contentType: string): Blob {
     const byteCharacters = atob(base64.replace(/^data:image\/(jpeg|png|gif|bmp);base64,/, ''));
     const byteArrays = [];
 
@@ -50,35 +50,37 @@ function base64ToBlob(base64, contentType) {
     return blob;
 }
 
-const uploadToPinata = async (file, fileName, pinataApiKey, pinataSecretApiKey) => {
-    const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+const uploadToPinata = async (file: Blob | File, fileName: string, pinataApiKey: string, pinataSecretApiKey: string): Promise<string> => {
+  const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
     let formData = new FormData();
     formData.append('file', file, fileName);
 
     const response = await axios.post(url, formData, {
-        maxBodyLength: 'Infinity',
-        headers: {
-            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-            'pinata_api_key': pinataApiKey,
-            'pinata_secret_api_key': pinataSecretApiKey,
-        },
-    });
+      maxBodyLength: Infinity,
+      headers: {
+          'pinata_api_key': pinataApiKey,
+          'pinata_secret_api_key': pinataSecretApiKey,
+      },
+  });
+  
 
     return response.data.IpfsHash;
 };
 
-export const uploadImage = async (imageData, name, description) => {
-    const pinataApiKey = '1360d97c1d3ff7d0bc15';
+export const uploadImage = async (imageData: string | Blob, name: string, description: string): Promise<string> => {
+  const pinataApiKey = '1360d97c1d3ff7d0bc15';
     const pinataSecretApiKey = 'aacd9933fff760aecc9d5bcd58345962baf43c1889b42b80ba9dde4e5f7e90d8';
 
     // Convert base64 to Blob if imageData is in base64 format
     let imageBlob;
-    if (imageData.startsWith('data:image')) {
-        imageBlob = base64ToBlob(imageData, 'image/jpeg');
-    } else {
-        // Assuming imageData is already a Blob or binary data
-        imageBlob = new Blob([imageData], { type: 'image/jpeg' });
-    }
+    if (typeof imageData === 'string' && imageData.startsWith('data:image')) {
+      imageBlob = base64ToBlob(imageData, 'image/jpeg');
+      } else if (imageData instanceof Blob) {
+          // Assuming imageData is already a Blob or binary data
+          imageBlob = imageData;
+      } else {
+          throw new Error('Invalid imageData type');
+      }
 
     // Step 1: Upload the image
     const imageHash = await uploadToPinata(imageBlob, 'image.jpeg', pinataApiKey, pinataSecretApiKey);
