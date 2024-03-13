@@ -27,7 +27,7 @@ export const getMagicPrompt = async (name: string) => {
       }
   
       const result = await response.json();
-      console.log(result)
+      //console.log(result)
       if (Array.isArray(result) && result[0]?.generated_text) {
         return result[0].generated_text;
       } else if (result?.generated_text) {
@@ -85,7 +85,40 @@ export const createImageWithDALLE = async (prompt: string) => {
       console.error(error);
     } 
   };
+  
+//-------------------------------------------------------
+export const createImageWithEdenAI = async (prompt: string): Promise<string | null> => {
+  const options = {
+    method: "POST",
+    url: "https://api.edenai.run/v2/image/generation",
+    headers: {
+      authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZGU2NjYzNmEtYWNlNi00NDUwLWJkMTUtNmNjYTEzYWY0NWE1IiwidHlwZSI6ImFwaV90b2tlbiJ9.nDVeryJmZVNa83HPR7wg32-mh2HDC3wytFJWbCckm84",
+    },
+    data: {
+      providers: "replicate",
+      text: prompt,
+      resolution: "512x512",
+      fallback_providers: "",
+    },
+  };
 
+  try {
+    const response = await axios.request(options);
+    // Dynamically get the first provider key
+    const providerKey = Object.keys(response.data)[0];
+    // Check for the success status and retrieve the URL from the first item in the items array
+    if (response.data[providerKey].status === 'success' && response.data[providerKey].items && response.data[providerKey].items.length > 0) {
+      const imageUrl = response.data[providerKey].items[0].image_resource_url; // Use the correct field based on the response structure
+      return imageUrl;
+    } else {
+      throw new Error('No image URL in response');
+    }
+  } catch (error) {
+    console.error('Error calling EdenAI:', error);
+    return null;
+  }
+};
+//-------------------------------------------------------
 export const createImage = async (apiUrl: string, prompt: string) => {
   const seed = generateRandomSeed(0, 1000)
     try {

@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex-grow items-center justify-center py-10 px-20 text-center">
+      <main>
         {/* <Imaginary/> */}
         <MintPage/>
       </main>

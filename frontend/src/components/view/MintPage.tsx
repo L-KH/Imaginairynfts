@@ -6,7 +6,7 @@ import Modal from "@/components/extras/Modal";
 import { useAccount, useBalance, useBlockNumber} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
-import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage } from '@/services/openaiService'
+import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage, createImageWithEdenAI } from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import { useQueryClient } from '@tanstack/react-query' 
 import {
@@ -53,7 +53,7 @@ const MintPage = () => {
   const { data: balance, queryKey } = useBalance({address: account})
   const queryClient = useQueryClient()
   const { data: blockNumber } = useBlockNumber({ watch: true }) 
-
+  const [useEdenAI, setUseEdenAI] = useState(false);
 
   useEffect(() => { 
     queryClient.invalidateQueries({ queryKey }) 
@@ -75,20 +75,33 @@ const MintPage = () => {
 
   const handleGenerateImage = async () => {
     try {
-      setIsLoading(true)
-      const data = await createImage(apiUrl, prompt)
-    if(data !== null && data !== undefined){
-      setImage(data?.image)
-    } else{
-      setIsFaild(true)
-      setImage(logoUrl)
-    }
-    setIsLoading(false)
+        setIsLoading(true);
+        let imageUrl = null;
+
+        if (selectedModel === 'EdenAI') {
+            // Assuming createImageWithEdenAI returns the URL directly
+            imageUrl = await createImageWithEdenAI(prompt);
+        } else {
+            // Fetch the model URL from apiUrlMap
+            const modelUrl = apiUrlMap[selectedModel];
+            // Call your existing createImage or similar function
+            const data = await createImage(modelUrl, prompt);
+            imageUrl = data?.image;
+        }
+
+        if (imageUrl) {
+            setImage(imageUrl);
+        } else {
+            setIsFaild(true);
+            setImage(logoUrl);
+        }
     } catch (error) {
-      console.log(error)
-      setIsLoading(false)
+        console.error(error);
+    } finally {
+        setIsLoading(false);
     }
-  };
+};
+
 
   const handleMintImage = async () => {
     try {
@@ -101,13 +114,13 @@ const MintPage = () => {
       if (!hash) throw new Error("Failed to approve token A");
       setTxHash(hash)
       setIsLoadingMint(true)
-      console.log(hash,url,  'tx hash & uri');
+      //console.log(hash,url,  'tx hash & uri');
       setIsConfirmedTx('success')
       setTimeout(() => {
         setOpen(false);
       }, 5000);
     } catch (error) {
-      console.log('error stake NFT ', error);
+      //console.log('error stake NFT ', error);
       if (error instanceof Error) {
         setErrorMsg(error.toString());
       } else if (typeof error === 'string') {
@@ -130,7 +143,8 @@ const MintPage = () => {
    };
 
   return (
-    <div className={"pt-10 md:px-10 px-2"}>
+<div className={"pt-10 px-2 md:px-10"}>
+
 
 
       <div className="flex flex-col gap-16 pt-10 pb-10">
@@ -138,7 +152,7 @@ const MintPage = () => {
           <div>
             <div className="flex flex-col md:flex-row items-center justify-center  p-4">
               {true && (
-                <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-300 shadow-lg rounded-lg overflow-hidden w-full max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl">
+                <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-300 shadow-lg rounded-lg overflow-hidden w-full md:max-w-md lg:max-w-lg xl:max-w-xl">
                 {IsLoading ? 
                 <div className="relative  items-center block "> 
                   <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg opacity-40" />
