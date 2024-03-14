@@ -14,9 +14,14 @@ export const TransactionSuccess = ({
   txid?: string;
 }) => {
   const account = useAccount();
-  const jumpToExplorer = (txid:string)=>{
-    window.open(`${account.chain?.blockExplorers?.default.url}tx/${txid}`, '_blank');
-  }
+  const jumpToExplorer = (txid: string) => {
+    // Directly specify the correct base URL for the Goerli Linea explorer.
+    const baseUrl = "https://goerli.lineascan.build/";
+    const fullPath = `${baseUrl}tx/${txid}`;
+    window.open(fullPath, '_blank');
+  };
+  
+  
   return (
     <div className="w-full  ">
       <div className="w-full  border flex flex-wrap  items-center py-4 justify-center">

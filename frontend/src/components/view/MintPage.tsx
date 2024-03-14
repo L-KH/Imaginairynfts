@@ -6,7 +6,7 @@ import Modal from "@/components/extras/Modal";
 import { useAccount, useBalance, useBlockNumber} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
-import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage, createImageWithEdenAI } from '@/services/openaiService'
+import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage, createImageWithEdenAI, generateImageReplicate } from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import { useQueryClient } from '@tanstack/react-query' 
 import {
@@ -54,6 +54,8 @@ const MintPage = () => {
   const queryClient = useQueryClient()
   const { data: blockNumber } = useBlockNumber({ watch: true }) 
   const [useEdenAI, setUseEdenAI] = useState(false);
+  const [useReplicate, setUseReplicate] = useState(false);
+
 
   useEffect(() => { 
     queryClient.invalidateQueries({ queryKey }) 
@@ -82,12 +84,16 @@ const MintPage = () => {
             // Assuming createImageWithEdenAI returns the URL directly
             imageUrl = await createImageWithEdenAI(prompt);
         } else {
-            // Fetch the model URL from apiUrlMap
-            const modelUrl = apiUrlMap[selectedModel];
-            // Call your existing createImage or similar function
-            const data = await createImage(modelUrl, prompt);
-            imageUrl = data?.image;
-        }
+          if (selectedModel === 'Replicate') {
+            // Assuming generateImageReplicate returns the URL directly
+            imageUrl = await generateImageReplicate(prompt);
+            } else {
+                // Fetch the model URL from apiUrlMap
+                const modelUrl = apiUrlMap[selectedModel];
+                // Call your existing createImage or similar function
+                const data = await createImage(modelUrl, prompt);
+                imageUrl = data?.image;
+            }}
 
         if (imageUrl) {
             setImage(imageUrl);
