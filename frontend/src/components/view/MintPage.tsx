@@ -29,7 +29,7 @@ const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
  
   const { handleMint} = useMint();
-  const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/logo_imaginairy_alternative%20(1).png'
+  const logoUrl = 'https://raw.githubusercontent.com/L-KH/ARB-Airdrop-Checker/main/ImaginAIry_NFTs.png'
   const [open, setOpen] = useState<boolean>(false);
   const [txError, setTxError] = useState<boolean>(false)
   const [IsLoading, setIsLoading] = useState<boolean>(false)

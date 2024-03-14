@@ -66,7 +66,7 @@ export const getMagicPrompt = async (name: string) => {
 export const createImageWithDALLE = async (prompt: string) => {
   const url = 'https://api.openai.com/v1/images/generations';
   if (!checkRateLimit('DALLE')) {
-    throw new Error('You have reached your limit. Please wait 6 hours before trying again. Or try to mint ImaginAIryNFts Logo');
+    throw new Error('You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
   }
   try {
