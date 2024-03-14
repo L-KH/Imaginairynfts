@@ -1,18 +1,12 @@
 import {
   BookOpenIcon,
   PhotographIcon ,
-  CogIcon,
-  FolderIcon,
   HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  VolumeUpIcon,
-  DeviceMobileIcon ,
+  LightBulbIcon,
+  PuzzleIcon,
 } from '@heroicons/react/outline'
 import {
-  TbBrandGithub,
   TbBrandTwitter,
-  TbBrandDiscord,
   TbBrandMedium,
 } from 'react-icons/tb'
 
@@ -55,7 +49,7 @@ export function routeIsActive(pathname: String, route: INavigation): boolean {
 }
 
 const navigation: INavigation[] = [
-  { name: 'Text to Image', href: '/', icon: HomeIcon, current: true, exact: true  },
+  { name: 'Text to Image', href: '/', icon: PuzzleIcon, current: true, exact: true  },
   // {
   //   name: 'My NFTs',
   //   href: '/themePreview',
@@ -77,7 +71,7 @@ const navigation: INavigation[] = [
   {
     name: 'Gallery & Prompts',
     href: '/Gallery',
-    icon: UsersIcon,
+    icon: LightBulbIcon,
     current: false,
   },
   // { name: 'Testnet', href: 'https://testnet.imaginairynfts.com/', icon: FolderIcon, current: false },
@@ -86,7 +80,7 @@ const navigation: INavigation[] = [
 
 const bottomNavigation: IBottomNavigation[] = [
   // { name: 'Android App', href: 'https://play.google.com/store/apps/details?id=com.lowjourney', icon: DeviceMobileIcon  },
-  { name: 'Documentation', href: 'https://l-kh.gitbook.io/imaginairy-nfts/', icon: BookOpenIcon },
+  // { name: 'Documentation', href: 'https://l-kh.gitbook.io/imaginairy-nfts/', icon: BookOpenIcon },
   // { name: 'Settings', href: '#', icon: CogIcon },
 ]
 

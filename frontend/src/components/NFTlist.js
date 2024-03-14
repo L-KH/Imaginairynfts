@@ -123,82 +123,81 @@ function NFTlist() {
     }
     return text;
   };
-  return (
-    <div>
-      <h1 className="text-4xl font-extrabold text-secondary">My minted NFTs:</h1>
-      {account ? (<>
-        {loading && dataArray.length === 0 ? (
-        <div className="flex justify-center items-center">
-          <ClipLoader color="#4A90E2" loading={loading} size={150} />
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-5 font-semibold sm:grid-cols-2 md:grid-cols-4">
-        {dataArray?.map((item, index) => (
-          <div key={index} className="card flex-1 items-center justify-center border border-base-300 bg-base-100 p-4 m-2">
-          <h3 className="text-2xl font-bold text-primary mb-2">{item?.name ? truncateText(item.name, 20) : 'NFT Name Unavailable'}</h3>
-            <div className="mt-4 mb-4">
-              <img
-                className="mx-auto"
-                src={getImageSrc(item.image)}
-                alt="Image"
-                width={200}
-                height={200}
-              />
-            </div>
-            <div className="nftlist card flex-1 items-center justify-center bg-primary-focus mb-4">
-              <input onClick={() => openModal(item)} className="hover:bg-sky-500 nftlist text-center justify-center text-primary-content px-14 py-2 sm:w-auto sm:text-sm" type="button" value="Show Details"/>
-            </div>
-            </div>
-        ))}
-        
-      </div>
-      )}
-      </>
 
-      ):(
-        <>
-        <div className="card flex-1 items-center justify-center bg-error">
-                      <span className="text-center text-error-content" type="submit" >Please connect your Wallet</span>
+  function ModalNFT({ selectedNFT, closeModal }) {
+  return (
+    <div className="fixed inset-0 z-20 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={closeModal}></div>
+
+        <div className="bg-base-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all my-8 max-w-lg w-full">
+          <div className="p-5">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-medium dark:text-white">
+                {selectedNFT.name}
+              </h3>
+              <button onClick={closeModal} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" aria-label="close">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+              </button>
+            </div>
+            <div className="mt-2">
+              <img src={getImageSrc(selectedNFT.image)} alt="NFT" className="mx-auto rounded-lg"/>
+              <p className="mt-4  dark:text-gray-400">
+                {selectedNFT.description}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center p-6">
+            <button type="button" onClick={closeModal} className="bg-primary-focus text-primary-content hover:bg-primary hover:text-white text-lg font-semibold leading-none rounded-full py-3 px-8">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+  return (
+    <div className="px-4 sm:px-6 lg:px-8">
+    <h1 className="text-5xl font-extrabold text-secondary my-8 text-center">My minted NFTs:</h1>
+    {account ? (
+      <>
+        {loading && dataArray.length === 0 ? (
+          <div className="flex justify-center items-center h-64">
+            <ClipLoader color="#4A90E2" loading={loading} size={150} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {dataArray?.map((item, index) => (
+              <div key={index} className="overflow-hidden shadow-lg rounded-lg h-auto w-full bg-base-100 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+                <div className="w-full block h-full">
+                  <img alt="NFT Image" src={getImageSrc(item.image)} className="max-h-60 w-full object-cover"/>
+                  <div className=" dark:bg-gray-800 w-full p-4">
+                    <h3 className="text-primary text-2xl font-semibold mb-2 text-center">
+                      {item?.name ? truncateText(item.name, 20) : 'NFT Name Unavailable'}
+                    </h3>
+                    <div className="flex justify-center mt-4">
+                      <button onClick={() => openModal(item)} className="bg-primary-focus text-primary-content hover:bg-primary hover:text-white text-lg font-semibold leading-none rounded-full py-3 px-8">
+                        Show Details
+                      </button>
                     </div>
-        </>
-      )
-      }
-      {selectedNFT && (
-  <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div className="fixed inset-0 bg-base-100 bg-opacity-75 transition-opacity" aria-hidden="true" onClick={closeModal}></div>
-      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div className="inline-block align-bottom bg-base-100 rounded-lg text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div className="card flex-1 items-center justify-center bg-base-100">
-          <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center ">
-                <h3 className="text-2xl font-bold text-primary mb-2 content-center " id="modal-title">
-                  {selectedNFT.name}
-                </h3>
-                <div className="mt-2">
-                  <img src={getImageSrc(selectedNFT.image)} alt="NFT" className="mx-auto mb-5 "/>
-                  <h3 className="text-lg" ><b>Description:</b></h3>
-                  <p className="mb-5 text-lg text-left">
-                     {selectedNFT.description}
-                  </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-          <div className='nftlist'>
-            <div className="card flex-1 items-center justify-center bg-base-content mb-4">
-              <input className="nftlist hover:bg-sky-500 text-center justify-center text-base-100 px-14 py-2" type="button" onClick={closeModal} value="Close"/>
-            </div>
-          </div>
-        </div>
+        )}
+      </>
+    ) : (
+      <div className="flex justify-center items-center h-64">
+        <span className="text-error-content bg-error p-4 rounded-lg">Please connect your Wallet</span>
       </div>
-    </div>
+    )}
+    {selectedNFT && (
+      <ModalNFT selectedNFT={selectedNFT} closeModal={closeModal} />
+    )}
+    <ToastContainer />
   </div>
-)}
-      <ToastContainer />
-
-    </div>
   );
 }
 

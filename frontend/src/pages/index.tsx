@@ -4,6 +4,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useSendTransaction } from 'wagmi'
 import Imaginary from '../components/Imaginary'
+import MintPage from '@/components/view/MintPage'
 // import MyNFTs from '../components/MyNFTs'
 
 const Home: NextPage = () => {
@@ -22,8 +23,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex-grow items-center justify-center py-10 px-20 text-center">
-        <Imaginary/>
+      <main>
+        {/* <Imaginary/> */}
+        <MintPage/>
       </main>
     </Layout>
   )

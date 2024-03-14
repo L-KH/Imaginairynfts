@@ -51,7 +51,7 @@ function App() {
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
     'DALLE': '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',
     'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
-
+ 
     };
   const generateRandomSeed = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -206,7 +206,7 @@ const createImageWithStableDiffusion = async (prompt) => {
   };
   
 
-  const uploadFallbackImage = async (imageUrl) => {
+const uploadFallbackImage = async (imageUrl) => {
     setMessage("Uploading Fallback Image...");
     
     try {
@@ -243,7 +243,7 @@ const createImageWithStableDiffusion = async (prompt) => {
 
 
 
-  const createImage = async (apiUrl, seed) => {
+const createImage = async (apiUrl, seed) => {
     try {
       setMessage("Generating Image...");
       const response = await axios({
@@ -460,7 +460,6 @@ const mintFallbackLogo = async () => {
             </div>
           ) : isWaiting ? (
             <div className="image__placeholder">
-              {/* <Spinner animation="border" /> */}
               <p>{message}</p>
             </div>
           ) : (
@@ -503,16 +502,6 @@ const mintFallbackLogo = async () => {
     </div>
   </div>
 )}
-
-{/* <footer className="card flex-1 items-center justify-center border border-base-300 bg-base-100" >
-      <p className="text-center text-base-content">
-      💖 Enjoying our work? Show some love and support our future projects by contributing to :
-        <br/>
-        <a href="https://optimistic.etherscan.io/address/0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19" target="_blank" rel="noopener noreferrer">
-          <b>0x7da373Ba58A5b492F3C3282E49467dcdF2bE8f19</b>
-        </a>
-      </p>
-    </footer> */}
     <ToastContainer />
 
     </div>

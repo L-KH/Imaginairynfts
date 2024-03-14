@@ -31,7 +31,7 @@ const Header = ({ title }: HeaderProps) => {
 
         <div className="flex flex-auto items-center justify-end gap-3">
           <ThemeSelector className="pt-1" />
-          <ConnectButton />
+          <ConnectButton  showBalance={true}/>
         </div>
       </div>
     </div>
