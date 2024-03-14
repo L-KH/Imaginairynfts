@@ -186,7 +186,8 @@ export const createImage = async (apiUrl: string, prompt: string) => {
     return {image: img, data: data}
     } catch (error) {
       console.error(error);
-      
+      throw new Error('You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+
   }
 }
 //--------------------------------------------------------
