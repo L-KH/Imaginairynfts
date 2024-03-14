@@ -2,14 +2,31 @@ import { OPENAI_API_KEY } from '../constants/config';
 import {generateRandomSeed} from '@/utils/randomUtils'
 import axios from 'axios'
 import { OpenAI } from 'openai';
+const RATE_LIMIT = 3; // Max number of attempts
+const RESET_TIME = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY, dangerouslyAllowBrowser: true });
-  
+function checkRateLimit(model: string) {
+  const currentTime = new Date().getTime();
+  const userDataString = localStorage.getItem(model);
+  const userData = userDataString ? JSON.parse(userDataString) : { count: 0, lastAttempt: 0 };
 
-    
 
+  if (currentTime - userData.lastAttempt > RESET_TIME) {
+    // Reset count if past the reset time
+    userData.count = 0;
+  }
 
-
+  if (userData.count >= RATE_LIMIT) {
+    // User has exceeded their limit
+    return false;
+  } else {
+    // Increment count and update lastAttempt timestamp
+    userData.count += 1;
+    userData.lastAttempt = currentTime;
+    localStorage.setItem(model, JSON.stringify(userData));
+    return true;
+  }
+}
 
 export const getMagicPrompt = async (name: string) => {
     try {
@@ -43,27 +60,48 @@ export const getMagicPrompt = async (name: string) => {
   
 
 // newwwwwwwwwwwwwwwwwwwwwwwwww
-export const createImageWithDALLE = async (prompt: string) => {
-    try {
-  
-      // Example using OpenAI's API, replace with your DALL-E API call if not using OpenAI
-      const response = await openai.images.generate({ // Make sure this method exists; this is hypothetical
-        model: "dall-e-2",
-  
-        prompt: prompt,
-        n: 1, // Number of images to generate
-        size: '512x512' // Image size, adjust as needed
-      });
-  
-      if (response.data && response.data.length > 0) {
-        const imageUrl = response.data[0].url;
-        return response.data[0]; // Return the image data
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
+
+
+export const createImageWithDALLE = async (prompt: string) => {
+  const url = 'https://api.openai.com/v1/images/generations';
+  if (!checkRateLimit('DALLE')) {
+    throw new Error('You have reached your limit. Please wait 6 hours before trying again. Or try to mint ImaginAIryNFts Logo');
+
+  }
+  try {
+    const response = await axios.post(
+      url,
+      {
+        model: "dall-e-2", // Adjust model as needed. Options typically include different versions of DALL·E
+        prompt: prompt, // Your prompt for image generation
+        n: 1, // Number of images to generate
+        size: "256x256", // Desired image size
+        response_format: "b64_json" // Choose "b64_json" if you prefer base64-encoded images
+      },
+      {
+        headers: {
+          'Authorization': `Bearer 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`, // Use your OpenAI API key here
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    // Assuming the API returns a list of generated images
+    if (response.data && response.data.data.length > 0) {
+      //console.log(response.data.data[0].b64_json)
+      return response.data.data[0].b64_json; // or .b64_json if using base64 format
+      
+    } else {
+      console.error('No images were generated');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error generating image with DALL·E:', error);
+    return null;
+  }
+};
+//------------------------------**********************
 
   export const createImageWithStableDiffusion = async (prompt: string) => {
   
@@ -87,6 +125,13 @@ export const createImageWithDALLE = async (prompt: string) => {
   };
   
 //-------------------------------------------------------
+const imageToBase64 = async (url: string): Promise<string> => {
+  const response = await axios.get(url, { responseType: 'arraybuffer' });
+  const base64 = Buffer.from(response.data, 'binary').toString('base64');
+  return `data:${response.headers['content-type']};base64,${base64}`;
+};
+
+// Modified createImageWithEdenAI function
 export const createImageWithEdenAI = async (prompt: string): Promise<string | null> => {
   const options = {
     method: "POST",
@@ -104,13 +149,13 @@ export const createImageWithEdenAI = async (prompt: string): Promise<string | nu
 
   try {
     const response = await axios.request(options);
-    // Dynamically get the first provider key
     const providerKey = Object.keys(response.data)[0];
-    // Check for the success status and retrieve the URL from the first item in the items array
     if (response.data[providerKey].status === 'success' && response.data[providerKey].items && response.data[providerKey].items.length > 0) {
-      const imageUrl = response.data[providerKey].items[0].image_resource_url; // Use the correct field based on the response structure
-      console.log(imageUrl)
-      return imageUrl;
+      const imageUrl = response.data[providerKey].items[0].image_resource_url;
+      // Convert image URL to base64
+      const imageBase64 = await imageToBase64(imageUrl);
+      //console.log(imageBase64); // For logging the base64 image
+      return imageBase64;
     } else {
       throw new Error('No image URL in response');
     }

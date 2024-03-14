@@ -14,8 +14,8 @@ export const uploadFallbackImage = async (imageUrl: string) => {
       const nftstorage = new NFTStorage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMzQzUyQjZENkIwOUZkMDhhM0ZFZTMzRjEzMTAxMmI2MjMzMjIyYTAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzkyMjAwMjE5MSwibmFtZSI6IkltYWdpbkFJcnkgTkZUcyJ9.ylRydZfHxz3uoMDElCTqbMwokS5NObFh8s3_-FFOnoQ" })
       const metadata = await nftstorage.store({
         image: imageFile,
-        name: "Fallback Image",
-        description: "This NFT was minted as a fallback due to an issue generating the original image.",
+        name: "Proof Of Mint",
+        description: "This NFT was minted as a Proof Of Mint ImaginAIryNFTs.",
       });
       
       // Construct the URL to the uploaded image's metadata on IPFS
@@ -29,8 +29,7 @@ export const uploadFallbackImage = async (imageUrl: string) => {
       throw error;
     }
   };
-  const pinataApiKey = '1360d97c1d3ff7d0bc15';
-  const pinataSecretApiKey = 'aacd9933fff760aecc9d5bcd58345962baf43c1889b42b80ba9dde4e5f7e90d8';
+
 
   function base64ToBlob(base64: string, contentType: string): Blob {
     const byteCharacters = atob(base64.replace(/^data:image\/(jpeg|png|gif|bmp);base64,/, ''));

@@ -4,8 +4,8 @@ import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // You should use an environment variable for your token to keep it secure
-  const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
-
+  const REPLICATE_API_TOKEN = "r8_NrzaihtTHv4Tt5Cx7CEkCWC0zty4tq42wRXNf";
+//r8_1vhIUmaijii4xj2cm0UIsoA4wokKebe3SsTKf
   if (!REPLICATE_API_TOKEN) {
     return res.status(500).json({ message: "Replicate API token is not set." });
   }

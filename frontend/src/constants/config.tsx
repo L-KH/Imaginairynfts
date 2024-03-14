@@ -75,8 +75,8 @@ export const apiUrlMap: IAPIURI = {
     'anything-v5.0':'https://api-inference.huggingface.co/models/stablediffusionapi/anything-v5',
     // 'Dungeons-and-Diffusion':'https://api-inference.huggingface.co/models/0xJustin/Dungeons-and-Diffusion',
     // 'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
-    // 'DALLE': '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',
+    'DALLE': 'DALLE',
     // 'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
     'EdenAI':'EdenAI',
-    'Replicate':'Replicate'
+    // 'Replicate':'Replicate'
  };

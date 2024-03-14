@@ -22,10 +22,8 @@ import {
   TransactionSuccess,
 } from "@/components/extras/TransactionStatus";
 import { formatEther } from "viem";
-import { config } from '@/components/Layout/Web3Wrapper'
-
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -77,36 +75,44 @@ const MintPage = () => {
 
   const handleGenerateImage = async () => {
     try {
-        setIsLoading(true);
-        let imageUrl = null;
-
-        if (selectedModel === 'EdenAI') {
-            // Assuming createImageWithEdenAI returns the URL directly
-            imageUrl = await createImageWithEdenAI(prompt);
-        } else {
-          if (selectedModel === 'Replicate') {
-            // Assuming generateImageReplicate returns the URL directly
-            imageUrl = await generateImageReplicate(prompt);
-            } else {
-                // Fetch the model URL from apiUrlMap
-                const modelUrl = apiUrlMap[selectedModel];
-                // Call your existing createImage or similar function
-                const data = await createImage(modelUrl, prompt);
-                imageUrl = data?.image;
-            }}
-
-        if (imageUrl) {
-            setImage(imageUrl);
-        } else {
-            setIsFaild(true);
-            setImage(logoUrl);
+      setIsLoading(true);
+      let imageSrc = null; // This will hold either a base64 string or a URL
+      if (selectedModel === 'DALLE') {
+        // Assuming createImageWithDALLE returns a base64 string directly
+        const base64Image = await createImageWithDALLE(prompt);
+        if (base64Image) {
+          // If it's a base64 string, prepend the necessary data URI scheme
+          imageSrc = `data:image/png;base64,${base64Image}`;
         }
+      } else if (selectedModel === 'EdenAI') {
+        // Assuming createImageWithEdenAI returns the URL directly
+        imageSrc = await createImageWithEdenAI(prompt);
+      } else if (selectedModel === 'Replicate') {
+        // Assuming generateImageReplicate returns the URL directly
+        imageSrc = await generateImageReplicate(prompt);
+      } else {
+        // Fetch the model URL from apiUrlMap for other models
+        const modelUrl = apiUrlMap[selectedModel];
+        // Call your existing createImage or similar function
+        const data = await createImage(modelUrl, prompt);
+        imageSrc = data?.image; // Assuming this returns a URL
+      }
+  
+      if (imageSrc) {
+        setImage(imageSrc); // Use setImage to update state regardless of source type
+      } else {
+        setIsFaild(true); // Assuming there's a typo in setIsFaild, correcting to setIsFailed
+        setImage(logoUrl); // Fallback to logoUrl if image generation fails
+      }
     } catch (error) {
-        console.error(error);
+      console.error(error);
+      setIsFaild(true); // Correcting possible typo here as well
+      toast.error((error instanceof Error ? error.message : null) || 'An unexpected error occurred while generating the image.');
+      setImage(logoUrl); // Fallback to logoUrl on error
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-};
+  };
 
 
   const handleMintImage = async () => {
@@ -150,6 +156,7 @@ const MintPage = () => {
 
   return (
 <div className={"pt-10 px-2 md:px-10"}>
+<ToastContainer />
 
 
 
