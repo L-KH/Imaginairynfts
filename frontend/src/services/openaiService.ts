@@ -146,40 +146,19 @@ export const createImage = async (apiUrl: string, prompt: string) => {
 }
 //--------------------------------------------------------
 export const generateImageReplicate = async (prompt: string, width: number = 512, height: number = 512, numOutputs: number = 1, seed?: number) => {
-  const REPLICATE_API_TOKEN = 'r8_NrzaihtTHv4Tt5Cx7CEkCWC0zty4tq42wRXNf'; // Replace with your actual API token
-  const apiUrl = 'https://api.replicate.com/v1/predictions';
-
   try {
-    const response = await axios.post(apiUrl, {
-      version: "lucataco/sdxl-lightning-4step:latest",
-      input: {
-        seed: seed,
-        width: width,
-        height: height,
-        prompt: prompt,
-        scheduler: "K_EULER",
-        num_outputs: numOutputs,
-        guidance_scale: 7, // Adjust based on your preference
-        negative_prompt: "worst quality, low quality",
-        num_inference_steps: 4
-      }
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${REPLICATE_API_TOKEN}`
-      }
+    const response = await axios.post('/api/generateImage', {
+      prompt,
+      width,
+      height,
+      numOutputs,
+      seed,
     });
 
-    const imageUrls = response.data.urls; // Assuming the response contains URLs directly. Adjust based on actual API response structure.
-    return imageUrls;
+    // Handle the response as needed, e.g., extracting image URLs
+    return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-        // Log or handle based on error.response, error.request, etc.
-        console.error("Axios error response:", error.response);
-    } else {
-        // Handle non-Axios errors
-        console.error("Non-Axios error:", error);
-    }
-    throw error; // Or handle error as needed
-}
+    console.error("Error in generating image:", error);
+    throw new Error('Failed to generate image');
+  }
 };
