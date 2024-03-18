@@ -24,16 +24,20 @@ const SidebarNavigation = ({ navigation, linkClicked, className }: IProps) => {
           )}
           key={item.name}
         >
-          <Link href={item.href} key={item.name}>
-            <a className="text-sm font-semibold"  onClick={linkClicked}>
-              <item.icon className="mr-2 h-6 w-6" aria-hidden="true" />
-              {item.name}
-            </a>
+          <Link
+            href={item.href}
+            key={item.name}
+            className="text-sm font-semibold"
+            onClick={linkClicked}>
+
+            <item.icon className="mr-2 h-6 w-6" aria-hidden="true" />
+            {item.name}
+
           </Link>
         </li>
       ))}
     </ul>
-  )
+  );
 }
 
 export default SidebarNavigation

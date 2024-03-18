@@ -155,166 +155,166 @@ const MintPage = () => {
    };
 
   return (
-<div className={"pt-10 px-2 md:px-10"}>
-<ToastContainer />
+    <div className={"pt-10 px-2 md:px-10"}>
+    <ToastContainer />
 
 
 
-      <div className="flex flex-col gap-16 pt-10 pb-10">
+          <div className="flex flex-col gap-16 pt-10 pb-10">
 
-          <div>
-            <div className="flex flex-col md:flex-row items-center justify-center  p-4">
-              {true && (
-                <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-300 shadow-lg rounded-lg overflow-hidden w-full md:max-w-md lg:max-w-lg xl:max-w-xl">
-                {IsLoading ? 
-                <div className="relative  items-center block "> 
-                  <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg opacity-40" />
-                  <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
-                  <Spinner className="h-10 w-10 text-sky-900/50 animate-spin " />
-                  </div>
-                </div>
-               
-                : 
-                <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg" />
-                }
-              </div>
-              )}
-
-              <div className="flex flex-col items-center w-full max-w-md ">
-                <div className="p-6 bg-white/50 backdrop-blur-sm rounded-lg md:backdrop-blur-md lg:backdrop-blur-lg">
-                <div className="mb-4">
-                  <label htmlFor="model-select" className="block text-sm font-medium text-gray-700">Choose AI Model</label>
-                  <select 
-                    id="model-select"
-                    value={selectedModel}
-                    onChange={(e) => changeModel(e.target.value)}
-                    className="mt-1 block w-full pl-3 cursor-pointer focus:outline-none  pr-10 py-2 text-base select select-bordered sm:text-sm rounded-md shadow-sm"
-                  >
-                    {Object.entries(apiUrlMap).map(([modelKey, modelUrl]) => (
-                      // Excluding options based on condition if needed, otherwise just render the option
-                        <option key={modelKey} value={modelKey}>{modelKey.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase())}</option>
-                    ))}
-                  </select>
-                </div>
-
-                  <div className="mb-4">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 block w-full rounded-md input input-bordered max-w-xs" placeholder="Enter image name" />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">NFT description</label>
-                    <input type="text" id="name" value={description} onChange={(e) => setDescription(e.target.value)} className="mt-1 block w-full rounded-md input input-bordered max-w-xs" placeholder="NFT description" />
-                  </div>
-
-                  <div className="mb-4">
-                    <label htmlFor="prompt" className="block text-sm font-medium text-gray-700">Prompt</label>
-                    <textarea id="prompt" value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={4} className="mt-1 textarea textarea-bordered w-full rounded-md sm:text-sm" placeholder="Enter prompt or generate using AI"></textarea>
-                  </div>
-
-                  <div className="mb-4 grid grid-cols-2 gap-2 ">
-                    {IsLoadingPrompt ? 
-                    <button disabled={true} className="px-4 py-2 w-full flex items-center justify-center text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                      <Spinner className="h-4 w-4 text-gray-400/50 animate-spin " />
-                      </button>
-                    :
-                    <button onClick={handleGeneratePrompt} className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Generate Prompt</button>
-                    }
+              <div>
+                <div className="flex flex-col md:flex-row items-center justify-center  p-4">
+                  {true && (
+                    <div className="mb-4 md:mb-0 md:mr-4 flex-shrink-0 border border-gray-300 shadow-lg rounded-lg overflow-hidden w-full md:max-w-md lg:max-w-lg xl:max-w-xl">
                     {IsLoading ? 
-                    <button disabled={true} className="px-4 py-2 w-full flex items-center justify-center text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                      <Spinner className="h-4 w-4 text-gray-400/50 animate-spin " />
-                      </button>
-                    :
-                    <button onClick={handleGenerateImage} className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Generate Image</button>
+                    <div className="relative  items-center block "> 
+                      <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg opacity-40" />
+                      <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                      <Spinner className="h-10 w-10 text-sky-900/50 animate-spin " />
+                      </div>
+                    </div>
+                   
+                    : 
+                    <Image src={image} alt="Generated" width={512} height={512} layout="responsive" className="w-full h-auto object-cover rounded-lg" />
                     }
                   </div>
+                  )}
 
-                  <button disabled={isDisconnected && formatEther(balance?.value || BigInt(0))> '0.001'} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                    {isDisconnected? <span>Connect Your Wallet</span>:
-                    (parseFloat(formatEther(balance?.value || BigInt(0))) < 0.001 ? 
-                    <span>insufficient balnce </span>: <span>Mint NFT</span>
-                    )
-                    
-                    }</button>
-                  
+                  <div className="flex flex-col items-center w-full max-w-md ">
+                    <div className="p-6 bg-white/50 backdrop-blur-sm rounded-lg md:backdrop-blur-md lg:backdrop-blur-lg">
+                    <div className="mb-4">
+                      <label htmlFor="model-select" className="block text-sm font-medium text-gray-700">Choose AI Model</label>
+                      <select 
+                        id="model-select"
+                        value={selectedModel}
+                        onChange={(e) => changeModel(e.target.value)}
+                        className="mt-1 block w-full pl-3 cursor-pointer focus:outline-none  pr-10 py-2 text-base select select-bordered sm:text-sm rounded-md shadow-sm"
+                      >
+                        {Object.entries(apiUrlMap).map(([modelKey, modelUrl]) => (
+                          // Excluding options based on condition if needed, otherwise just render the option
+                            <option key={modelKey} value={modelKey}>{modelKey.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase())}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                      <div className="mb-4">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 block w-full rounded-md input input-bordered max-w-xs" placeholder="Enter image name" />
+                      </div>
+                      <div className="mb-4">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">NFT description</label>
+                        <input type="text" id="name" value={description} onChange={(e) => setDescription(e.target.value)} className="mt-1 block w-full rounded-md input input-bordered max-w-xs" placeholder="NFT description" />
+                      </div>
+
+                      <div className="mb-4">
+                        <label htmlFor="prompt" className="block text-sm font-medium text-gray-700">Prompt</label>
+                        <textarea id="prompt" value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={4} className="mt-1 textarea textarea-bordered w-full rounded-md sm:text-sm" placeholder="Enter prompt or generate using AI"></textarea>
+                      </div>
+
+                      <div className="mb-4 grid grid-cols-2 gap-2 ">
+                        {IsLoadingPrompt ? 
+                        <button disabled={true} className="px-4 py-2 w-full flex items-center justify-center text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                          <Spinner className="h-4 w-4 text-gray-400/50 animate-spin " />
+                          </button>
+                        :
+                        <button onClick={handleGeneratePrompt} className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Generate Prompt</button>
+                        }
+                        {IsLoading ? 
+                        <button disabled={true} className="px-4 py-2 w-full flex items-center justify-center text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                          <Spinner className="h-4 w-4 text-gray-400/50 animate-spin " />
+                          </button>
+                        :
+                        <button onClick={handleGenerateImage} className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Generate Image</button>
+                        }
+                      </div>
+
+                      <button disabled={isDisconnected && formatEther(balance?.value || BigInt(0))> '0.001'} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                        {isDisconnected? <span>Connect Your Wallet</span>:
+                        (parseFloat(formatEther(balance?.value || BigInt(0))) < 0.001 ? 
+                        <span>insufficient balnce </span>: <span>Mint NFT</span>
+                        )
+                        
+                        }</button>
+                      
+                    </div>
+                  </div>
                 </div>
+
+
+                
+
               </div>
-            </div>
 
 
-            
+
+
+
 
           </div>
+        <Modal
+          id={"mint"}
+          className={"w-full"}
+          open={open}
+          setOpen={() => setOpen(false)}
+          >
 
 
+          <div
+            className="mt-5 flex p-3 flex-wrap w-full"
+            onClick={() => setOpen(false)}
+          >
+            {IsConfirmedTx === "loading" ? (
+              <>
+                <div className="w-full flex border flex-wrap  ">
+                  <div className="w-full  border-b flex items-center py-4 justify-between px-3">
+                    <div className="text-center inline-flex items-center">
+                    
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-4 h-4 me-2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+                        />
+                      </svg>
+                      <span className="font-medium text-sm">Upload Image to IPFS </span>
+                    </div>
+                    
+                    {IsLoadingUpload ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
+                      <IconCheck />
+                    ) : (
+                      <IconError />
+                    )}
+                  </div>
+                  <div className="w-full  border-b flex items-center py-4 justify-between px-3">
+                  <span className="font-medium text-sm"> Mint NFT </span>
+                    {IsLoadingMint ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
+                      <IconCheck />
+                    ) : (
+                      <IconError />
+                    )}
+                  </div>
 
-
-
-
-      </div>
-    <Modal
-      id={"mint"}
-      className={"w-full"}
-      open={open}
-      setOpen={() => setOpen(false)}
-      >
-
-
-      <div
-        className="mt-5 flex p-3 flex-wrap w-full"
-        onClick={() => setOpen(false)}
-      >
-        {IsConfirmedTx === "loading" ? (
-          <>
-            <div className="w-full flex border flex-wrap  ">
-              <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                <div className="text-center inline-flex items-center">
-                
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-4 h-4 me-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
-                    />
-                  </svg>
-                  <span className="font-medium text-sm">Upload Image to IPFS </span>
                 </div>
-                
-                {IsLoadingUpload ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
-                  <IconCheck />
-                ) : (
-                  <IconError />
-                )}
-              </div>
-              <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-              <span className="font-medium text-sm"> Mint NFT </span>
-                {IsLoadingMint ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
-                  <IconCheck />
-                ) : (
-                  <IconError />
-                )}
-              </div>
-
-            </div>
-          </>
-        ) : IsConfirmedTx === "success" ? (
-          <TransactionSuccess
-            title={"Mint successful"}
-            describe={`Your unique AI-generated image is now successful minted`}
-            txid={txHash}
-          />
-        ) : (
-          <TransactionFail msg={errorMsg} />
-        )}
-      </div>
-      </Modal>
-    </div>
+              </>
+            ) : IsConfirmedTx === "success" ? (
+              <TransactionSuccess
+                title={"Mint successful"}
+                describe={`Your unique AI-generated image is now successful minted`}
+                txid={txHash}
+              />
+            ) : (
+              <TransactionFail msg={errorMsg} />
+            )}
+          </div>
+          </Modal>
+        </div>
   );
 
 };

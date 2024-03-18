@@ -1,6 +1,13 @@
 import { NFTStorage, File } from 'nft.storage'
 import axios from 'axios';
 
+interface IData {
+  name: string;
+  description: string;
+  image: string; 
+}
+
+const ipfsGateways = ['https://ipfs.io/ipfs/', 'https://cloudflare-ipfs.com/ipfs/', 'https://infura-ipfs.io/ipfs/'];
 
 export const uploadFallbackImage = async (imageUrl: string) => {
   
@@ -31,7 +38,7 @@ export const uploadFallbackImage = async (imageUrl: string) => {
   };
 
 
-  function base64ToBlob(base64: string, contentType: string): Blob {
+const base64ToBlob = (base64: string, contentType: string): Blob => {
     const byteCharacters = atob(base64.replace(/^data:image\/(jpeg|png|gif|bmp);base64,/, ''));
     const byteArrays = [];
 
@@ -99,3 +106,29 @@ export const uploadImage = async (imageData: string | Blob, name: string, descri
     //console.log(metadataUrl);
     return metadataUrl;
 };
+export const getImageSrc = (ipfsLink: string) => {
+  const cid = ipfsLink?.replace('ipfs://', '');
+  const gateway = ipfsGateways[Math.floor(Math.random() * ipfsGateways.length)];
+  return `${gateway}${cid}`;
+};
+
+const preloadImage = (src: string) => {
+  const img = new Image();
+  img.src = src;
+};
+export const readNFTData = async (tokenUri: string): Promise<IData> => {
+  try {
+    // Convert IPFS URL to a web gateway URL
+    const ipfsGatewayUrl = tokenUri.replace('ipfs://', 'https://ipfs.io/ipfs/');
+    // Use CORS proxy
+    const proxiedUrl = 'https://corsproxy.io/?' + encodeURIComponent(ipfsGatewayUrl);
+
+    const response = await axios.get(proxiedUrl);
+    const data = response.data;
+    preloadImage(getImageSrc(data.image));
+    return { name: data.name, description: data.description, image: data.image };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return { name: '', description: '', image: '' };
+  }
+};  
