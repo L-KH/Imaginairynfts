@@ -20,6 +20,16 @@ interface IData {
     description: string;
     image: string; 
   }
+  interface IPageIndexer {
+    currentPage: number;
+    setCurrentPage: (page: number) => void;
+    totalPages: number;
+  }
+
+  interface IImage {
+    src: string;
+    alt: string;
+  }
 
 function NFTlist() {
     const PAGE_SIZE = 9;
@@ -121,7 +131,7 @@ const fetchData = async () => {
     );
     }
 
-    const Pagination = ({ currentPage, setCurrentPage, totalPages }) => {
+    const Pagination = ({ currentPage, setCurrentPage, totalPages }: IPageIndexer) => {
         // Helper function to change page
         const goToPage = (pageNumber:number) => {
             setCurrentPage(pageNumber);
@@ -138,7 +148,7 @@ const fetchData = async () => {
                             Previous
                         </button>
                     </li>
-                    {[...Array(totalPages).keys()].map(pageNumber => (
+                    {Array.from({ length: totalPages }, (_, index) => index).map(pageNumber => (
                         <li key={pageNumber}>
                             <button
                                 onClick={() => goToPage(pageNumber)}
@@ -160,7 +170,7 @@ const fetchData = async () => {
             </nav>
         );
     };
-    const ImageWithFallback = ({ src, alt }) => {
+    const ImageWithFallback = ({ src, alt }: IImage) => {
         const [hasError, setHasError] = useState(false);
       
         const handleError = () => {
