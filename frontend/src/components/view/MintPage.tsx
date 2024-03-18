@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Spinner, useTabs } from "@material-tailwind/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Modal from "@/components/extras/Modal";
 import { useAccount, useBalance, useBlockNumber} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';

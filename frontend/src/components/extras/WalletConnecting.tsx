@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useAccount } from 'wagmi'
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 

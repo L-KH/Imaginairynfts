@@ -207,10 +207,28 @@ const fetchData = async () => {
                     <ImageWithFallback src={getImageSrc(item.image)} alt="NFT Image" />
                   
                   <div className="m-1 max-w-sm   shadow dark:border-gray-700 dark:bg-gray-800 ">
-                  <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white"> {item?.name ? truncateText(item.name, 20) : ' Name Unavailable'} </h5>
-                  <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+                  <div className=" grid grid-cols-1 divide-y  gap-2">
+                    <div className='flex justify-between ' >
+                      <span>
+                        Name:
+                      </span>
+                      <span>
+                      {item?.name ? truncateText(item.name, 20) : ' Name Unavailable'}
+                      </span>
+                    </div>
+                    <div className='flex flex-wrap ' >
+                      <span>
+                        description:
+                      </span>
+                      <p className="px-2 font-normal text-xs text-gray-500 dark:text-gray-400" >
+                       {item?.description ? truncateText(item.description, 100) : 'description Unavailable'}
+                      </p>
+                    </div>
+                  </div>
+                  {/* <h5 className="mb-2 text-sm font-semibold tracking-tight text-gray-500 dark:text-white"> {item?.name ? truncateText(item.name, 20) : ' Name Unavailable'} </h5>
+                  <p className="mb-3 font-normal text-xs text-gray-500 dark:text-gray-400">
                   {item?.description ? truncateText(item.description, 100) : 'description Unavailable'}
-                    </p>
+                    </p> */}
                     {/* <h3 className="text-primary text-2xl font-semibold mb-2 text-center">
                       {item?.name ? truncateText(item.name, 20) : 'NFT Name Unavailable'}
                     </h3>

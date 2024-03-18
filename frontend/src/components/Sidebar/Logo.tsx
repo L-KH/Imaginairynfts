@@ -1,5 +1,5 @@
 import logo from '../assets/logo-bg1.png'
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 export function Logo(props: any) {
   return (
