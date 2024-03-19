@@ -153,13 +153,29 @@ const MintPage = () => {
     setSelectedModel(modelName);
     setApiUrl(apiUrlMap[modelName]);
    };
+   const [showSteps, setShowSteps] = useState(false);
 
-  return (
+   return (
     <div className={"pt-10 px-2 md:px-10"}>
-    <ToastContainer />
+      <ToastContainer />
+      <button 
+        onClick={() => setShowSteps(!showSteps)} 
+        className="card flex flex-col items-start justify-center bg-base-300 p-5 w-full hover:bg-base-200 cursor-pointer focus:outline-none transition-colors duration-150 ease-in-out"
+      >
+        <p className=" text-lg md:text-xl lg:text-2xl pl-2">
+          Quick Start Guide
+        </p>
 
-
-
+        {showSteps && (
+          <ol className="list-decimal text-left text-base md:text-lg px-5 py-2 w-full">
+          <li>Begin by writing a Name and a Description for your NFT.</li>
+          <li>Enter a creative prompt for AI generation. Note: The prompt becomes private post-minting.</li>
+          <li>For a bonus, theme your image around Linea/Linea Park. Ensure "Linea" is in the title.</li>
+          <li>Due to high demand, some models may be slow or maxed out. Try another model or mint our "Proof of Mint" logo as an alternative.</li>
+          <li>Stay updated and follow us on Twitter for the latest news: <a href="https://twitter.com/ImaginAIryNFTs" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Twitter</a></li>
+        </ol>
+        )}
+      </button>
           <div className="flex flex-col gap-16 pt-10 pb-10">
 
               <div>

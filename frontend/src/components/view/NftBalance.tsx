@@ -32,7 +32,7 @@ interface IData {
   }
 
 function NFTlist() {
-    const PAGE_SIZE = 9;
+    const PAGE_SIZE = 50;
     const useFteched = useFetch();
     const { address, isConnecting, isDisconnected } = useAccount();
 
@@ -189,6 +189,21 @@ const fetchData = async () => {
           <img alt={alt} src={src} className="max-h-60 w-full object-cover" onError={handleError} />
         );
       };
+
+
+      const createTwitterShareUrl = (item: IData) => {
+        const tweetBase = `✨ A Fusion of Art & AI! Discover our latest ImaginAIryNFT creation. 🌌🤖\n\n`;
+        const tweetBody = `🔹 Name: "${item.name}"\n🔹 Essence: "${item.description}"\n\nExplore the art of tomorrow, today. #AINFTs #ImaginAIryNFTs\n`;
+        // Optional: Add a URL to view the NFT, if available
+        //const websiteUrl = encodeURIComponent('https://www.imaginairynfts.com/your-nft-path'); // Adjust the path as necessary
+        
+        const tweetText = encodeURIComponent(`${tweetBase}${tweetBody}`) ; // If you're including a link
+        // const tweetText = encodeURIComponent(`${tweetBase}${tweetBody}`); // If not including a direct link
+        
+        return `https://twitter.com/intent/tweet?text=${tweetText}`;
+      };
+      
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
     {/* <h1 className="text-5xl font-extrabold text-secondary my-8 text-center">My minted NFTs:</h1> */}
@@ -201,45 +216,32 @@ const fetchData = async () => {
         ) : (
             <div className="flex flex-col justify-center items-center ">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {dataArray?.map((item, index) => (
-              <div key={index} className="justify-between flex flex-col shadow-lg border border-gray-500 rounded-lg w-full max-w-sm bg-base-100 hover:shadow-xl transition-shadow duration-300 ease-in-out">
-                    
-                    <ImageWithFallback src={getImageSrc(item.image)} alt="NFT Image" />
-                  
-                  <div className="m-1 max-w-sm   shadow dark:border-gray-700 dark:bg-gray-800 ">
-                  <div className=" grid grid-cols-1 divide-y  gap-2">
-                    <div className='flex justify-between ' >
-                      <span>
-                        Name:
-                      </span>
-                      <span>
-                      {item?.name ? truncateText(item.name, 20) : ' Name Unavailable'}
-                      </span>
-                    </div>
-                    <div className='flex flex-wrap ' >
-                      <span>
-                        description:
-                      </span>
-                      <p className="px-2 font-normal text-xs text-gray-500 dark:text-gray-400" >
-                       {item?.description ? truncateText(item.description, 100) : 'description Unavailable'}
-                      </p>
-                    </div>
-                  </div>
-                  {/* <h5 className="mb-2 text-sm font-semibold tracking-tight text-gray-500 dark:text-white"> {item?.name ? truncateText(item.name, 20) : ' Name Unavailable'} </h5>
-                  <p className="mb-3 font-normal text-xs text-gray-500 dark:text-gray-400">
-                  {item?.description ? truncateText(item.description, 100) : 'description Unavailable'}
-                    </p> */}
-                    {/* <h3 className="text-primary text-2xl font-semibold mb-2 text-center">
-                      {item?.name ? truncateText(item.name, 20) : 'NFT Name Unavailable'}
-                    </h3>
-                    <div className="flex justify-center pb-2">
-                      <button onClick={() => openModal(item)} className="bg-primary-focus text-primary-content hover:bg-primary hover:text-white text-lg font-semibold leading-none rounded-full py-3 px-8">
-                        Show Details
-                      </button>
-                    </div> */}
-                  </div>
-              </div>
-            ))}
+          {dataArray?.map((item, index) => (
+  <div key={index} className="justify-between flex flex-col shadow-lg border border-gray-500 rounded-lg w-full max-w-sm bg-base-100 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <ImageWithFallback src={getImageSrc(item.image)} alt="NFT Image" />
+    <div className="m-1 max-w-sm shadow dark:border-gray-700 dark:bg-gray-800 ">
+      <div className="grid grid-cols-1 divide-y gap-2">
+        <div className='flex justify-between'>
+          <span>Name:</span>
+          <span>{item?.name ? truncateText(item.name, 20) : 'Name Unavailable'}</span>
+        </div>
+        <div className='flex flex-wrap'>
+          <span>description:</span>
+          <p className="px-2 font-normal text-xs text-gray-500 dark:text-gray-400">
+            {item?.description ? truncateText(item.description, 100) : 'Description Unavailable'}
+          </p>
+        </div>
+        {/* Share on Twitter Button */}
+        <button
+      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      onClick={() => window.open(createTwitterShareUrl(item), '_blank')}
+    >
+      Share on Twitter
+    </button>
+      </div>
+    </div>
+  </div>
+))}
           </div>
           
           <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
