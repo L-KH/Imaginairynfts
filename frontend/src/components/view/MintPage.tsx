@@ -40,13 +40,13 @@ const MintPage = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [isFaild, setIsFaild] = useState(false);
   const [txHash, setTxHash] = useState('');
-  const [name, setName] = useState('');
+  const [name, setName] = useState('ImaginAIryNFTs');
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>('');
   const [selectedModel, setSelectedModel] = useState('openjourney V4');
   const [apiUrl, setApiUrl] = useState(apiUrlMap['openjourney V4']);
   const [image, setImage] = useState(logoUrl)
-  const [description, setDescription] = useState("")
+  const [description, setDescription] = useState("Unique digital artwork minted through the ImaginAIryNFTs platform.")
   const [account, setAcount] = useState<`0x${string}`>('0x')
   const { data: balance, queryKey } = useBalance({address: account})
   const queryClient = useQueryClient()

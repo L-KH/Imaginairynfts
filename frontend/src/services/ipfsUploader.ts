@@ -132,3 +132,15 @@ export const readNFTData = async (tokenUri: string): Promise<IData> => {
     return { name: '', description: '', image: '' };
   }
 };  
+
+export const createTwitterShareUrl = (item: IData) => {
+  const tweetBase = `✨ A Fusion of Art & AI! Discover our latest ImaginAIryNFT creation. 🌌🤖\n\n`;
+  const tweetBody = `🔹 Name: "${item.name}"\n🔹 Essence: "${item.description}"\n\nExplore the art of tomorrow, today. #AINFTs #ImaginAIryNFTs\n`;
+  // Optional: Add a URL to view the NFT, if available
+  //const websiteUrl = encodeURIComponent('https://www.imaginairynfts.com/your-nft-path'); // Adjust the path as necessary
+
+  const tweetText = encodeURIComponent(`${tweetBase}${tweetBody}`); // If you're including a link
+  // const tweetText = encodeURIComponent(`${tweetBase}${tweetBody}`); // If not including a direct link
+
+  return `https://twitter.com/intent/tweet?text=${tweetText}`;
+};

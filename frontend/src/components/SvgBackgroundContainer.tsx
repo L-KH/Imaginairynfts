@@ -1,4 +1,4 @@
-const SvgBackgroundContainer = ({ children }) => {
+const SvgBackgroundContainer = ({ children }: any) => {
   
   return (
     <main className='dark'>
