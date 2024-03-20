@@ -154,20 +154,44 @@ const MintPage = () => {
     setApiUrl(apiUrlMap[modelName]);
    };
    const [showSteps, setShowSteps] = useState(false);
-
+   const [opacity, setOpacity] = useState(25);
+   const listClasses = showSteps ? "max-h-96" : "max-h-0";
+   const transitionClasses = "overflow-hidden transition-max-h duration-500 ease-in-out";
+   const toggleSteps = () => {
+    setShowSteps(!showSteps);
+    
+    if (!showSteps) {
+      setOpacity(25); 
+      let op = 0;
+      const interval = setInterval(() => {
+        if (op >= 100) clearInterval(interval);
+        setOpacity(op);
+        op += 10;  
+      }, 50);  
+    } else {
+      setOpacity(25);  
+    }
+  };
    return (
-    <div className={"pt-10 px-2 md:px-10"}>
+    <div className={" pt-2 px-2 md:px-10"}>
       <ToastContainer />
       <button 
-        onClick={() => setShowSteps(!showSteps)} 
-        className="card flex flex-col items-start justify-center bg-base-300 p-5 w-full hover:bg-base-200 cursor-pointer focus:outline-none transition-colors duration-150 ease-in-out"
+        onClick={() => toggleSteps()} 
+        className="card flex flex-col items-start justify-center p-4 w-full "
       >
-        <p className=" text-lg md:text-xl lg:text-2xl pl-2">
+        <div className="flex flex-wrap p-4">
+          <span className="hover:bg-base-200 cursor-pointer focus:outline-none transition-colors duration-150 ease-in-out">
+             <IconArrowDown/>
+          </span>
+       
+          <p className=" md:text-sm lg:text-sm px-2">
           Quick Start Guide
         </p>
-
+        
+        </div>
+        
         {showSteps && (
-          <ol className="list-decimal text-left text-base md:text-lg px-5 py-2 w-full">
+          <ol className={`list-decimal text-left text-sky-200/${opacity} md:text-sm px-5 py-2 w-full ${transitionClasses} ${listClasses}`}>
           <li>Begin by writing a Name and a Description for your NFT.</li>
           <li>Enter a creative prompt for AI generation. Note: The prompt becomes private post-minting.</li>
           <li>For a bonus, theme your image around Linea/Linea Park. Ensure "Linea" is in the title.</li>
@@ -176,7 +200,7 @@ const MintPage = () => {
         </ol>
         )}
       </button>
-          <div className="flex flex-col gap-16 pt-10 pb-10">
+          <div className="flex flex-col gap-16 pt-4 pb-10">
 
               <div>
                 <div className="flex flex-col md:flex-row items-center justify-center  p-4">

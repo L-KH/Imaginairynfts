@@ -86,9 +86,6 @@ function NFTlist() {
 
 
 
-
-
-
   const openModal = (nft: IData) => {
     setSelectedNFT(nft);
   }
@@ -185,14 +182,16 @@ function NFTlist() {
 
     if (hasError || !src) {
       return (
-        <div className='border border-gray-500 shadow rounded-md p-4 m-auto max-w-64 object-cover'>
-          <IconError /> {/* Your fallback UI here */}
+        <div className='border border-gray-500 shadow  rounded-md p-4 m-auto max-w-64 object-cover'>
+          <IconError /> 
         </div>
       );
     }
 
     return (
-      <img alt={alt} src={src} className="max-h-60 w-full object-cover" onError={handleError} />
+      <div className='m-2 shadow-md  '>
+      <img alt={alt} src={src} className="rounded-md max-h-60 w-full object-cover" onError={handleError} />
+      </div>
     );
   };
 
@@ -201,7 +200,7 @@ function NFTlist() {
     <div className="px-4 sm:px-6 lg:px-8">
       {/* <h1 className="text-5xl font-extrabold text-secondary my-8 text-center">My minted NFTs:</h1> */}
       {address ? (
-        <div className='flex flex-wrap justify-between'>
+        <div className=' justify-between'>
           {loading ? (
             // <div className="flex justify-center items-center h-64">
             //   <ClipLoader color="#4A90E2" loading={loading} size={150} />
