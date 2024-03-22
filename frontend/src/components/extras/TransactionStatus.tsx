@@ -16,7 +16,7 @@ export const TransactionSuccess = ({
   const account = useAccount();
   const jumpToExplorer = (txid: string) => {
     // Directly specify the correct base URL for the Goerli Linea explorer.
-    const baseUrl = "https://goerli.lineascan.build/";
+    const baseUrl = "https://lineascan.build/";
     const fullPath = `${baseUrl}tx/${txid}`;
     window.open(fullPath, '_blank');
   };
