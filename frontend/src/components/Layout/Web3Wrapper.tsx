@@ -1,10 +1,8 @@
 import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createConfig ,cookieStorage, WagmiProvider, createStorage  } from 'wagmi'
-import { createClient, http } from 'viem' 
-import { mainnet, linea, lineaTestnet } from 'wagmi/chains'
-import { getDefaultConfig } from '@rainbow-me/rainbowkit'
-import { injected, walletConnect, coinbaseWallet  } from 'wagmi/connectors';
+import { http } from 'viem' 
+import { linea, lineaTestnet } from 'wagmi/chains'
 import { daisyTheme } from '@/utils/rainbowUtils'
 import {
   injectedWallet,

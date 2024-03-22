@@ -37,6 +37,17 @@ module.exports = {
   daisyui: {
     themes: [
       {
+        dark: {
+          primary: '#676de3',
+          secondary: '#67e39f',
+          accent: '#e3dd67',
+          neutral: '#e4e5f6',
+          'base-100': '#1e272f',
+          'base-200': '#141a1f',
+          'base-300': '#28343e',
+        },
+      },
+      {
         light: {
           primary: '#676de3',
           secondary: '#67e39f',
@@ -48,17 +59,6 @@ module.exports = {
           'base-content': '#1d1955',
         },
       },
-      {
-        dark: {
-          primary: '#676de3',
-          secondary: '#67e39f',
-          accent: '#e3dd67',
-          neutral: '#e4e5f6',
-          'base-100': '#1e272f',
-          'base-200': '#141a1f',
-          'base-300': '#28343e',
-        },
-      }
       // ,
       // 'cupcake',
       // 'lofi',

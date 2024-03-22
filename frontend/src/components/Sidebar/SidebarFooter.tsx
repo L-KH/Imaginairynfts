@@ -15,8 +15,8 @@ const SidebarFooter = () => {
       >
         {bottomDisclaimer.map((item) => (
           <div key={item.name} className="flex flex-row">
-            <Link href={item.href}>
-              <a className="text-xs opacity-60 hover:opacity-90">{item.name}</a>
+            <Link href={item.href} className="text-xs opacity-60 hover:opacity-90">
+              {item.name}
             </Link>
             <div className="mx-2 text-xs leading-4 opacity-50">&bull;</div>
           </div>
@@ -34,7 +34,7 @@ const SidebarFooter = () => {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default SidebarFooter
