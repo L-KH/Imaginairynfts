@@ -7,7 +7,7 @@ const MintedNFT: NextPage = () => {
   return (
     <Layout >
       <div className="flex h-full content-center">
-      <div className="w-full p-10 m-auto bg-base rounded-lg shadow-md ">
+      <div className="w-full p-10 m-auto  ">
         {/* <NFTlist/> */}
         <NftBalance/>
         

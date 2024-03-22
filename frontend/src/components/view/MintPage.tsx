@@ -194,7 +194,6 @@ const MintPage = () => {
           <ol className={`list-decimal text-left text-sky-200/${opacity} md:text-sm px-5 py-2 w-full ${transitionClasses} ${listClasses}`}>
           <li>Begin by writing a Name and a Description for your NFT.</li>
           <li>Enter a creative prompt for AI generation. Note: The prompt becomes private post-minting.</li>
-          <li>For a bonus, theme your image around Linea/Linea Park. Ensure "Linea" is in the title.</li>
           <li>Due to high demand, some models may be slow or maxed out. Try another model or mint our "Proof of Mint" logo as an alternative.</li>
           <li>Stay updated and follow us on Twitter for the latest news: <a href="https://twitter.com/ImaginAIryNFTs" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Twitter</a></li>
         </ol>
