@@ -16,6 +16,7 @@ interface IModal {
   closeModal: () => void;
 }
 interface IData {
+  id: number
   name: string;
   description: string;
   image: string;
@@ -232,10 +233,14 @@ function NFTlist() {
                   <div key={index} className="justify-between flex flex-col shadow-lg border border-gray-500 rounded-lg max-w-64 bg-base-100 hover:shadow-xl transition-shadow duration-300 ease-in-out">
                     <ImageWithFallback src={getImageSrc(item.image)} alt="NFT Image" />
                     <div className="m-1 max-w-sm shadow dark:border-gray-700 dark:bg-gray-800 ">
-                      <div className="grid grid-cols-1 divide-y gap-2">
-                        <div className='flex justify-between'>
+                      <div className="grid grid-cols-1 divide-y divide-sky-800 dark:divide-slate-500  gap-2">
+                        <div className='text-xs flex justify-between'>
                           <span>Name:</span>
                           <span>{item?.name ? truncateText(item.name, 20) : 'Name Unavailable'}</span>
+                        </div>
+                        <div className='flex justify-between text-xs'>
+                          <span>NFT #:</span>
+                          <span>{item?.id.toString() }</span>
                         </div>
                         <div className='grid grid-cols-1'>
                           <div className='grid grid-cols-1'>
@@ -244,14 +249,20 @@ function NFTlist() {
                               {item?.description ? truncateText(item.description, 100) : 'Description Unavailable'}
                             </p>
                           </div>
-
-                          <button className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5 inset-y-0 right-0 "
+                          <div className='pt-4 flex flex-wrap justify-between'>
+                          <button className=" text-gray-500 hover:text-sky-400 dark:hover:text-white ms-5 inset-y-0 right-0 "
                             onClick={() => window.open(createTwitterShareUrl(item), '_blank')} >
-                            <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 17">
-                              <path fill-rule="evenodd" d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z" clip-rule="evenodd" />
-                            </svg>
-                            <span className="sr-only">Share</span>
+                            
+                            <span className="text-xs ">Share</span>
                           </button>
+                          <button className="text-gray-500 hover:text-sky-400 dark:hover:text-white ms-5 inset-y-0 right-0"
+                           onClick={() => window.open(`https://element.market/assets/linea/0xb99e5534d42500eb1d5820fba3bb8416ccb76396/${item.id}`, '_blank')} >
+  
+                            
+                            <span className="text-xs pr-4">Marketplace</span>
+                          </button>
+                          </div>
+                         
 
                         </div>
                         {/* Share on Twitter Button */}
@@ -271,7 +282,7 @@ function NFTlist() {
 
             </div>
           )}
-          <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
+          {/* <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} /> */}
         </div>
       ) : (
         <div className="flex justify-center items-center h-64">

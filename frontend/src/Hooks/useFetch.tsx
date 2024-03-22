@@ -43,19 +43,24 @@ export const useFetch = () => {
       return ''
     }
   };
-  const fetchBatchTokenURIs = async (currentPage: number, nftsBalance: any[] ) => {
+  const fetchBatchTokenURIs = async (currentPage: number, nftsBalance: any[]) => {
     const PAGE_SIZE = 9;
     const startIndex = currentPage * PAGE_SIZE;
     const endIndex = Math.min(startIndex + PAGE_SIZE, nftsBalance.length);
-
+  
     try {
-      const urisPromises = nftsBalance.slice(startIndex, endIndex).map(fetchTokenURI);
-      const uris = await Promise.all(urisPromises);
-      return uris.filter((uri): uri is string => !!uri);
+      // Map each tokenId to a promise that resolves to an object containing both the tokenId and its URI
+      // const tokenInfoPromises = nftsBalance.slice(startIndex, endIndex).map(async (tokenId) => {
+        const tokenInfoPromises = nftsBalance.map(async (tokenId) => {
+        const uri = await fetchTokenURI(tokenId);
+        return { tokenId, uri };
+      });
+      const tokenInfos = await Promise.all(tokenInfoPromises);
+      return tokenInfos.filter(({ uri }) => !!uri);
     } catch (error) {
       console.error('Error fetching batch of token URIs', error);
-      return []
-    } 
+      return [];
+    }
   };
 
   return { 
