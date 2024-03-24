@@ -249,50 +249,14 @@ export const createImage = async (apiUrl: string, prompt: string) => {
   }
 }
 //--------------------------------------------------------
-export const generateImageReplicate = async (prompt: string) => {
-  const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-  const API_URL = `${CORS_PROXY_URL}https://api.replicate.com/v1/predictions`;
-  const REPLICATE_API_TOKEN = 'r8_1vhIUmaijii4xj2cm0UIsoA4wokKebe3SsTKf';
-
+export const generateImageReplicate = async (prompt: string): Promise<string> => {
   try {
-    // Initiate the image generation
-    let response = await axios.post(
-      API_URL,
-      {
-        version: '727e49a643e999d602a896c774a0658ffefea21465756a6ce24b7ea4165eba6a',
-        input: { prompt: prompt }
-      },
-      {
-        headers: {
-          Authorization: `Token ${REPLICATE_API_TOKEN}`
-        }
-      }
-    );
-
-    const predictionId = response.data.id;
-
-    // Poll for the completion of the image generation
-    let status = response.data.status;
-    while (status !== 'succeeded') {
-      await new Promise(resolve => setTimeout(resolve, 5000)); // 5-second delay
-      response = await axios.get(`${API_URL}/${predictionId}`, {
-        headers: {
-          Authorization: `Token ${REPLICATE_API_TOKEN}`
-        }
-      });
-      status = response.data.status;
-    }
-
-    // Assuming the model returns an array of image URLs in the output
-    if (response.data.output && response.data.output.length > 0) {
-      const imageUrl = response.data.output[0];
-      const imageBase64 = await fetchImageAsBase64(imageUrl);
-      return imageBase64;
-    } else {
-      throw new Error('No images were generated.');
-    }
+    console.log('Sending request to /api/replicateProxy');
+    const response = await axios.post('/api/replicateProxy', { prompt });
+    console.log('Response from /api/replicateProxy:', response.data);
+    return response.data.image;
   } catch (error) {
     console.error('Error generating image with Replicate:', error);
-    throw new Error('Error during Replicate image generation process.');
+    throw new Error('Failed to generate image with Replicate');
   }
 };
