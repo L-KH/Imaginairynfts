@@ -249,41 +249,50 @@ export const createImage = async (apiUrl: string, prompt: string) => {
   }
 }
 //--------------------------------------------------------
-  export const generateImageReplicate = async (prompt: string) => {
-    const API_URL = 'https://api.replicate.com/v1/predictions';
-    const REPLICATE_API_TOKEN = 'r8_1vhIUmaijii4xj2cm0UIsoA4wokKebe3SsTKf';
-  
-    try {
-      // Initiate the image generation
-      let response = await axios.post(API_URL, {
-        version: "727e49a643e999d602a896c774a0658ffefea21465756a6ce24b7ea4165eba6a",
+export const generateImageReplicate = async (prompt: string) => {
+  const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
+  const API_URL = `${CORS_PROXY_URL}https://api.replicate.com/v1/predictions`;
+  const REPLICATE_API_TOKEN = 'r8_1vhIUmaijii4xj2cm0UIsoA4wokKebe3SsTKf';
+
+  try {
+    // Initiate the image generation
+    let response = await axios.post(
+      API_URL,
+      {
+        version: '727e49a643e999d602a896c774a0658ffefea21465756a6ce24b7ea4165eba6a',
         input: { prompt: prompt }
-      }, {
-        headers: { Authorization: `Token ${REPLICATE_API_TOKEN}` },
+      },
+      {
+        headers: {
+          Authorization: `Token ${REPLICATE_API_TOKEN}`
+        }
+      }
+    );
+
+    const predictionId = response.data.id;
+
+    // Poll for the completion of the image generation
+    let status = response.data.status;
+    while (status !== 'succeeded') {
+      await new Promise(resolve => setTimeout(resolve, 5000)); // 5-second delay
+      response = await axios.get(`${API_URL}/${predictionId}`, {
+        headers: {
+          Authorization: `Token ${REPLICATE_API_TOKEN}`
+        }
       });
-  
-      const predictionId = response.data.id;
-  
-      // Poll for the completion of the image generation
-      let status = response.data.status;
-      while (status !== 'succeeded') {
-        await new Promise(resolve => setTimeout(resolve, 5000)); // 5-second delay
-        response = await axios.get(`${API_URL}/${predictionId}`, {
-          headers: { Authorization: `Token ${REPLICATE_API_TOKEN}` },
-        });
-        status = response.data.status;
-      }
-  
-      // Assuming the model returns an array of image URLs in the output
-      if (response.data.output && response.data.output.length > 0) {
-        const imageUrl = response.data.output[0];
-        const imageBase64 = await fetchImageAsBase64(imageUrl);
-        return imageBase64;
-      } else {
-        throw new Error('No images were generated.');
-      }
-    } catch (error) {
-      console.error('Error generating image with Replicate:', error);
-      throw new Error('Error during Replicate image generation process.');
+      status = response.data.status;
     }
-  };
+
+    // Assuming the model returns an array of image URLs in the output
+    if (response.data.output && response.data.output.length > 0) {
+      const imageUrl = response.data.output[0];
+      const imageBase64 = await fetchImageAsBase64(imageUrl);
+      return imageBase64;
+    } else {
+      throw new Error('No images were generated.');
+    }
+  } catch (error) {
+    console.error('Error generating image with Replicate:', error);
+    throw new Error('Error during Replicate image generation process.');
+  }
+};
