@@ -90,7 +90,7 @@ const MintPage = () => {
       } else if (selectedModel === 'EdenAI') {
         // Assuming createImageWithEdenAI returns the URL directly
         imageSrc = await createImageWithEdenAI(prompt);
-      } else if (selectedModel === 'Replicate') {
+      } else if (selectedModel === 'sdxl-lightning') {
         // Assuming generateImageReplicate returns the URL directly
         imageSrc = await generateImageReplicate(prompt);
       } else {
