@@ -104,10 +104,10 @@ const MintPage = () => {
       }
   
       if (imageSrc) {
-        setImage(imageSrc); // Use setImage to update state regardless of source type
+        setImage(imageSrc); 
       } else {
-        setIsFaild(true); // Assuming there's a typo in setIsFaild, correcting to setIsFailed
-        setImage(logoUrl); // Fallback to logoUrl if image generation fails
+        setIsFaild(true); 
+        setImage(logoUrl); 
       }
     } catch (error) {
       console.error(error);
