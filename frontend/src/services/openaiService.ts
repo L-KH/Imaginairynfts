@@ -3,7 +3,7 @@ import {generateRandomSeed} from '@/utils/randomUtils'
 import axios from 'axios'
 import { OpenAI } from 'openai';
 const RATE_LIMIT = 3; // Max number of attempts
-const RESET_TIME = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+const RESET_TIME = 3 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 function checkRateLimit(model: string) {
   const currentTime = new Date().getTime();
@@ -66,7 +66,7 @@ export const getMagicPrompt = async (name: string) => {
 export const createImageWithDALLE = async (prompt: string) => {
   const url = 'https://api.openai.com/v1/images/generations';
   if (!checkRateLimit('DALLE')) {
-    throw new Error('You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+    throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
   }
   try {
@@ -101,6 +101,64 @@ export const createImageWithDALLE = async (prompt: string) => {
     return null;
   }
 };
+const fetchImageAsBase64 = async (imageUrl: string) => {
+  try {
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    const base64 = Buffer.from(response.data, 'binary').toString('base64');
+    return base64;
+  } catch (error) {
+    console.error('Error fetching image:', error);
+    throw new Error('Failed to fetch image for conversion.');
+  }
+};
+//------------------------------**********************
+// ac614f96-1082-45bf-be9d-757f2d31c174
+//"num_images": 1
+export const createImageWithLeonardoAI = async (prompt: string) => {
+  const API_URL = 'https://cloud.leonardo.ai/api/rest/v1/generations';
+  const API_KEY = '468e48d7-4d34-45b3-98fd-795c088af175';
+  // if (!checkRateLimit('DALLE')) {
+  //   throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+
+  // }
+  try {
+    let response = await axios.post(
+      API_URL,
+      {
+        prompt: prompt,
+        modelId: "ac614f96-1082-45bf-be9d-757f2d31c174", // Replace with the actual model ID
+        num_images: 1
+      },
+      {
+        headers: { Authorization: `Bearer ${API_KEY}` },
+      }
+    );
+
+    const generationId = response.data.sdGenerationJob.generationId;
+
+    // Polling mechanism (simplified for brevity)
+    let generationResult;
+    do {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // 5-second delay
+      generationResult = await axios.get(`${API_URL}/${generationId}`, {
+        headers: { Authorization: `Bearer ${API_KEY}` },
+      });
+    } while (generationResult.data.generations_by_pk.status !== 'COMPLETE');
+
+    if (generationResult.data.generations_by_pk.generated_images.length > 0) {
+      const imageUrl = generationResult.data.generations_by_pk.generated_images[0].url;
+      const imageBase64 = await fetchImageAsBase64(imageUrl);
+      return `data:image/jpeg;base64,${imageBase64}`; // Assuming JPEG; adjust as necessary
+    } else {
+      throw new Error('No images were generated.');
+    }
+  } catch (error) {
+    console.error('Error generating image with Leonardo.ai:', error);
+    throw new Error('Error during Leonardo.ai image generation process.');
+  }
+};
+
+
 //------------------------------**********************
 
   export const createImageWithStableDiffusion = async (prompt: string) => {
@@ -191,20 +249,11 @@ export const createImage = async (apiUrl: string, prompt: string) => {
   }
 }
 //--------------------------------------------------------
-export const generateImageReplicate = async (prompt: string, width: number = 512, height: number = 512, numOutputs: number = 1, seed?: number) => {
+export const generateImageReplicate = async (prompt: string): Promise<string> => {
   try {
-    const response = await axios.post('/api/generateImage', {
-      prompt,
-      width,
-      height,
-      numOutputs,
-      seed,
-    });
-
-    // Handle the response as needed, e.g., extracting image URLs
-    return response.data;
+    const response = await axios.post('/api/replicateProxy', { prompt });
+    return response.data.image;
   } catch (error) {
-    console.error("Error in generating image:", error);
-    throw new Error('Failed to generate image');
+    throw new Error('Failed to generate image with Replicate');
   }
 };

@@ -6,7 +6,7 @@ import Modal from "@/components/extras/Modal";
 import { useAccount, useBalance, useBlockNumber} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
-import { getMagicPrompt, createImageWithDALLE, createImageWithStableDiffusion, createImage, createImageWithEdenAI, generateImageReplicate } from '@/services/openaiService'
+import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate } from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import { useQueryClient } from '@tanstack/react-query' 
 import {
@@ -24,6 +24,8 @@ import {
 import { formatEther } from "viem";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MintConnectButton } from '@/components/extras/connectButton'
+
 
 const MintPage = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -84,10 +86,13 @@ const MintPage = () => {
           // If it's a base64 string, prepend the necessary data URI scheme
           imageSrc = `data:image/png;base64,${base64Image}`;
         }
+      } else if (selectedModel === 'DreamShaperV7') {
+        // Assuming createImageWithEdenAI returns the URL directly
+        imageSrc = await createImageWithLeonardoAI(prompt);
       } else if (selectedModel === 'EdenAI') {
         // Assuming createImageWithEdenAI returns the URL directly
         imageSrc = await createImageWithEdenAI(prompt);
-      } else if (selectedModel === 'Replicate') {
+      } else if (selectedModel === 'sdxl-lightning') {
         // Assuming generateImageReplicate returns the URL directly
         imageSrc = await generateImageReplicate(prompt);
       } else {
@@ -266,14 +271,13 @@ const MintPage = () => {
                         <button onClick={handleGenerateImage} className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Generate Image</button>
                         }
                       </div>
-
-                      <button disabled={isDisconnected && formatEther(balance?.value || BigInt(0))> '0.001'} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                        {isDisconnected? <span>Connect Your Wallet</span>:
-                        (parseFloat(formatEther(balance?.value || BigInt(0))) < 0.001 ? 
-                        <span>insufficient balnce </span>: <span>Mint NFT</span>
-                        )
+                      {isDisconnected?    
+                      <MintConnectButton  />:
+                        <button disabled={parseFloat(formatEther(balance?.value || BigInt(0)))< 0.0005} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                        {parseFloat(formatEther(balance?.value || BigInt(0))) < 0.0005 ? 
+                        <span>insufficient balance </span>: <span>Mint NFT</span>
                         
-                        }</button>
+                        }</button>}
                       
                     </div>
                   </div>

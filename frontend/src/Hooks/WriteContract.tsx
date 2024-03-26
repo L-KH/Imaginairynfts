@@ -24,7 +24,7 @@ export const useMint = () => {
         abi: NFT,
         functionName: 'mint',
         args: [tokenURI],
-        value: parseUnits("0.001", 18)
+        value: parseUnits("0.0005", 18)
       });
   
       return result;

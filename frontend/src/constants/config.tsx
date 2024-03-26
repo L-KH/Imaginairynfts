@@ -78,5 +78,6 @@ export const apiUrlMap: IAPIURI = {
     'DALLE': 'DALLE',
     // 'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
     'EdenAI':'EdenAI',
-    // 'Replicate':'Replicate'
+    'DreamShaperV7':'DreamShaperV7',
+    'sdxl-lightning':'sdxl-lightning'
  };
