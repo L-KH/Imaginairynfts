@@ -273,9 +273,9 @@ const MintPage = () => {
                       </div>
                       {isDisconnected?    
                       <MintConnectButton  />:
-                        <button disabled={parseFloat(formatEther(balance?.value || BigInt(0)))< 0.001} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                        {parseFloat(formatEther(balance?.value || BigInt(0))) < 0.001 ? 
-                        <span>insufficient balnce </span>: <span>Mint NFT</span>
+                        <button disabled={parseFloat(formatEther(balance?.value || BigInt(0)))< 0.0005} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                        {parseFloat(formatEther(balance?.value || BigInt(0))) < 0.0005 ? 
+                        <span>insufficient balance </span>: <span>Mint NFT</span>
                         
                         }</button>}
                       
