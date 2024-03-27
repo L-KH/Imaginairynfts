@@ -66,8 +66,9 @@ type IAPIURI = {
     [key: string]: string;
 };
 export const apiUrlMap: IAPIURI = { 
-    'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
-    // 'stable-diffusion-v1-5': 'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
+    //'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
+     'stable-diffusion-v1-5': 'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
+     'fast-dreambooth':'https://api-inference.huggingface.co/models/RafiulCV/fast-dreambooth',
     // 'stable-diffusion-v1-4': 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4',
     //'openjourney':'https://api-inference.huggingface.co/models/prompthero/openjourney',
     'openjourney V4':'https://api-inference.huggingface.co/models/prompthero/openjourney-v4',
@@ -76,7 +77,7 @@ export const apiUrlMap: IAPIURI = {
     'anything-v5.0':'https://api-inference.huggingface.co/models/stablediffusionapi/anything-v5',
     // 'Dungeons-and-Diffusion':'https://api-inference.huggingface.co/models/0xJustin/Dungeons-and-Diffusion',
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
-    'DALLE': 'DALLE',
+    //'DALLE': 'DALLE',
     // 'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
     'EdenAI':'EdenAI',
     'DreamShaperV7':'DreamShaperV7',
