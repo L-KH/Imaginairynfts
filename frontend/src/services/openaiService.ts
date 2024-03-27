@@ -252,6 +252,38 @@ export const createImage = async (apiUrl: string, prompt: string) => {
 
   }
 }
+//---------/////*/*//**//*/*//*/*/*/*/*
+export const createImage2 = async (apiUrl: string, prompt: string) => {
+  const seed = generateRandomSeed(0, 1000);
+  try {
+    const response = await axios({
+      url: apiUrl,
+      method: "POST",
+      headers: {
+        "Accept": "image/png",
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        inputs: `${prompt} [seed:${seed}]`,
+        parameters: {"height": 512,
+        "width": 512},
+      }),
+      responseType: "arraybuffer",
+    });
+    const type = response.headers["content-type"];
+    const data = response.data;
+    const base64data = Buffer.from(data).toString("base64");
+    const img = `data:${type};base64,` + base64data;
+    // <-- This is so we can render it on the page
+    return { image: img, data: data };
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime."
+    );
+  }
+};
+///**/*//*/*/*/*/*/*/* */ */
 //--------------------------------------------------------
 export const generateImageReplicate = async (prompt: string): Promise<string> => {
   try {

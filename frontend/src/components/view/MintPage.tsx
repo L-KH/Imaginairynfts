@@ -6,7 +6,7 @@ import Modal from "@/components/extras/Modal";
 import { useAccount, useBalance, useBlockNumber} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
-import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate } from '@/services/openaiService'
+import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate, createImage2} from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import { useQueryClient } from '@tanstack/react-query' 
 import {
@@ -95,7 +95,13 @@ const MintPage = () => {
       } else if (selectedModel === 'sdxl-lightning') {
         // Assuming generateImageReplicate returns the URL directly
         imageSrc = await generateImageReplicate(prompt);
-      } else {
+      } else if (selectedModel === 'openjourney V4.5') {
+        // Assuming generateImageReplicate returns the URL directly
+        const modelUrl = apiUrlMap[selectedModel];
+        // Call your existing createImage or similar function
+        const data = await createImage2(modelUrl, prompt);
+        imageSrc = data?.image; // Assuming this returns a URL
+      }else {
         // Fetch the model URL from apiUrlMap for other models
         const modelUrl = apiUrlMap[selectedModel];
         // Call your existing createImage or similar function
