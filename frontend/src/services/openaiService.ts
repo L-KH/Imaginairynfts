@@ -248,7 +248,7 @@ export const createImage = async (apiUrl: string, prompt: string) => {
     return {image: img, data: data}
     } catch (error) {
       console.error(error);
-      throw new Error('You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+      throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
   }
 }
@@ -279,7 +279,7 @@ export const createImage2 = async (apiUrl: string, prompt: string) => {
   } catch (error) {
     console.error(error);
     throw new Error(
-      "You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime."
+      "You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime."
     );
   }
 };
@@ -290,6 +290,6 @@ export const generateImageReplicate = async (prompt: string): Promise<string> =>
     const response = await axios.post('/api/replicateProxy', { prompt });
     return response.data.image;
   } catch (error) {
-    throw new Error('Failed to generate image with Replicate');
+    throw new Error('Failed to generate image with sdxl-lightning. Please try again, or consider minting the ImaginAIryNFTs logo');
   }
 };
