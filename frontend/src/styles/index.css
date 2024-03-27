@@ -107,7 +107,7 @@ nav {
   color: var(--clr-blue);
   font-size: clamp(0.95em, 2vw, 1.2em);
   font-weight: 800;
-  background: linear-gradient(270deg, #ffffff, #00f7ff);
+  background: linear-gradient(270deg, #00dce4, #00f7ff);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
