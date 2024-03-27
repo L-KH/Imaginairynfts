@@ -95,7 +95,7 @@ const MintPage = () => {
       } else if (selectedModel === 'sdxl-lightning') {
         // Assuming generateImageReplicate returns the URL directly
         imageSrc = await generateImageReplicate(prompt);
-      } else if (selectedModel === 'openjourney V4.5') {
+      } else if (selectedModel === 'openjourney V3.5') {
         // Assuming generateImageReplicate returns the URL directly
         const modelUrl = apiUrlMap[selectedModel];
         // Call your existing createImage or similar function
