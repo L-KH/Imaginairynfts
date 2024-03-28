@@ -45,6 +45,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json({ message: 'No images were generated.' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching data from Replicate' });
+    res.status(500).json({ message: 'Error fetching data from sdxl-lightning' });
   }
 }

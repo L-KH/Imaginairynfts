@@ -2,7 +2,7 @@ import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createConfig ,cookieStorage, WagmiProvider, createStorage  } from 'wagmi'
 import { http } from 'viem' 
-import { linea, lineaTestnet } from 'wagmi/chains'
+import { linea } from 'wagmi/chains'
 import { daisyTheme } from '@/utils/rainbowUtils'
 import {
   injectedWallet,
@@ -30,10 +30,9 @@ const connectors = connectorsForWallets(
 export const config = createConfig({
   // appName: 'RainbowKit demo',
   // projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
-  chains: [linea, lineaTestnet],
+  chains: [linea],
   transports: {
     [linea.id]: http(),
-    [lineaTestnet.id]: http(),
   },
   ssr: true,
   storage: createStorage({

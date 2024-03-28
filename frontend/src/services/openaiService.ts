@@ -117,10 +117,10 @@ const fetchImageAsBase64 = async (imageUrl: string) => {
 export const createImageWithLeonardoAI = async (prompt: string) => {
   const API_URL = 'https://cloud.leonardo.ai/api/rest/v1/generations';
   const API_KEY = '468e48d7-4d34-45b3-98fd-795c088af175';
-  // if (!checkRateLimit('DALLE')) {
-  //   throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+  if (!checkRateLimit('DreamShaperV7')) {
+    throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
-  // }
+  }
   try {
     let response = await axios.post(
       API_URL,
@@ -162,7 +162,7 @@ export const createImageWithLeonardoAI = async (prompt: string) => {
 //------------------------------**********************
 
   export const createImageWithStableDiffusion = async (prompt: string) => {
-  
+
     try {
       const API_KEY = "d30ec85c-a6a4-4aeb-87f6-3eaf6ca794d8"; // Replace with your actual DeepAI API key
       const response = await axios.post("https://api.deepai.org/api/text2img", {
@@ -191,6 +191,7 @@ const imageToBase64 = async (url: string): Promise<string> => {
 
 // Modified createImageWithEdenAI function
 export const createImageWithEdenAI = async (prompt: string): Promise<string | null> => {
+  
   const options = {
     method: "POST",
     url: "https://api.edenai.run/v2/image/generation",
@@ -204,7 +205,10 @@ export const createImageWithEdenAI = async (prompt: string): Promise<string | nu
       fallback_providers: "",
     },
   };
+  if (!checkRateLimit('EdenAI')) {
+    throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
+  }
   try {
     const response = await axios.request(options);
     const providerKey = Object.keys(response.data)[0];
@@ -229,7 +233,7 @@ export const createImage = async (apiUrl: string, prompt: string) => {
       const response = await axios({
         url: apiUrl,
         method: "POST",
-        headers: { Authorization: `Bearer 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` },
+        headers: { Authorization: `Bearer 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` },
         data: JSON.stringify({
           inputs: `${prompt} [seed:${seed}]`,
           options: { wait_for_model: true },
@@ -244,16 +248,48 @@ export const createImage = async (apiUrl: string, prompt: string) => {
     return {image: img, data: data}
     } catch (error) {
       console.error(error);
-      throw new Error('You have reached your minting limit. Please wait 6 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+      throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
   }
 }
+//---------/////*/*//**//*/*//*/*/*/*/*
+export const createImage2 = async (apiUrl: string, prompt: string) => {
+  const seed = generateRandomSeed(0, 1000);
+  try {
+    const response = await axios({
+      url: apiUrl,
+      method: "POST",
+      headers: {
+        "Accept": "image/png",
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        inputs: `${prompt} [seed:${seed}]`,
+        parameters: {"height": 512,
+        "width": 512},
+      }),
+      responseType: "arraybuffer",
+    });
+    const type = response.headers["content-type"];
+    const data = response.data;
+    const base64data = Buffer.from(data).toString("base64");
+    const img = `data:${type};base64,` + base64data;
+    // <-- This is so we can render it on the page
+    return { image: img, data: data };
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime."
+    );
+  }
+};
+///**/*//*/*/*/*/*/*/* */ */
 //--------------------------------------------------------
 export const generateImageReplicate = async (prompt: string): Promise<string> => {
   try {
     const response = await axios.post('/api/replicateProxy', { prompt });
     return response.data.image;
   } catch (error) {
-    throw new Error('Failed to generate image with Replicate');
+    throw new Error('Failed to generate image with sdxl-lightning. Please try again, or consider minting the ImaginAIryNFTs logo');
   }
 };
