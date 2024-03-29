@@ -32,9 +32,8 @@ export const config = createConfig({
   // projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
   chains: [linea],
   transports: {
-    [linea.id]: fallback([
-      http('https://rpc.linea.build'),
-    ]),
+    [linea.id]: http(),
+   
     
     
 
