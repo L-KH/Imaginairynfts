@@ -33,10 +33,7 @@ export const config = createConfig({
   chains: [linea],
   transports: {
     [linea.id]: fallback([
-      http("https://linea.blockpi.network/v1/rpc/public"),
-      http('https://1rpc.io/linea'),
-      http('https://linea.drpc.org'),
-      http('https://1rpc.io/linea'),
+      http('https://rpc.linea.build'),
     ]),
     
     
