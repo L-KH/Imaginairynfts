@@ -45,8 +45,8 @@ const MintPage = () => {
   const [name, setName] = useState('ImaginAIryNFTs');
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>('');
-  const [selectedModel, setSelectedModel] = useState('openjourney V4');
-  const [apiUrl, setApiUrl] = useState(apiUrlMap['openjourney V4']);
+  const [selectedModel, setSelectedModel] = useState('sdxl-lightning');
+  const [apiUrl, setApiUrl] = useState(apiUrlMap['sdxl-lightning']);
   const [image, setImage] = useState(logoUrl)
   const [description, setDescription] = useState("Unique digital artwork minted through the ImaginAIryNFTs platform.")
   const [account, setAcount] = useState<`0x${string}`>('0x')
@@ -315,7 +315,7 @@ const MintPage = () => {
               <>
                 <div className="w-full flex border flex-wrap  ">
                   <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                    <div className="text-center inline-flex items-center">
+                    <div className=" text-gray-200 text-center inline-flex items-center">
                     
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -331,7 +331,7 @@ const MintPage = () => {
                           d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
                         />
                       </svg>
-                      <span className="font-medium text-sm">Upload Image to IPFS </span>
+                      <span className="text-gray-200 font-medium text-sm">Upload Image to IPFS </span>
                     </div>
                     
                     {IsLoadingUpload ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
@@ -341,7 +341,7 @@ const MintPage = () => {
                     )}
                   </div>
                   <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                  <span className="font-medium text-sm"> Mint NFT</span>
+                  <span className="text-gray-200 font-medium text-sm"> Mint NFT</span>
                   
                     {IsLoadingMint ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
                       <IconCheck />
