@@ -2,7 +2,7 @@ import { OPENAI_API_KEY } from '../constants/config';
 import {generateRandomSeed} from '@/utils/randomUtils'
 import axios from 'axios'
 import { OpenAI } from 'openai';
-const RATE_LIMIT = 3; // Max number of attempts
+const RATE_LIMIT = 5; // Max number of attempts
 const RESET_TIME = 3 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 function checkRateLimit(model: string) {
