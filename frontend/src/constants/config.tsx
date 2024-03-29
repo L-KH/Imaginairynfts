@@ -80,7 +80,7 @@ export const apiUrlMap: IAPIURI = {
     'Pokemon Diffusers':'https://api-inference.huggingface.co/models/lambdalabs/sd-pokemon-diffusers',
     //'DALLE': 'DALLE',
     // 'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
-    //'EdenAI':'EdenAI',
-    'DreamShaperV7':'DreamShaperV7',
+    'EdenAI':'EdenAI',
+    //'DreamShaperV7':'DreamShaperV7',
 
  };
