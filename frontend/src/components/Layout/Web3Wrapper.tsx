@@ -32,12 +32,8 @@ export const config = createConfig({
   // projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
   chains: [linea],
   transports: {
-    [linea.id]: fallback([
-      http("https://linea.blockpi.network/v1/rpc/public"),
-      http('https://1rpc.io/linea'),
-      http('https://linea.drpc.org'),
-      http('https://1rpc.io/linea'),
-    ]),
+    [linea.id]: http(),
+   
     
     
 
