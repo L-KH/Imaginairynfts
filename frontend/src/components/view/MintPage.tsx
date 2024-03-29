@@ -341,7 +341,7 @@ const MintPage = () => {
                     )}
                   </div>
                   <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                  <span className="font-medium text-sm"> Mint NFT 0.00003ETH</span>
+                  <span className="font-medium text-sm"> Mint NFT</span>
                   
                     {IsLoadingMint ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
                       <IconCheck />
