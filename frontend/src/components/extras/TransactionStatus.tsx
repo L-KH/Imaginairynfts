@@ -20,8 +20,6 @@ export const TransactionSuccess = ({
     const fullPath = `${baseUrl}tx/${txid}`;
     window.open(fullPath, '_blank');
   };
-  
-  
   return (
     <div className="w-full  ">
       <div className="w-full  border flex flex-wrap  items-center py-4 justify-center">

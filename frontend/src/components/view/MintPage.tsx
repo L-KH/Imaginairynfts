@@ -53,9 +53,6 @@ const MintPage = () => {
   const { data: balance, queryKey } = useBalance({address: account})
   const queryClient = useQueryClient()
   const { data: blockNumber } = useBlockNumber({ watch: true }) 
-  const [useEdenAI, setUseEdenAI] = useState(false);
-  const [useReplicate, setUseReplicate] = useState(false);
-
 
   useEffect(() => { 
     queryClient.invalidateQueries({ queryKey }) 
@@ -279,12 +276,14 @@ const MintPage = () => {
                       </div>
                       {isDisconnected?    
                       <MintConnectButton  />:
-                        <button disabled={parseFloat(formatEther(balance?.value || BigInt(0)))< 0.0005} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                        {parseFloat(formatEther(balance?.value || BigInt(0))) < 0.0005 ? 
-                        <span>insufficient balance </span>: <span>Mint NFT</span>
+                        <button disabled={parseFloat(formatEther(balance?.value || BigInt(0)))< 0.00005} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                        {parseFloat(formatEther(balance?.value || BigInt(0))) < 0.00005 ? 
+                        <span>insufficient balance </span>: <span>Mint NFT [0.00005ETH]</span>
                         
                         }</button>}
-                      
+                        <div className="flex flex-wrap py-4">
+                      <IconSetting/><p className="font-medium text-sm">A small fee is applied to cover the AI models cost</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -342,7 +341,8 @@ const MintPage = () => {
                     )}
                   </div>
                   <div className="w-full  border-b flex items-center py-4 justify-between px-3">
-                  <span className="font-medium text-sm"> Mint NFT </span>
+                  <span className="font-medium text-sm"> Mint NFT 0.00003ETH</span>
+                  
                     {IsLoadingMint ? <Spinner className="h-6 w-6 text-green-500/50 animate-spin " /> : !txError ? (
                       <IconCheck />
                     ) : (

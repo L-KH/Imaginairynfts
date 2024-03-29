@@ -33,6 +33,7 @@ export const config = createConfig({
   chains: [linea],
   transports: {
     [linea.id]: http(),
+
   },
   ssr: true,
   storage: createStorage({
