@@ -32,9 +32,14 @@ export const config = createConfig({
   // projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
   chains: [linea],
   transports: {
-    [linea.id]: http(),
-   
-    
+    [linea.id]: fallback([
+      http("https://rpc.linea.build"),
+      http("https://linea.rpc.thirdweb.com"),
+      http('https://linea.getblock.io/409ebee8ad60475696a77cd3cb1aefae'),
+      http('https://linea-mainnet.infura.io/v3/409ebee8ad60475696a77cd3cb1aefae'),
+      http("https://linea-mainnet-public.unifra.io"),
+      http("https://linea.blockpi.network/v1/rpc/public"),
+    ]),
     
 
   },
