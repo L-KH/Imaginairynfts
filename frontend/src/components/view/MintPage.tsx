@@ -277,7 +277,7 @@ const MintPage = () => {
                       {isDisconnected?    
                       <MintConnectButton  />:
                         <button onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                        <span>Mint NFT [0.00005ETH]</span>
+                        <span>Mint NFT [0.0001ETH]</span>
                         </button>}
                         <div className=" flex flex-wrap py-4">
                           <span className="p-1"><IconSetting/> </span>
