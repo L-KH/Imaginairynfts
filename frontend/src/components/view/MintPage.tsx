@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Spinner, useTabs } from "@material-tailwind/react";
 import Image from "next/legacy/image";
 import Modal from "@/components/extras/Modal";
-import { useAccount, useBalance, useBlockNumber} from "wagmi";
+import { useAccount} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
 import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate, createImage2} from '@/services/openaiService'
@@ -50,13 +50,13 @@ const MintPage = () => {
   const [image, setImage] = useState(logoUrl)
   const [description, setDescription] = useState("Unique digital artwork minted through the ImaginAIryNFTs platform.")
   const [account, setAcount] = useState<`0x${string}`>('0x')
-  const { data: balance, queryKey } = useBalance({address: account})
-  const queryClient = useQueryClient()
-  const { data: blockNumber } = useBlockNumber({ watch: true }) 
+  // const { data: balance, queryKey } = useBalance({address: account})
+  // const queryClient = useQueryClient()
+  // const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
-  useEffect(() => { 
-    queryClient.invalidateQueries({ queryKey }) 
-  }, [blockNumber])
+  // useEffect(() => { 
+  //   queryClient.invalidateQueries({ queryKey }) 
+  // }, [blockNumber])
   useEffect(() => { 
     if(address){
       setAcount(address)
