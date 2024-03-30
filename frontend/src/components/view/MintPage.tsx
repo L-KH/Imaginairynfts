@@ -45,8 +45,8 @@ const MintPage = () => {
   const [name, setName] = useState('ImaginAIryNFTs');
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>('');
-  const [selectedModel, setSelectedModel] = useState('sdxl-lightning');
-  const [apiUrl, setApiUrl] = useState(apiUrlMap['sdxl-lightning']);
+  const [selectedModel, setSelectedModel] = useState('EdenAI');
+  const [apiUrl, setApiUrl] = useState(apiUrlMap['EdenAI']);
   const [image, setImage] = useState(logoUrl)
   const [description, setDescription] = useState("Unique digital artwork minted through the ImaginAIryNFTs platform.")
   const [account, setAcount] = useState<`0x${string}`>('0x')
@@ -276,13 +276,12 @@ const MintPage = () => {
                       </div>
                       {isDisconnected?    
                       <MintConnectButton  />:
-                        <button disabled={parseFloat(formatEther(balance?.value || BigInt(0)))< 0.00005} onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-                        {parseFloat(formatEther(balance?.value || BigInt(0))) < 0.00005 ? 
-                        <span>insufficient balance </span>: <span>Mint NFT [0.00005ETH]</span>
-                        
-                        }</button>}
-                        <div className="flex flex-wrap py-4">
-                      <IconSetting/><p className="font-medium text-sm">A small fee is applied to cover the AI models cost</p>
+                        <button onClick={() => {setOpen(true);handleMintImage()}} className="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                        <span>Mint NFT [0.00005ETH]</span>
+                        </button>}
+                        <div className=" flex flex-wrap py-4">
+                          <span className="p-1"><IconSetting/> </span>
+                      <p className="font-medium text-sm">A small fee is applied to cover the AI models cost</p>
                       </div>
                     </div>
                   </div>
