@@ -6,7 +6,7 @@ import Modal from "@/components/extras/Modal";
 import { useAccount} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
-import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate, createImage2} from '@/services/openaiService'
+import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate, createImage2, createImageWithStabilityAI} from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import { useQueryClient } from '@tanstack/react-query' 
 import {
@@ -86,6 +86,9 @@ const MintPage = () => {
       } else if (selectedModel === 'DreamShaperV7') {
         // Assuming createImageWithEdenAI returns the URL directly
         imageSrc = await createImageWithLeonardoAI(prompt);
+      }else if (selectedModel === 'StabilityAI') {
+        // Assuming createImageWithEdenAI returns the URL directly
+        imageSrc = await createImageWithStabilityAI(prompt);
       } else if (selectedModel === 'EdenAI') {
         // Assuming createImageWithEdenAI returns the URL directly
         imageSrc = await createImageWithEdenAI(prompt);

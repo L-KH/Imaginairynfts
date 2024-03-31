@@ -33,7 +33,7 @@ export const getMagicPrompt = async (name: string) => {
       const response = await fetch(
         "https://api-inference.huggingface.co/models/Gustavosta/MagicPrompt-Stable-Diffusion",
         {
-          headers: { Authorization: "Bearer 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" },
+          headers: { Authorization: "Bearer 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" },
           method: "POST",
           body: JSON.stringify({ inputs: name }),
         }
@@ -291,5 +291,50 @@ export const generateImageReplicate = async (prompt: string): Promise<string> =>
     return response.data.image;
   } catch (error) {
     throw new Error('Failed to generate image with sdxl-lightning. Please try again, or consider minting the ImaginAIryNFTs logo');
+  }
+};
+
+
+//----------------------------------------------------------
+const STABILITY_API_KEY = 'sk-wU209KBclA0Ofu0qixwLGg9ZVBwoOCYQJsMjOJxZykhZ45MY'; // Replace with your actual Stability AI API key
+
+export const createImageWithStabilityAI = async (prompt: string): Promise<string | null> => {
+  const engineId = 'stable-diffusion-v1-6'; // Use the desired engine ID
+
+  try {
+    const response = await axios.post(
+      `https://api.stability.ai/v1/generation/${engineId}/text-to-image`,
+      {
+        text_prompts: [
+          {
+            text: prompt,
+          },
+        ],
+        cfg_scale: 7,
+        clip_guidance_preset: 'NONE',
+        height: 512,
+        width: 512,
+        samples: 1,
+        steps: 30,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'image/png',
+          Authorization: `Bearer ${STABILITY_API_KEY}`,
+        },
+        responseType: 'arraybuffer',
+      }
+    );
+
+    const type = response.headers['content-type'];
+    const data = response.data;
+    const base64data = Buffer.from(data).toString('base64');
+    const img = `data:${type};base64,${base64data}`;
+
+    return img;
+  } catch (error) {
+    console.error('Error generating image with Stability AI:', error);
+    return null;
   }
 };

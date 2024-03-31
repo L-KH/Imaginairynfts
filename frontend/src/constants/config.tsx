@@ -82,5 +82,6 @@ export const apiUrlMap: IAPIURI = {
     // 'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
     'EdenAI':'EdenAI',
     //'DreamShaperV7':'DreamShaperV7',
+    'StabilityAI':'StabilityAI'
 
  };
