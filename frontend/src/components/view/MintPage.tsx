@@ -6,7 +6,7 @@ import Modal from "@/components/extras/Modal";
 import { useAccount} from "wagmi";
 import { useMint } from '@/Hooks/WriteContract';
 import { apiUrlMap, addresses } from '@/constants/config';
-import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate, createImage2} from '@/services/openaiService'
+import { getMagicPrompt, createImageWithDALLE, createImageWithLeonardoAI, createImage, createImageWithEdenAI, generateImageReplicate, createImage2, createImageWithStabilityAI} from '@/services/openaiService'
 import {uploadImage, uploadFallbackImage} from '@/services/ipfsUploader'
 import { useQueryClient } from '@tanstack/react-query' 
 import {
@@ -86,6 +86,9 @@ const MintPage = () => {
       } else if (selectedModel === 'DreamShaperV7') {
         // Assuming createImageWithEdenAI returns the URL directly
         imageSrc = await createImageWithLeonardoAI(prompt);
+      }else if (selectedModel === 'StabilityAI') {
+        // Assuming createImageWithEdenAI returns the URL directly
+        imageSrc = await createImageWithStabilityAI(prompt);
       } else if (selectedModel === 'EdenAI') {
         // Assuming createImageWithEdenAI returns the URL directly
         imageSrc = await createImageWithEdenAI(prompt);
@@ -203,6 +206,7 @@ const MintPage = () => {
           <li>Begin by writing a Name and a Description for your NFT.</li>
           <li>Enter a creative prompt for AI generation. Note: The prompt becomes private post-minting.</li>
           <li>Due to high demand, some models may be slow or maxed out. Try another model or mint our "Proof of Mint" logo as an alternative.</li>
+          <li>ImaginAIry NFTs are not free, there is a small fee applied to cover multiple AI models cost.</li>
           <li>Stay updated and follow us on Twitter for the latest news: <a href="https://twitter.com/ImaginAIryNFTs" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Twitter</a></li>
         </ol>
         )}

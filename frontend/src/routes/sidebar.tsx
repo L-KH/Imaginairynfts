@@ -4,10 +4,12 @@ import {
   HomeIcon,
   LightBulbIcon,
   PuzzleIcon,
+  
 } from '@heroicons/react/outline'
 import {
   TbBrandTwitter,
   TbBrandMedium,
+  TbBrandTelegram
 } from 'react-icons/tb'
 
 interface INavigation {
@@ -95,11 +97,11 @@ const bottomIcons: IBottomIcons[] = [
     href: 'https://twitter.com/ImaginAIryNFTs',
     icon: TbBrandTwitter,
   },
-  // {
-  //   name: 'Discord',
-  //   href: 'https://discord.gg/yRN5fNqFKM',
-  //   icon: TbBrandDiscord,
-  // },
+  {
+    name: 'Telegram',
+    href: 'https://t.me/ImaginAIry_NFTs',
+    icon: TbBrandTelegram,
+  },
   {
     name: 'Medium',
     href: 'https://medium.com/@imaginairynfts',
