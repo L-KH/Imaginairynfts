@@ -16,21 +16,21 @@ const ipfsGateways = ['https://ipfs.io/ipfs/', 'https://cloudflare-ipfs.com/ipfs
 export const uploadFallbackImage = async (imageUrl: string) => {
   
     try {
-      const response = await fetch(imageUrl);
-      if (!response.ok) throw new Error('Failed to fetch the fallback image.');
+      // const response = await fetch(imageUrl);
+      // if (!response.ok) throw new Error('Failed to fetch the fallback image.');
       
-      const imageBlob = await response.blob();
-      const imageFile = new File([imageBlob], "fallback-image.jpeg", { type: "image/jpeg" });
+      // const imageBlob = await response.blob();
+      // const imageFile = new File([imageBlob], "fallback-image.jpeg", { type: "image/jpeg" });
       
-      const nftstorage = new NFTStorage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMzQzUyQjZENkIwOUZkMDhhM0ZFZTMzRjEzMTAxMmI2MjMzMjIyYTAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzkyMjAwMjE5MSwibmFtZSI6IkltYWdpbkFJcnkgTkZUcyJ9.ylRydZfHxz3uoMDElCTqbMwokS5NObFh8s3_-FFOnoQ" })
-      const metadata = await nftstorage.store({
-        image: imageFile,
-        name: "Proof Of Mint",
-        description: "This NFT was minted as a Proof Of Mint ImaginAIryNFTs.",
-      });
+      // const nftstorage = new NFTStorage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGMzQzUyQjZENkIwOUZkMDhhM0ZFZTMzRjEzMTAxMmI2MjMzMjIyYTAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwNzkyMjAwMjE5MSwibmFtZSI6IkltYWdpbkFJcnkgTkZUcyJ9.ylRydZfHxz3uoMDElCTqbMwokS5NObFh8s3_-FFOnoQ" })
+      // const metadata = await nftstorage.store({
+      //   image: imageFile,
+      //   name: "Proof Of Mint",
+      //   description: "This NFT was minted as a Proof Of Mint ImaginAIryNFTs.",
+      // });
       
       // Construct the URL to the uploaded image's metadata on IPFS
-      const metadataUrl = `https://ipfs.io/ipfs/${metadata.ipnft}/metadata.json`;
+      const metadataUrl = `https://ipfs.io/ipfs/bafyreidwx4uav5zivvk7kto2pwszxlcqazqpbxub24zbkk5xzmeiugdap4/metadata.json`;
       //console.log(metadata)
       return metadataUrl;
       
