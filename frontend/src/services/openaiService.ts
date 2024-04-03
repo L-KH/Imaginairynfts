@@ -65,10 +65,10 @@ export const getMagicPrompt = async (name: string) => {
 
 export const createImageWithDALLE = async (prompt: string) => {
   const url = 'https://api.openai.com/v1/images/generations';
-  if (!checkRateLimit('DALLE')) {
-    throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+  // if (!checkRateLimit('DALLE')) {
+  //   throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
-  }
+  // }
   try {
     const response = await axios.post(
       url,
@@ -117,10 +117,10 @@ const fetchImageAsBase64 = async (imageUrl: string) => {
 export const createImageWithLeonardoAI = async (prompt: string) => {
   const API_URL = 'https://cloud.leonardo.ai/api/rest/v1/generations';
   const API_KEY = '468e48d7-4d34-45b3-98fd-795c088af175';
-  if (!checkRateLimit('DreamShaperV7')) {
-    throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+  // if (!checkRateLimit('DreamShaperV7')) {
+  //   throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
-  }
+  // }
   try {
     let response = await axios.post(
       API_URL,
@@ -205,10 +205,10 @@ export const createImageWithEdenAI = async (prompt: string): Promise<string | nu
       fallback_providers: "",
     },
   };
-  if (!checkRateLimit('EdenAI')) {
-    throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
+  // if (!checkRateLimit('EdenAI')) {
+  //   throw new Error('You have reached your minting limit. Please wait 3 hours before attempting again, or consider minting the ImaginAIryNFTs logo in the meantime.');
 
-  }
+  // }
   try {
     const response = await axios.request(options);
     const providerKey = Object.keys(response.data)[0];
