@@ -66,7 +66,7 @@ type IAPIURI = {
     [key: string]: string;
 };
 export const apiUrlMap: IAPIURI = { 
-    //'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
+    'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
      'stable-diffusion-v1-5': 'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
      'fast-dreambooth':'https://api-inference.huggingface.co/models/RafiulCV/fast-dreambooth',
     // 'stable-diffusion-v1-4': 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4',
@@ -81,7 +81,7 @@ export const apiUrlMap: IAPIURI = {
     //'DALLE': 'DALLE',
     // 'STABLE_DIFFUSION_MODEL_NAME':'https://stablediffusionapi.com/api/v3/text2img',
     'EdenAI':'EdenAI',
-    //'DreamShaperV7':'DreamShaperV7',
+    'DreamShaperV7':'DreamShaperV7',
     'StabilityAI':'StabilityAI'
 
  };
