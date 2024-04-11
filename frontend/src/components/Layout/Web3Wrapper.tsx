@@ -34,7 +34,7 @@ export const config = createConfig({
   // projectId: '51d5d824bfd42cd4f17cfb3dcec82da9',
   chains: [linea, base, scroll],
   transports: {
-    [customLinea.id]: http(),
+    [linea.id]: http(),
     [base.id]: http(),
     [scroll.id]: http(),
     
