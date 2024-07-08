@@ -33,7 +33,9 @@ export const getMagicPrompt = async (name: string) => {
       const response = await fetch(
         "https://api-inference.huggingface.co/models/Gustavosta/MagicPrompt-Stable-Diffusion",
         {
-          headers: { Authorization: "Bearer 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" },
+          headers: { Authorization: "Bearer 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",
+            "Content-Type": "application/json", // Add this line
+          },
           method: "POST",
           body: JSON.stringify({ inputs: name }),
         }

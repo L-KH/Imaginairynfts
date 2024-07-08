@@ -45,7 +45,7 @@ const MintPage = () => {
   const [name, setName] = useState('ImaginAIryNFTs');
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>('');
-  const [selectedModel, setSelectedModel] = useState('EdenAI');
+  const [selectedModel, setSelectedModel] = useState('sdxl-lightning');
   const [apiUrl, setApiUrl] = useState(apiUrlMap['EdenAI']);
   const [image, setImage] = useState(logoUrl)
   const [description, setDescription] = useState("Unique digital artwork minted through the ImaginAIryNFTs platform.")
