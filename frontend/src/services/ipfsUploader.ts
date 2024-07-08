@@ -30,12 +30,13 @@ export const uploadFallbackImage = async (imageUrl: string) => {
       // });
       
       // Construct the URL to the uploaded image's metadata on IPFS
-      const metadataUrl = `https://ipfs.io/ipfs/bafyreidwx4uav5zivvk7kto2pwszxlcqazqpbxub24zbkk5xzmeiugdap4/metadata.json`;
+      //const metadataUrl = `https://ipfs.io/ipfs/bafyreidwx4uav5zivvk7kto2pwszxlcqazqpbxub24zbkk5xzmeiugdap4/metadata.json`;
+      const metadataUrl = `https://ipfs.io/ipfs/QmeiMmCquBwJqkJqsiFg51KvVUzaj8WvT5kLwX7Lzu2vj2`;
       //console.log(metadata)
       return metadataUrl;
       
     } catch (error) {
-      console.error("Error uploading fallback image:", error);
+      console.error("Error uploading Proof of mint image:", error);
       
       throw error;
     }

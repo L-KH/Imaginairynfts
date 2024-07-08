@@ -61,6 +61,11 @@ export const addresses: Config ={
         "nft": {
             "address": "0xb99e5534d42500eb1d5820fba3bb8416ccb76396"
         }
+    },
+    "185": {
+        "nft": {
+            "address": "0xb99e5534d42500eb1d5820fba3bb8416ccb76396"
+        }
     }
     
 }
@@ -73,7 +78,7 @@ type IAPIURI = {
 export const apiUrlMap: IAPIURI = { 
     'stable-diffusion-2-1': 'https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1',
     'stable-diffusion-v1-5': 'https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5',
-    'fast-dreambooth':'https://api-inference.huggingface.co/models/RafiulCV/fast-dreambooth',
+    //'fast-dreambooth':'https://api-inference.huggingface.co/models/RafiulCV/fast-dreambooth',
     'stable-diffusion-v1-4': 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4',
     //'openjourney':'https://api-inference.huggingface.co/models/prompthero/openjourney',
     'openjourney V4':'https://api-inference.huggingface.co/models/prompthero/openjourney-v4',
@@ -88,5 +93,4 @@ export const apiUrlMap: IAPIURI = {
     'EdenAI':'EdenAI',
     //'DreamShaperV7':'DreamShaperV7',
     'StabilityAI':'StabilityAI'
-
  };

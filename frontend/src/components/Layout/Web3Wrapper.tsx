@@ -29,6 +29,22 @@ const taiko = {
   },
   testnet: true,
 };
+const mint = {
+  id: 0xb9,
+  name: 'Mint Mainnet',
+  nativeCurrency: {
+    name: 'Mint Mainnet',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc.mintchain.io'] },
+  },
+  blockExplorers: {
+    default: { name: 'Mint Mainnet Explorer', url: 'https://explorer.mintchain.io' },
+  },
+  testnet: true,
+};
 const connectors = connectorsForWallets(
   [
     {
@@ -44,12 +60,13 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, scroll, taiko],
+  chains: [linea, scroll, taiko, mint],
   transports: {
     [linea.id]: http(),
     //[base.id]: http(),
     [scroll.id]: http(),
     [taiko.id]: http('https://rpc.taiko.xyz'),
+    [mint.id]: http('https://rpc.mintchain.io'),
   },
   ssr: true,
   storage: createStorage({
