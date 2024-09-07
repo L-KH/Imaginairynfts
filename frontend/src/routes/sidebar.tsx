@@ -76,6 +76,12 @@ const navigation: INavigation[] = [
     icon: LightBulbIcon,
     current: false,
   },
+  {
+    name: 'Marketplace',
+    href: '/Marketplace',
+    icon: LightBulbIcon,
+    current: false,
+  },
   // { name: 'Testnet', href: 'https://testnet.imaginairynfts.com/', icon: FolderIcon, current: false },
   // { name: '500', href: '/500', icon: CalendarIcon, current: false },
 ]

@@ -2,7 +2,7 @@ import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createConfig, cookieStorage, WagmiProvider, createStorage } from 'wagmi'
 import { http } from 'viem'
-import { linea, scroll } from 'wagmi/chains'
+import { linea, scroll, sepolia } from 'wagmi/chains'
 import { daisyTheme } from '@/utils/rainbowUtils'
 import {
   injectedWallet,
@@ -26,6 +26,22 @@ const taiko = {
   },
   blockExplorers: {
     default: { name: 'Taiko Mainnet Explorer', url: 'https://taikoscan.io' },
+  },
+  testnet: true,
+};
+const zepolia = {
+  id: 0xAA36A7,
+  name: 'Zepolia ',
+  nativeCurrency: {
+    name: 'Zepolia ',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://sepolia.infura.io/v3/'] },
+  },
+  blockExplorers: {
+    default: { name: 'Taiko Mainnet Explorer', url: 'https://sepolia.etherscan.io' },
   },
   testnet: true,
 };
@@ -60,13 +76,14 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, scroll, taiko, mint],
+  chains: [linea, scroll, taiko, mint, sepolia, zepolia],
   transports: {
     [linea.id]: http(),
     //[base.id]: http(),
     [scroll.id]: http(),
     [taiko.id]: http('https://rpc.taiko.xyz'),
     [mint.id]: http('https://rpc.mintchain.io'),
+    [zepolia.id]: http(),
   },
   ssr: true,
   storage: createStorage({

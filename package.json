@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@gradio/client": "^0.1.2",
+    "@wagmi/core": "^2.13.1",
     "abcjs": "^6.2.2",
     "axios": "^1.4.0",
     "buffer": "^6.0.3",
@@ -26,6 +27,8 @@
     "react-player": "^2.12.0",
     "react-spinners": "^0.13.8",
     "react-transition-group": "^4.4.5",
-    "tls": "^0.0.1"
+    "tls": "^0.0.1",
+    "viem": "^2.18.2",
+    "wagmi": "^2.12.1"
   }
 }
