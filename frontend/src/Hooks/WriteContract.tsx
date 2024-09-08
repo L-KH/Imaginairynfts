@@ -49,29 +49,74 @@ export const useMint = () => {
 export const useListNFT = () => {
   const account = useAccount()
 
-  const handleListNFT = async (tokenId: bigint, price: string) => {
+  const checkApproval = async (tokenId: bigint) => {
     try {
       const chainId = account.chainId || 11155111
-      const MarketplaceAddress = addresses[chainId]?.marketplace?.address
       const NFTAddress = addresses[chainId]?.nft?.address
+      const MarketplaceAddress = addresses[chainId]?.marketplace?.address
 
-      if (!MarketplaceAddress || !NFTAddress) {
-        throw new Error("Marketplace or NFT address not found")
+      if (!NFTAddress || !MarketplaceAddress) {
+        throw new Error("NFT or Marketplace address not found")
       }
 
-      const priceInWei = parseEther(price)
+      const approvedAddress = await readContract(config, {
+        address: NFTAddress as `0x${string}`,
+        abi: NFT,
+        functionName: 'getApproved',
+        args: [tokenId],
+      })
 
-      // First, approve the marketplace to transfer the NFT
-      const approveTx = await writeContract(config, {
+      return approvedAddress === MarketplaceAddress
+    } catch (error) {
+      console.error("Error in checkApproval:", error)
+      throw error
+    }
+  }
+
+  const approveMarketplace = async (tokenId: bigint) => {
+    try {
+      const chainId = account.chainId || 11155111
+      const NFTAddress = addresses[chainId]?.nft?.address
+      const MarketplaceAddress = addresses[chainId]?.marketplace?.address
+
+      if (!NFTAddress || !MarketplaceAddress) {
+        throw new Error("NFT or Marketplace address not found")
+      }
+
+      const tx = await writeContract(config, {
         address: NFTAddress as `0x${string}`,
         abi: NFT,
         functionName: 'approve',
         args: [MarketplaceAddress, tokenId],
       })
 
-      await waitForTransactionReceipt(config, { hash: approveTx })
+      await waitForTransactionReceipt(config, { hash: tx })
+      return tx
+    } catch (error) {
+      console.error("Error in approveMarketplace:", error)
+      throw error
+    }
+  }
 
-      // Then, list the item
+  const handleListNFT = async (tokenId: bigint, price: string) => {
+    try {
+      const chainId = account.chainId || 11155111
+      const MarketplaceAddress = addresses[chainId]?.marketplace?.address
+
+      if (!MarketplaceAddress) {
+        throw new Error("Marketplace address not found")
+      }
+
+      const isApproved = await checkApproval(tokenId)
+
+      if (!isApproved) {
+        console.log("Approving marketplace to handle the NFT...")
+        await approveMarketplace(tokenId)
+      }
+
+      const priceInWei = parseEther(price)
+
+      console.log("Listing NFT...")
       const listTx = await writeContract(config, {
         address: MarketplaceAddress as `0x${string}`,
         abi: MARKETPLACE,
@@ -79,6 +124,7 @@ export const useListNFT = () => {
         args: [tokenId, priceInWei],
       })
 
+      await waitForTransactionReceipt(config, { hash: listTx })
       return listTx
     } catch (error) {
       console.error("Error in handleListNFT:", error)
@@ -86,7 +132,7 @@ export const useListNFT = () => {
     }
   }
 
-  return { handleListNFT }
+  return { handleListNFT, checkApproval }
 }
 
 

@@ -76,7 +76,7 @@ export const addresses: Config ={
             "address": "0x8fd493beff41264606415a8d45ff32d77dac1ec9"
         },
         "marketplace": {
-            "address": "0x7a45c5E3c812d0C33190C6ef9806edB342E133A7"
+            "address": "0x899687D055634b9CE355aeDd0d708984604aA21d" //"0x7a45c5E3c812d0C33190C6ef9806edB342E133A7"
     }
     }
     
