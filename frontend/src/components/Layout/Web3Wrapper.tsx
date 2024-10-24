@@ -2,7 +2,7 @@ import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createConfig, cookieStorage, WagmiProvider, createStorage } from 'wagmi'
 import { http } from 'viem'
-import { linea, scroll } from 'wagmi/chains'
+import { linea, scroll, base } from 'wagmi/chains'
 import { daisyTheme } from '@/utils/rainbowUtils'
 import {
   injectedWallet,
@@ -60,11 +60,10 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, scroll, taiko, mint],
+  chains: [linea, taiko, mint, base],
   transports: {
     [linea.id]: http(),
-    //[base.id]: http(),
-    [scroll.id]: http(),
+    [base.id]: http(),
     [taiko.id]: http('https://rpc.taiko.xyz'),
     [mint.id]: http('https://rpc.mintchain.io'),
   },

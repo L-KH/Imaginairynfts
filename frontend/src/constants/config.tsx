@@ -47,11 +47,7 @@ export const addresses: Config ={
             "address": "0xb99E5534d42500eB1d5820fBA3Bb8416cCB76396"
         }
     },
-    "8453": {
-        "nft": {
-            "address": "0x19A4f00039Cde3ffbe29b23417FcfB9101Ae174b"
-        }
-    },
+
     "534352": {
         "nft": {
             "address": "0xb99e5534d42500eb1d5820fba3bb8416ccb76396"
@@ -66,11 +62,20 @@ export const addresses: Config ={
         "nft": {
             "address": "0xb99e5534d42500eb1d5820fba3bb8416ccb76396"
         }
+    },
+    "8453": {
+        "nft": {
+            "address": "0x842dc5bf2a70e1e5cea8f528d9b176cefde54c73"
+        }
     }
     
 }
 
-
+// "8453": {
+//     "nft": {
+//         "address": "0x19A4f00039Cde3ffbe29b23417FcfB9101Ae174b"
+//     }
+// },
 export const OPENAI_API_KEY = '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';
 type IAPIURI = {
     [key: string]: string;
