@@ -29,6 +29,7 @@ const taiko = {
   },
   testnet: true,
 };
+
 const mint = {
   id: 0xb9,
   name: 'Mint Mainnet',
@@ -42,6 +43,23 @@ const mint = {
   },
   blockExplorers: {
     default: { name: 'Mint Mainnet Explorer', url: 'https://explorer.mintchain.io' },
+  },
+  testnet: true,
+};
+
+const ink = {
+  id: 0xdef1,
+  name: 'Ink Mainnet',
+  nativeCurrency: {
+    name: 'Ink Mainnet',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc-gel.inkonchain.com'] },
+  },
+  blockExplorers: {
+    default: { name: 'Ink Mainnet Explorer', url: 'https://explorer.inkonchain.com' },
   },
   testnet: true,
 };
@@ -60,11 +78,12 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, taiko, mint, base],
+  chains: [linea, taiko, mint, base, ink],
   transports: {
     [linea.id]: http(),
     [base.id]: http(),
     [taiko.id]: http('https://rpc.taiko.xyz'),
+    [ink.id]: http('https://rpc-gel.inkonchain.com'),
     [mint.id]: http('https://rpc.mintchain.io'),
   },
   ssr: true,
