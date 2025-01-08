@@ -94,14 +94,13 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, taiko, mint, base, ink, cyber],
+  chains: [linea, taiko, mint, base, ink],
   transports: {
     [linea.id]: http(),
     [base.id]: http(),
     [taiko.id]: http('https://rpc.taiko.xyz'),
     [ink.id]: http('https://rpc-gel.inkonchain.com'),
     [mint.id]: http('https://rpc.mintchain.io'),
-    [cyber.id]: http('https://cyber.alt.technology'),
   },
   ssr: true,
   storage: createStorage({
