@@ -63,6 +63,22 @@ const ink = {
   },
   testnet: true,
 };
+const cyber = {
+  id: 0x1d88,
+  name: 'Cyber Mainnet',
+  nativeCurrency: {
+    name: 'Cyber Mainnet',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://cyber.alt.technology'] },
+  },
+  blockExplorers: {
+    default: { name: 'Cyber Mainnet Explorer', url: 'https://cyberscan.co' },
+  },
+  testnet: true,
+};
 const connectors = connectorsForWallets(
   [
     {
@@ -78,13 +94,14 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, taiko, mint, base, ink],
+  chains: [linea, taiko, mint, base, ink, cyber],
   transports: {
     [linea.id]: http(),
     [base.id]: http(),
     [taiko.id]: http('https://rpc.taiko.xyz'),
     [ink.id]: http('https://rpc-gel.inkonchain.com'),
     [mint.id]: http('https://rpc.mintchain.io'),
+    [cyber.id]: http('https://cyber.alt.technology'),
   },
   ssr: true,
   storage: createStorage({
