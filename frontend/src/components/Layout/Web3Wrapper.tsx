@@ -79,6 +79,23 @@ const cyber = {
   },
   testnet: true,
 };
+const sonic = {
+  id: 0x92,
+  name: 'Sonic Mainnet',
+  nativeCurrency: {
+    name: 'Sonic Mainnet',
+    symbol: 'S',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc.soniclabs.com'] },
+  },
+  blockExplorers: {
+    default: { name: 'Sonic Mainnet Explorer', url: 'https://sonicscan.org' },
+  },
+  testnet: true,
+};
+
 const connectors = connectorsForWallets(
   [
     {
@@ -94,10 +111,10 @@ const connectors = connectorsForWallets(
 
 const customLinea = { ...linea, iconUrl: linea_logo.src };
 export const config = createConfig({
-  chains: [linea, taiko, mint, base, ink],
+  chains: [linea, taiko, mint, ink, sonic],
   transports: {
     [linea.id]: http(),
-    [base.id]: http(),
+    [sonic.id]: http('https://rpc.soniclabs.com'),
     [taiko.id]: http('https://rpc.taiko.xyz'),
     [ink.id]: http('https://rpc-gel.inkonchain.com'),
     [mint.id]: http('https://rpc.mintchain.io'),
